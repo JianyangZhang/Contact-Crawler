@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class Tester {
+public class BrowserDriver {
 	public static void main(String[] args) {
 		System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\jiany\\emailcrawlers\\chromedriver.exe");
 		WebDriver dr = new ChromeDriver(enableExtension("C:\\\\Users\\jiany\\emailcrawlers\\hunter.crx"));
