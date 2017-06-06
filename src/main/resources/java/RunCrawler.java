@@ -1,9 +1,18 @@
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -20,17 +29,19 @@ public class RunCrawler {
 
 	public static void basicSearch(String keyword) {
 		initializeCrawler();
-
 		try {
 			br.searchKeyword(keyword, dr);
-			// br.getPeopleInfo(dr);
 			HashSet<String> urls = br.getPeopleUrl(dr);
 			int flag = 0;
 			for (String url : urls) {
 				dr.get(url);
-				extractInstitutionText(dr);
-//				WebElement hunterButton = dr.findElement(By.xpath("//button[contains(@class, 'ehunter_linkedin_button')]"));
-//				hunterButton.click();
+				HashSet<String> institutionSet = extractInstitutionText(dr);
+				HashMap<String, HashSet<String>> domainMap = parseDomainFromGoogle(institutionSet);
+
+				// WebElement hunterButton =
+				// dr.findElement(By.xpath("//button[contains(@class,
+				// 'ehunter_linkedin_button')]"));
+				// hunterButton.click();
 				flag++;
 				if (flag == 1) {
 					break;
@@ -40,9 +51,9 @@ public class RunCrawler {
 			exception.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * setup Chrome browser 
+	 * setup Chrome browser
 	 **/
 	private static void initializeCrawler() {
 		// launch the browser driver
@@ -57,7 +68,8 @@ public class RunCrawler {
 		br.closeTab();
 		// br.signInHunter("jianyang212@gmail.com", "zhang.3584", dr);
 		try {
-			Thread.sleep(3000); // make sure hunter extension has been login successfully
+			Thread.sleep(3000); // make sure hunter extension has been login
+								// successfully
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
@@ -65,10 +77,11 @@ public class RunCrawler {
 		br.switchTab("LinkedIn: Log In or Sign Up", dr);
 		br.signInLinkedin("wangwent@usc.edu", "19940916".toCharArray(), dr);
 	}
-	
+
 	/**
 	 * extract company name/college name
-	 * @throws InterruptedException 
+	 * 
+	 * @throws InterruptedException
 	 */
 	private static HashSet<String> extractInstitutionText(WebDriver dr) throws InterruptedException {
 		HashSet<String> result = new HashSet<String>();
@@ -77,12 +90,60 @@ public class RunCrawler {
 		jse.executeScript("scroll(0, 1000);");
 		jse.executeScript("scroll(0, 1500);"); // to load all search results
 		Thread.sleep(1500); // to fully load Linkedin page
-		List<WebElement> webElements = dr.findElements(By.xpath("//section[contains(@class, 'experience-section')]//span[@class='pv-entity__secondary-title']"));
+		List<WebElement> webElements = dr.findElements(By
+				.xpath("//section[contains(@class, 'experience-section')]//span[@class='pv-entity__secondary-title']"));
 		// System.out.println(webElements.isEmpty());
 		for (WebElement e : webElements) {
 			System.out.println(e.getText());
 			result.add(e.getText());
 		}
 		return result;
+	}
+
+	/**
+	 * find email domain from google search
+	 * 
+	 * @throws IOException
+	 */
+	private static HashMap<String, HashSet<String>> parseDomainFromGoogle(HashSet<String> institutionSet)
+			throws IOException {
+		HashMap<String, HashSet<String>> result = new HashMap<String, HashSet<String>>();
+		int flag = 0;
+		for (String s : institutionSet) {
+			s = s.replace(" ", "+");
+			String query = "https://www.google.com/search?q=" + s + "+official" + "+site";
+			System.out.println("query: " + query);
+			Elements links = Jsoup.connect(query)
+					.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0").get()
+					.select(".g>.r>a");
+			String title = links.first().text();
+			String url = links.first().absUrl("href"); // Google returns URLs in
+														// format
+														// "http://www.google.com/url?q=<url>&sa=U&ei=<someKey>".
+			url = URLDecoder.decode(url.substring(url.indexOf('=') + 1, url.indexOf('&')), "UTF-8");
+			String domain;
+			try {
+				domain = domainFromURL(url);
+				System.out.println("Official Site Title: " + title);
+				System.out.println("Official Site URL: " + url);
+				System.out.println("Domain: " + domain);
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+			// flag++;
+			if (flag == 1) {
+				break;
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * substring domain from url
+	 */
+	private static String domainFromURL(String url) throws URISyntaxException {
+		URI uri = new URI(url);
+		String domain = uri.getHost();
+		return domain.startsWith("www.") ? domain.substring(4) : domain;
 	}
 }
