@@ -94,6 +94,7 @@ public class BrowserDriver {
 	 * login Hunter
 	 */
 	protected void signInHunter(String userName, String password, WebDriver dr) {
+		dr.get("https://hunter.io/users/sign_in");	
 		dr.findElement(By.id("email-field")).sendKeys(userName);
 		dr.findElement(By.id("password-field")).sendKeys(password);
 		WebElement loginButton = dr.findElement(By.xpath("//button[contains(@class, 'orange-btn')]"));
@@ -103,19 +104,7 @@ public class BrowserDriver {
 	/**
 	 * login Linkedin
 	 */
-	protected void signInLinkedin(String userName, char[] password, WebDriver dr) {
-		// close the hunter extension's default tab
-		try {
-			Robot robot = new Robot();
-			robot.keyPress(KeyEvent.VK_CONTROL);
-			robot.keyPress(KeyEvent.VK_W);
-			robot.keyRelease(KeyEvent.VK_W);
-			robot.keyRelease(KeyEvent.VK_CONTROL);
-		} catch (AWTException exception) {
-			exception.printStackTrace();
-		}
-		
-		dr.get("https://hunter.io/users/sign_in");		
+	protected void signInLinkedin(String userName, char[] password, WebDriver dr) {	
 		dr.findElement(By.name("session_key")).sendKeys(userName);
 		dr.findElement(By.name("session_password")).sendKeys(new String(password));
 		dr.findElement(By.id("login-submit")).click();
@@ -132,6 +121,7 @@ public class BrowserDriver {
 				+ "&origin=GLOBAL_SEARCH_HEADER";
 		dr.get(url);
 		JavascriptExecutor jse = (JavascriptExecutor) dr;
+		jse.executeScript("scroll(0, 500);");
 		jse.executeScript("scroll(0, 1000);"); // to load all search results
 		Thread.sleep(1500); // to fully load Linkedin page
 	}
@@ -201,5 +191,20 @@ public class BrowserDriver {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * close current tab
+	 * */
+	protected void closeTab() {
+		try {
+			Robot robot = new Robot();
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_W);
+			robot.keyRelease(KeyEvent.VK_W);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+		} catch (AWTException exception) {
+			exception.printStackTrace();
+		}
 	}
 }
