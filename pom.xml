@@ -29,6 +29,28 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.9.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>3.16</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>3.16</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/dnsjava/dnsjava -->
+<dependency>
+    <groupId>dnsjava</groupId>
+    <artifactId>dnsjava</artifactId>
+    <version>2.1.7</version>
+</dependency>
+
+
+		
 	</dependencies>
 	<build>
 		<finalName>EmailCrawler</finalName>

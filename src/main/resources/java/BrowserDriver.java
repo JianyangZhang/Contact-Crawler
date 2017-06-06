@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
@@ -91,15 +94,28 @@ public class BrowserDriver {
 	 * login Hunter
 	 */
 	protected void signInHunter(String userName, String password, WebDriver dr) {
-		dr.findElement(By.name("session_key")).sendKeys(userName);
-		dr.findElement(By.name("session_password")).sendKeys(password);
-		dr.findElement(By.id("login-submit")).click();
+		dr.findElement(By.id("email-field")).sendKeys(userName);
+		dr.findElement(By.id("password-field")).sendKeys(password);
+		WebElement loginButton = dr.findElement(By.xpath("//button[contains(@class, 'orange-btn')]"));
+		loginButton.click();
 	}
 
 	/**
 	 * login Linkedin
 	 */
 	protected void signInLinkedin(String userName, char[] password, WebDriver dr) {
+		// close the hunter extension's default tab
+		try {
+			Robot robot = new Robot();
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_W);
+			robot.keyRelease(KeyEvent.VK_W);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+		} catch (AWTException exception) {
+			exception.printStackTrace();
+		}
+		
+		dr.get("https://hunter.io/users/sign_in");		
 		dr.findElement(By.name("session_key")).sendKeys(userName);
 		dr.findElement(By.name("session_password")).sendKeys(new String(password));
 		dr.findElement(By.id("login-submit")).click();
@@ -117,7 +133,7 @@ public class BrowserDriver {
 		dr.get(url);
 		JavascriptExecutor jse = (JavascriptExecutor) dr;
 		jse.executeScript("scroll(0, 1000);"); // to load all search results
-		Thread.sleep(1000); // to fully load Linkedin page
+		Thread.sleep(1500); // to fully load Linkedin page
 	}
 
 	/**
@@ -137,7 +153,7 @@ public class BrowserDriver {
 			String title = ((Element) iter_title.next()).text().toLowerCase();
 			ArrayList<String> resultSet = guessEmail(name, title);
 			for (String result : resultSet) {
-				System.out.println(result);
+				System.out.println("name: " + name + " | " + "title: " + title + " | " + "email: " + result);
 			}
 		}
 	}
@@ -163,7 +179,8 @@ public class BrowserDriver {
 	/**
 	 * get people's Linkedin url
 	 */
-	protected void getPeopleUrl(WebDriver dr) throws IOException, InterruptedException {
+	protected HashSet<String> getPeopleUrl(WebDriver dr) throws IOException, InterruptedException {
+		HashSet<String> result = new HashSet<String>();
 		String page = dr.getPageSource();
 		Document doc = Jsoup.parse(page);
 		Elements uls = doc.getElementsByTag("ul");
@@ -174,12 +191,15 @@ public class BrowserDriver {
 					Elements aTags = li.getElementsByTag("a");
 					for (Element aTag : aTags) {
 						String href = aTag.attr("href");
-						System.out.println("href is " + href);
+						if (href.startsWith("/in/")) {
+							result.add("https://www.linkedin.com" + href);
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
+		return result;
 	}
 }

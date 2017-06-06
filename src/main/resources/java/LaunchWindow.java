@@ -1,12 +1,18 @@
+import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import javax.swing.*;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.awt.event.*;
+import java.util.HashSet;
 
 public class LaunchWindow extends JFrame {
 	private static final int STATUS_PENDING = 0;
@@ -114,21 +120,6 @@ public class LaunchWindow extends JFrame {
 			if (e.getSource() == button_crawl) {
 				System.out.println("start the BrowerDriver");
 				LaunchWindow.changeStatus(STATUS_RUNNING);
-
-				// launch the browser driver
-				BrowserDriver br = new BrowserDriver();
-				System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\jiany\\emailcrawlers\\chromedriver.exe");
-				WebDriver dr = new ChromeDriver();
-				dr.get("http://www.linkedin.com");
-
-				// br.signInLinkedin("wangwent@usc.edu", "19940916", dr);
-				br.signInLinkedin(textField_username.getText(), passwordField_password.getPassword(), dr);
-				try {
-					br.searchKeyword(textField_keyword.getText(), dr);
-					br.getPeopleInfo(dr);
-				} catch (Exception exception) {
-					exception.printStackTrace();
-				}
 			}
 		}
 	}
@@ -137,6 +128,7 @@ public class LaunchWindow extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == button_export) {
 				System.out.println("start to export");
+				LaunchWindow.changeStatus(STATUS_PENDING);
 			}
 		}
 	}
@@ -146,21 +138,21 @@ public class LaunchWindow extends JFrame {
 	 **/
 	private static void changeStatus(int flag) {
 		switch (flag) {
-			case STATUS_PENDING:
-				label_status.setText("<html><font color='orange'>pending</font><html>");
-				break;
-			case STATUS_RUNNING:
-				label_status.setText("<html><font color='blue'>running</font><html>");
-				break;
-			case STATUS_DONE:
-				label_status.setText("<html><font color='green'>done!</font><html>");
-				break;
-			case STATUS_FAILED:
-				label_status.setText("<html><font color='red'>failed</font><html>");
-				break;
-			default:
-				label_status.setText("<html><font color='black'>unkown</font><html>");
-				break;
+		case STATUS_PENDING:
+			label_status.setText("<html><font color='orange'>pending</font><html>");
+			break;
+		case STATUS_RUNNING:
+			label_status.setText("<html><font color='blue'>running</font><html>");
+			break;
+		case STATUS_DONE:
+			label_status.setText("<html><font color='green'>done!</font><html>");
+			break;
+		case STATUS_FAILED:
+			label_status.setText("<html><font color='red'>failed</font><html>");
+			break;
+		default:
+			label_status.setText("<html><font color='black'>unkown</font><html>");
+			break;
 		}
 	}
 }
