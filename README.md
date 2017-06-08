@@ -1,129 +1,131 @@
-#Linkedin EmailCrawler
-Sample Input: "uber", 10
-Sample Output:
-Junchao Wu's verified emails:
-junchaow@lab126.com
-junchaow@uber.com
-------------------------------------------
-Kaiqi Zhang's verified emails:
-kaiqi@trulia.com
-kaiqizhang@trulia.com
-kaiqiz@trulia.com
-zkaiqi@trulia.com
-kaiqi.zhang@trulia.com
-zhang.kaiqi@trulia.com
-kaiqi_zhang@trulia.com
-zhang_kaiqi@trulia.com
-kaiqi-zhang@trulia.com
-zhang-kaiqi@trulia.com
-kaiqi@intsig.com
-kaiqizhang@intsig.com
-kaiqiz@intsig.com
-zkaiqi@intsig.com
-kaiqi.zhang@intsig.com
-zhang.kaiqi@intsig.com
-kaiqi_zhang@intsig.com
-zhang_kaiqi@intsig.com
-kaiqi-zhang@intsig.com
-zhang-kaiqi@intsig.com
-kaiqi@idealab.com
-kaiqi.zhang@idealab.com
-kaiqi-zhang@idealab.com
-kaiqi@uber.com
-------------------------------------------
-Dean Nelson's verified emails:
-dean@justletmelearn.org
-deannelson@justletmelearn.org
-deann@justletmelearn.org
-ndean@justletmelearn.org
-dean.nelson@justletmelearn.org
-nelson.dean@justletmelearn.org
-dean_nelson@justletmelearn.org
-nelson_dean@justletmelearn.org
-dean-nelson@justletmelearn.org
-nelson-dean@justletmelearn.org
-dean@ebay.com
-dean.nelson@ebay.com
-dean.nelson@tbmcouncil.org
-dean@uber.com
-dean@imasons.org
-deannelson@imasons.org
-deann@imasons.org
-ndean@imasons.org
-dean.nelson@imasons.org
-nelson.dean@imasons.org
-dean_nelson@imasons.org
-nelson_dean@imasons.org
-dean-nelson@imasons.org
-nelson-dean@imasons.org
-------------------------------------------
-Peter (Zhenqiu) Huang's verified emails:
-peter@mirth.com
-------------------------------------------
-Guanghui Chen's verified emails:
-guanghui@google.com
-------------------------------------------
-Weiwei Shen's verified emails:
-weiweis@dropbox.com
-weiwei@uber.com
-weiwei@paypal.com
-weiweishen@paypal.com
-weiweis@paypal.com
-sweiwei@paypal.com
-weiwei.shen@paypal.com
-shen.weiwei@paypal.com
-weiwei_shen@paypal.com
-shen_weiwei@paypal.com
-weiwei-shen@paypal.com
-shen-weiwei@paypal.com
-------------------------------------------
-Colin Gerber's verified emails:
-colin@talkdesk.com
-colin@demandforce.com
-colingerber@demandforce.com
-coling@demandforce.com
-gcolin@demandforce.com
-colin.gerber@demandforce.com
-gerber.colin@demandforce.com
-colin_gerber@demandforce.com
-gerber_colin@demandforce.com
-colin-gerber@demandforce.com
-gerber-colin@demandforce.com
-gcolin@alienvault.com
-colin.gerber@alienvault.com
-gerber.colin@alienvault.com
-gerber_colin@alienvault.com
-colin-gerber@alienvault.com
-gerber-colin@alienvault.com
-------------------------------------------
-Eric Guidice's verified emails:
-eric@roberthalf.com
-ericguidice@roberthalf.com
-ericg@roberthalf.com
-geric@roberthalf.com
-eric.guidice@roberthalf.com
-guidice.eric@roberthalf.com
-eric_guidice@roberthalf.com
-guidice_eric@roberthalf.com
-eric-guidice@roberthalf.com
-guidice-eric@roberthalf.com
-eric@uber.com
-ericg@uber.com
-------------------------------------------
-Li X.'s verified emails:
-li@yahoo.com
-lix.@yahoo.com
-lix@yahoo.com
-xli@yahoo.com
-li.x.@yahoo.com
-x..li@yahoo.com
-li_x.@yahoo.com
-x._li@yahoo.com
-li-x.@yahoo.com
-x.-li@yahoo.com
-li@uber.com
-lix@uber.com
-------------------------------------------
-Weijian Lin's verified emails:
-weijian@uber.com
-------------------------------------------
+<h3>Linkedin EmailCrawler</h3>
+<p>
+Sample Input: "uber", 10<br/>
+Sample Output:<br/>
+Junchao Wu's verified emails:<br/>
+junchaow@lab126.com<br/>
+junchaow@uber.com<br/>
+------------------------------------------<br/>
+Kaiqi Zhang's verified emails:<br/>
+kaiqi@trulia.com<br/>
+kaiqizhang@trulia.com<br/>
+kaiqiz@trulia.com<br/>
+zkaiqi@trulia.com<br/>
+kaiqi.zhang@trulia.com<br/>
+zhang.kaiqi@trulia.com<br/>
+kaiqi_zhang@trulia.com<br/>
+zhang_kaiqi@trulia.com<br/>
+kaiqi-zhang@trulia.com<br/>
+zhang-kaiqi@trulia.com<br/>
+kaiqi@intsig.com<br/>
+kaiqizhang@intsig.com<br/>
+kaiqiz@intsig.com<br/>
+zkaiqi@intsig.com<br/>
+kaiqi.zhang@intsig.com<br/>
+zhang.kaiqi@intsig.com<br/>
+kaiqi_zhang@intsig.com<br/>
+zhang_kaiqi@intsig.com<br/>
+kaiqi-zhang@intsig.com<br/>
+zhang-kaiqi@intsig.com<br/>
+kaiqi@idealab.com<br/>
+kaiqi.zhang@idealab.com<br/>
+kaiqi-zhang@idealab.com<br/>
+kaiqi@uber.com<br/>
+------------------------------------------<br/>
+Dean Nelson's verified emails:<br/>
+dean@justletmelearn.org<br/>
+deannelson@justletmelearn.org<br/>
+deann@justletmelearn.org<br/>
+ndean@justletmelearn.org<br/>
+dean.nelson@justletmelearn.org<br/>
+nelson.dean@justletmelearn.org<br/>
+dean_nelson@justletmelearn.org<br/>
+nelson_dean@justletmelearn.org<br/>
+dean-nelson@justletmelearn.org<br/>
+nelson-dean@justletmelearn.org<br/>
+dean@ebay.com<br/>
+dean.nelson@ebay.com<br/>
+dean.nelson@tbmcouncil.org<br/>
+dean@uber.com<br/>
+dean@imasons.org<br/>
+deannelson@imasons.org<br/>
+deann@imasons.org<br/>
+ndean@imasons.org<br/>
+dean.nelson@imasons.org<br/>
+nelson.dean@imasons.org<br/>
+dean_nelson@imasons.org<br/>
+nelson_dean@imasons.org<br/>
+dean-nelson@imasons.org<br/>
+nelson-dean@imasons.org<br/>
+------------------------------------------<br/>
+Peter (Zhenqiu) Huang's verified emails:<br/>
+peter@mirth.com<br/>
+------------------------------------------<br/>
+Guanghui Chen's verified emails:<br/>
+guanghui@google.com<br/>
+------------------------------------------<br/>
+Weiwei Shen's verified emails:<br/>
+weiweis@dropbox.com<br/>
+weiwei@uber.com<br/>
+weiwei@paypal.com<br/>
+weiweishen@paypal.com<br/>
+weiweis@paypal.com<br/>
+sweiwei@paypal.com<br/>
+weiwei.shen@paypal.com<br/>
+shen.weiwei@paypal.com<br/>
+weiwei_shen@paypal.com<br/>
+shen_weiwei@paypal.com<br/>
+weiwei-shen@paypal.com<br/>
+shen-weiwei@paypal.com<br/>
+------------------------------------------<br/>
+Colin Gerber's verified emails:<br/>
+colin@talkdesk.com<br/>
+colin@demandforce.com<br/>
+colingerber@demandforce.com<br/>
+coling@demandforce.com<br/>
+gcolin@demandforce.com<br/>
+colin.gerber@demandforce.com<br/>
+gerber.colin@demandforce.com<br/>
+colin_gerber@demandforce.com<br/>
+gerber_colin@demandforce.com<br/>
+colin-gerber@demandforce.com<br/>
+gerber-colin@demandforce.com<br/>
+gcolin@alienvault.com<br/>
+colin.gerber@alienvault.com<br/>
+gerber.colin@alienvault.com<br/>
+gerber_colin@alienvault.com<br/>
+colin-gerber@alienvault.com<br/>
+gerber-colin@alienvault.com<br/>
+------------------------------------------<br/>
+Eric Guidice's verified emails:<br/>
+eric@roberthalf.com<br/>
+ericguidice@roberthalf.com<br/>
+ericg@roberthalf.com<br/>
+geric@roberthalf.com<br/>
+eric.guidice@roberthalf.com<br/>
+guidice.eric@roberthalf.com<br/>
+eric_guidice@roberthalf.com<br/>
+guidice_eric@roberthalf.com<br/>
+eric-guidice@roberthalf.com<br/>
+guidice-eric@roberthalf.com<br/>
+eric@uber.com<br/>
+ericg@uber.com<br/>
+------------------------------------------<br/>
+Li X.'s verified emails:<br/>
+li@yahoo.com<br/>
+lix.@yahoo.com<br/>
+lix@yahoo.com<br/>
+xli@yahoo.com<br/>
+li.x.@yahoo.com<br/>
+x..li@yahoo.com<br/>
+li_x.@yahoo.com<br/>
+x._li@yahoo.com<br/>
+li-x.@yahoo.com<br/>
+x.-li@yahoo.com<br/>
+li@uber.com<br/>
+lix@uber.com<br/>
+------------------------------------------<br/>
+Weijian Lin's verified emails:<br/>
+weijian@uber.com<br/>
+------------------------------------------<br/>
+</p>
