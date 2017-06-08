@@ -30,7 +30,8 @@ public class CrawlEmailService {
 		crawl("uber");
 	}
 
-	public static void crawl(String keyword) {
+	public static ArrayList<Customer> crawl(String keyword) {
+		ArrayList<Customer> result = new ArrayList<Customer>();
 		BrowserDriver br = new BrowserDriver();
 		br.signInLinkedin("wangwent@usc.edu", "19940916".toCharArray());
 		try {
@@ -39,12 +40,16 @@ public class CrawlEmailService {
 			int flag = 0;
 			for (String url : urls) {
 				br.dr.get(url);
-				HashSet<String> institutionSet = br.extractInstitutionText();
+				String name = br.extractName();
+				HashSet<String> institutionSet = br.extractInstitution();
 				HashMap<String, String> domainMap = br.parseDomainFromGoogle(institutionSet);
 				// WebElement hunterButton =
 				// dr.findElement(By.xpath("//button[contains(@class,
 				// 'ehunter_linkedin_button')]"));
 				// hunterButton.click();
+				Customer customer = new Customer(name, domainMap);
+				System.out.println(customer.toString());
+				result.add(customer);
 				flag++;
 				if (flag == 1) {
 					break;
@@ -53,12 +58,14 @@ public class CrawlEmailService {
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
+		return result;
 	}
 
 	/**
 	 * guess email prefix
 	 */
 	private static ArrayList<String> guessPrefix(String name) {
+		name = name.toLowerCase();
 		String firstName = name.substring(0, name.indexOf(" "));
 		String lastName = name.substring(name.indexOf(" ") + 1, name.length());
 		char lastName_initial = lastName.charAt(0);

@@ -178,10 +178,9 @@ public class BrowserDriver {
 		Iterator iter_title = elements_title.iterator();
 
 		while (iter_name.hasNext() && iter_title.hasNext()) {
-			String name = ((Element) iter_name.next()).text().toLowerCase();
-			String title = ((Element) iter_title.next()).text().toLowerCase();
+			String name = ((Element) iter_name.next()).text();
+			String title = ((Element) iter_title.next()).text();
 			System.out.println("name: " + name + " | " + "title: " + title);
-
 		}
 	}
 
@@ -211,13 +210,18 @@ public class BrowserDriver {
 		}
 		return result;
 	}
+	
+	/**
+	 * extract name
+	 */
+	protected String extractName() {
+		return dr.findElement(By.xpath("//h1[contains(@class, 'pv-top-card-section__name')]")).getText();
+	}
 
 	/**
 	 * extract company name/college name
-	 * 
-	 * @throws InterruptedException
 	 */
-	protected static HashSet<String> extractInstitutionText() throws InterruptedException {
+	protected HashSet<String> extractInstitution() throws InterruptedException {
 		HashSet<String> result = new HashSet<String>();
 		JavascriptExecutor jse = (JavascriptExecutor) dr;
 		jse.executeScript("scroll(0, 500);");
@@ -229,7 +233,6 @@ public class BrowserDriver {
 				.xpath("//section[contains(@class, 'experience-section')]//span[@class='pv-entity__secondary-title']"));
 		// System.out.println(webElements.isEmpty());
 		for (WebElement e : webElements) {
-			System.out.println("Institution: " + e.getText());
 			result.add(e.getText().toLowerCase());
 		}
 		return result;
@@ -239,13 +242,12 @@ public class BrowserDriver {
 	 * find email domain from google search
 	 * @throws IOException
 	 */
-	protected static HashMap<String, String> parseDomainFromGoogle(HashSet<String> institutionSet) throws IOException {
+	protected HashMap<String, String> parseDomainFromGoogle(HashSet<String> institutionSet) throws IOException {
 		HashMap<String, String> result = new HashMap<String, String>();
 		int flag = 0;
 		for (String s : institutionSet) {
-			s = s.replace(" ", "+");
-			String query = "https://www.google.com/search?q=" + s + "+official" + "+site";
-			System.out.println("query: " + query);
+			String query = "https://www.google.com/search?q=" + s.replace(" ", "+") + "+official" + "+site";
+//			System.out.println("query: " + query);
 			Elements links = Jsoup.connect(query)
 					.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0").get()
 					.select(".g>.r>a");
@@ -257,9 +259,9 @@ public class BrowserDriver {
 			String domain;
 			try {
 				domain = domainFromURL(url);
-				System.out.println("Official Site Title: " + title);
-				System.out.println("Official Site URL: " + url);
-				System.out.println("Domain: " + domain);
+//				System.out.println("Official Site Title: " + title);
+//				System.out.println("Official Site URL: " + url);
+//				System.out.println("Domain: " + domain);
 				result.put(s, domain);
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
@@ -275,7 +277,7 @@ public class BrowserDriver {
 	/**
 	 * substring domain from url
 	 */
-	private static String domainFromURL(String url) throws URISyntaxException {
+	private String domainFromURL(String url) throws URISyntaxException {
 		URI uri = new URI(url);
 		String domain = uri.getHost();
 		return domain.startsWith("www.") ? domain.substring(4) : domain;
