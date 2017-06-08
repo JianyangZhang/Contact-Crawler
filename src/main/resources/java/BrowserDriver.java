@@ -129,6 +129,14 @@ public class BrowserDriver {
 			exception.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Linkedin page turn
+	 */
+	private void pageTurn(int page) {
+		String targetURL = dr.getCurrentUrl() + "&page=" + page;
+		dr.get(targetURL);
+	}
 
 	/**
 	 * login Hunter
@@ -187,26 +195,31 @@ public class BrowserDriver {
 	/**
 	 * get people's Linkedin url
 	 */
-	protected HashSet<String> getPeopleUrl() throws IOException, InterruptedException {
+	protected HashSet<String> getPeopleUrl(int count) throws IOException, InterruptedException {
+		int currentPage = 1;
 		HashSet<String> result = new HashSet<String>();
-		String page = dr.getPageSource();
-		Document doc = Jsoup.parse(page);
-		Elements uls = doc.getElementsByTag("ul");
-		for (Element ul : uls) {
-			Elements lists = ul.getElementsByTag("li");
-			for (Element li : lists) {
-				try {
-					Elements aTags = li.getElementsByTag("a");
-					for (Element aTag : aTags) {
-						String href = aTag.attr("href");
-						if (href.startsWith("/in/")) {
-							result.add("https://www.linkedin.com" + href);
+		while (result.size() < count) {
+			String page = dr.getPageSource();
+			Document doc = Jsoup.parse(page);
+			Elements uls = doc.getElementsByTag("ul");
+			for (Element ul : uls) {
+				Elements lists = ul.getElementsByTag("li");
+				for (Element li : lists) {
+					try {
+						Elements aTags = li.getElementsByTag("a");
+						for (Element aTag : aTags) {
+							String href = aTag.attr("href");
+							if (href.startsWith("/in/")) {
+								result.add("https://www.linkedin.com" + href);
+							}
 						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
+			System.out.println("url set size: " + result.size());
+			pageTurn(++currentPage);
 		}
 		return result;
 	}
@@ -265,10 +278,6 @@ public class BrowserDriver {
 				result.put(s, domain);
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
-			}
-			// flag++;
-			if (flag == 1) {
-				break;
 			}
 		}
 		return result;

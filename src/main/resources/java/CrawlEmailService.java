@@ -27,16 +27,16 @@ public class CrawlEmailService {
 	protected static BrowserDriver br;
 
 	public static void main(String[] args) {
-		crawl("uber");
+		crawl("uber", 30);
 	}
 
-	public static ArrayList<Customer> crawl(String keyword) {
+	public static ArrayList<Customer> crawl(String keyword, int count) {
 		ArrayList<Customer> result = new ArrayList<Customer>();
 		BrowserDriver br = new BrowserDriver();
 		br.signInLinkedin("wangwent@usc.edu", "19940916".toCharArray());
 		try {
 			br.searchKeyword(keyword);
-			HashSet<String> urls = br.getPeopleUrl();
+			HashSet<String> urls = br.getPeopleUrl(count);
 			int flag = 0;
 			for (String url : urls) {
 				br.dr.get(url);
@@ -51,7 +51,7 @@ public class CrawlEmailService {
 				System.out.println(customer.toString());
 				result.add(customer);
 				flag++;
-				if (flag == 1) {
+				if (flag == count) {
 					break;
 				}
 			}
