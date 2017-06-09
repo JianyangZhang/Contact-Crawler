@@ -1,8 +1,10 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Customer {
 	String name;
 	HashMap<String, String> domainMap;
+	EmailVerifier ev = new EmailVerifier();
 	
 	public Customer(String name, HashMap<String, String> domainMap) {
 		this.name = name;
@@ -31,6 +33,43 @@ public class Customer {
 		for (String key : domainMap.keySet()) {
 			result = result + key + " - " + domainMap.get(key) + " | "; 
 		}
+		return result;
+	}
+	
+	public ArrayList<String> getEmails() {
+		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> usernames = guessPrefix(name);
+		for (String domain : domainMap.values()) {
+			for (String username : usernames) {
+				String email = username + "@" + domain;
+				if (ev.valid(email, "outlook.com")) {
+					result.add(email);
+					System.out.println(email);
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * guess email prefix
+	 */
+	private static ArrayList<String> guessPrefix(String name) {
+		name = name.toLowerCase();
+		String firstName = name.substring(0, name.indexOf(" "));
+		String lastName = name.substring(name.indexOf(" ") + 1, name.length());
+		char lastName_initial = lastName.charAt(0);
+		ArrayList<String> result = new ArrayList<String>();
+		result.add(firstName);
+		result.add(firstName + lastName);
+		result.add(firstName + lastName_initial);
+		result.add(lastName_initial + firstName);
+		result.add(firstName + "." + lastName);
+		result.add(lastName + "." + firstName);
+		result.add(firstName + "_" + lastName);
+		result.add(lastName + "_" + firstName);
+		result.add(firstName + "-" + lastName);
+		result.add(lastName + "-" + firstName);
 		return result;
 	}
 }

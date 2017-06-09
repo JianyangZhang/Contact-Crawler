@@ -22,7 +22,7 @@ import org.xbill.DNS.Type;
 
 public class EmailVerifier {
 	public static void main(String[] args) {
-		System.out.println(new EmailVerifier().valid("jianyang212@gmail.com", "outlook.com"));
+		// System.out.println(new EmailVerifier().valid("jianyang212@gmail.com", "outlook.com"));
 	}
 
 	/**
