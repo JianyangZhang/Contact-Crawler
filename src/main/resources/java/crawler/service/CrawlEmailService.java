@@ -1,13 +1,20 @@
+package crawler.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.springframework.stereotype.Service;
+
+import crawler.model.Customer;
+
+@Service
 public class CrawlEmailService {
 	protected static BrowserDriver br;
-
+/*
 	public static void main(String[] args) {
 		crawl("uber", 10);
 	}
+*/
 
 	public static ArrayList<Customer> crawl(String keyword, int count) {
 		ArrayList<Customer> result = new ArrayList<Customer>();

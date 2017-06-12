@@ -1,10 +1,13 @@
+package crawler.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import crawler.service.EmailVerifier;
+
 public class Customer {
-	String name;
-	HashMap<String, String> domainMap;
-	EmailVerifier ev = new EmailVerifier();
+	private String name;
+	private HashMap<String, String> domainMap;
+	private EmailVerifier ev = new EmailVerifier();
 	
 	public Customer(String name, HashMap<String, String> domainMap) {
 		this.name = name;

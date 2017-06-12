@@ -1,3 +1,4 @@
+package crawler.service;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
