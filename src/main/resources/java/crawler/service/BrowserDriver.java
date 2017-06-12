@@ -51,8 +51,16 @@ public class BrowserDriver {
 		// domainSet.add("outlook.com");
 		// domainSet.add("aol.com");
 		// domainSet.add("msn.com");
+<<<<<<< HEAD:EmailCrawler/src/main/resources/java/crawler/service/BrowserDriver.java
 		System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\jiany\\emailcrawlers\\chromedriver.exe");
 		BrowserDriver.dr = new ChromeDriver();
+=======
+//		System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\jiany\\emailcrawlers\\chromedriver.exe");
+//		this.dr = new ChromeDriver();
+		
+		System.setProperty("webdriver.chrome.driver", "/Applications/chromedriver"); 
+		this.dr = new ChromeDriver();
+>>>>>>> ae75db5e0299c1e4d81e2861b8216d2bb013103e:EmailCrawler/src/main/resources/java/BrowserDriver.java
 		// dr = new
 		// ChromeDriver(br.enableExtension("C:\\\\Users\\jiany\\emailcrawlers\\hunter.crx"));
 		// try {

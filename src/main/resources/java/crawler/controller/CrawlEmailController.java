@@ -22,7 +22,10 @@ public class CrawlEmailController {
 	@CrossOrigin
 	@RequestMapping("/test")
 	public void test() {
-		crawlEmailService.crawl("uber", 10);
+		CrawlerQuery query = new CrawlerQuery();
+		query.setKeyword("uber");
+		query.setCount(10);
+		crawlEmailService.crawl(query);
 	}
 	
 	@CrossOrigin

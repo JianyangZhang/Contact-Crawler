@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import org.springframework.stereotype.Service;
 
+import crawler.model.CrawlerQuery;
 import crawler.model.Customer;
 
 @Service
@@ -16,13 +17,13 @@ public class CrawlEmailService {
 	}
 */
 
-	public static ArrayList<Customer> crawl(String keyword, int count) {
+	public static ArrayList<Customer> crawl(CrawlerQuery query) {
 		ArrayList<Customer> result = new ArrayList<Customer>();
 		BrowserDriver br = new BrowserDriver();
 		br.signInLinkedin("wangwent@usc.edu", "19940916".toCharArray());
 		try {
-			br.searchKeyword(keyword);
-			HashSet<String> urls = br.getPeopleUrl(count);
+			br.searchKeyword(query.getKeyword());
+			HashSet<String> urls = br.getPeopleUrl(query.getCount());
 			int flag = 0;
 			for (String url : urls) {
 				BrowserDriver.dr.get(url);
@@ -39,7 +40,7 @@ public class CrawlEmailService {
 				System.out.println("------------------------------------------");
 				result.add(customer);
 				flag++;
-				if (flag == count) {
+				if (flag == query.getCount()) {
 					break;
 				}
 			}
