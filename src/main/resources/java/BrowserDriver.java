@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,19 +11,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -59,7 +51,7 @@ public class BrowserDriver {
 		// domainSet.add("aol.com");
 		// domainSet.add("msn.com");
 		System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\jiany\\emailcrawlers\\chromedriver.exe");
-		this.dr = new ChromeDriver();
+		BrowserDriver.dr = new ChromeDriver();
 		// dr = new
 		// ChromeDriver(br.enableExtension("C:\\\\Users\\jiany\\emailcrawlers\\hunter.crx"));
 		// try {
@@ -167,7 +159,7 @@ public class BrowserDriver {
 		String url = "https://www.linkedin.com/search/results/index/?keywords=" + title
 				+ "&origin=GLOBAL_SEARCH_HEADER";
 		dr.get(url);
-		JavascriptExecutor jse = (JavascriptExecutor) dr;
+		JavascriptExecutor jse = dr;
 		jse.executeScript("scroll(0, 500);");
 		jse.executeScript("scroll(0, 1000);"); // to load all search results
 		Thread.sleep(1500); // to fully load Linkedin page
@@ -236,7 +228,7 @@ public class BrowserDriver {
 	 */
 	protected HashSet<String> extractInstitution() throws InterruptedException {
 		HashSet<String> result = new HashSet<String>();
-		JavascriptExecutor jse = (JavascriptExecutor) dr;
+		JavascriptExecutor jse = dr;
 		jse.executeScript("scroll(0, 500);");
 		jse.executeScript("scroll(0, 1000);");
 		jse.executeScript("scroll(0, 1500);");

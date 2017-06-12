@@ -1,18 +1,9 @@
-import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Robot;
 import java.awt.Toolkit;
 import javax.swing.*;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-
 import java.awt.event.*;
-import java.util.HashSet;
 
 public class LaunchWindow extends JFrame {
 	private static final int STATUS_PENDING = 0;
