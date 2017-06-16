@@ -21,7 +21,7 @@ import org.xbill.DNS.Record;
 import org.xbill.DNS.TextParseException;
 import org.xbill.DNS.Type;
 
-public class EmailVerifier {
+public class EmailVerifyService {
 	public static void main(String[] args) {
 		// System.out.println(new EmailVerifier().valid("jianyang212@gmail.com", "outlook.com"));
 	}

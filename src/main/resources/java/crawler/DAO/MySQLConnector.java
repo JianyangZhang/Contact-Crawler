@@ -1,16 +1,19 @@
-package crawler.service;
+package crawler.DAO;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 
 /**
  * Connect to MySQL database and execute queries.
  **/
 public class MySQLConnector {
+	/*
 	public static void main(String[] args) {
 		// tester
 		Connection connection = MySQLConnector.createConnection("transcript", "root", "");
 		ResultSet resultSet = MySQLConnector.executeQuery(connection, "select * from student");
 		MySQLConnector.printResultSet(resultSet);
 	}
+	*/
 
 	public static Connection createConnection(String schema, String username, String password) {
 		try {
@@ -24,10 +27,15 @@ public class MySQLConnector {
 		return null;
 	}
 
-	public static ResultSet executeQuery(Connection connection, String query) {
+	public static ResultSet executeQuery(Connection connection, String query, boolean isUpdate) {
 		try {
 			Statement stmt = connection.createStatement();
-			return stmt.executeQuery(query);
+			if (isUpdate) {
+				stmt.executeUpdate(query);
+				return null;
+			} else {
+				return stmt.executeQuery(query);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -38,6 +46,8 @@ public class MySQLConnector {
 		try {
 			ResultSetMetaData metaData = resultSet.getMetaData();
 			int columnsNumber = metaData.getColumnCount();
+			System.out.println("TIMESTAMP." + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()));
+			resultSet.beforeFirst();
 			while (resultSet.next()) {
 				for (int i = 1; i <= columnsNumber; i++) {
 					if (i > 1) {
@@ -47,7 +57,9 @@ public class MySQLConnector {
 					System.out.print(metaData.getColumnName(i) + ": " + columnValue);
 				}
 				System.out.println("");
+				System.out.println("------------------------------------------");
 			}
+			resultSet.beforeFirst();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

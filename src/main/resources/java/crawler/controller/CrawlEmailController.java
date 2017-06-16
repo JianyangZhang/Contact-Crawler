@@ -25,7 +25,7 @@ public class CrawlEmailController {
 		CrawlerQuery query = new CrawlerQuery();
 		query.setKeyword("uber");
 		query.setCount(10);
-		crawlEmailService.crawl(query);
+		crawlEmailService.crawl(null, query);
 	}
 	
 	@CrossOrigin

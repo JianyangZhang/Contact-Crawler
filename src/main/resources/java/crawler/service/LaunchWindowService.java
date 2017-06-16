@@ -6,7 +6,7 @@ import javax.swing.*;
 
 import java.awt.event.*;
 
-public class LaunchWindow extends JFrame {
+public class LaunchWindowService extends JFrame {
 	private static final int STATUS_PENDING = 0;
 	private static final int STATUS_RUNNING = 1;
 	private static final int STATUS_DONE = 2;
@@ -25,7 +25,7 @@ public class LaunchWindow extends JFrame {
 	 * public static void main(String[] args) { LaunchWindow loginWindow = new
 	 * LaunchWindow(); }
 	 */
-	public LaunchWindow() {
+	public LaunchWindowService() {
 		// initialize the launch window
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim = tk.getScreenSize();
@@ -111,7 +111,7 @@ public class LaunchWindow extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == button_crawl) {
 				System.out.println("start the BrowerDriver");
-				LaunchWindow.changeStatus(STATUS_RUNNING);
+				LaunchWindowService.changeStatus(STATUS_RUNNING);
 			}
 		}
 	}
@@ -120,7 +120,7 @@ public class LaunchWindow extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == button_export) {
 				System.out.println("start to export");
-				LaunchWindow.changeStatus(STATUS_PENDING);
+				LaunchWindowService.changeStatus(STATUS_PENDING);
 			}
 		}
 	}

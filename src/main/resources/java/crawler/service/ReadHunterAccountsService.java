@@ -8,7 +8,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ReadHunterAccounts {
+public class ReadHunterAccountsService {
 
 	public static void main(String[] args) {
 		try {

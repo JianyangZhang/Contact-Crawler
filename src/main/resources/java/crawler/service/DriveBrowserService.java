@@ -23,7 +23,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class BrowserDriver {
+public class DriveBrowserService {
 	protected static HashSet<String> domainSet;
 	protected static ChromeDriver dr;
 	/*
@@ -43,7 +43,7 @@ public class BrowserDriver {
 	 * br.signInLinkedin("wangwent@usc.edu", "19940916", dr);
 	 * br.searchKeyword("google", dr); br.getPeopleInfo(dr); }
 	 */
-	BrowserDriver() {
+	DriveBrowserService() {
 		// domainSet = new HashSet<String>();
 		// domainSet.add("gmail.com");
 		// domainSet.add("yahoo.com");
@@ -51,16 +51,11 @@ public class BrowserDriver {
 		// domainSet.add("outlook.com");
 		// domainSet.add("aol.com");
 		// domainSet.add("msn.com");
-<<<<<<< HEAD:EmailCrawler/src/main/resources/java/crawler/service/BrowserDriver.java
 		System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\jiany\\emailcrawlers\\chromedriver.exe");
-		BrowserDriver.dr = new ChromeDriver();
-=======
-//		System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\jiany\\emailcrawlers\\chromedriver.exe");
-//		this.dr = new ChromeDriver();
-		
-		System.setProperty("webdriver.chrome.driver", "/Applications/chromedriver"); 
 		this.dr = new ChromeDriver();
->>>>>>> ae75db5e0299c1e4d81e2861b8216d2bb013103e:EmailCrawler/src/main/resources/java/BrowserDriver.java
+		
+//		System.setProperty("webdriver.chrome.driver", "/Applications/chromedriver"); 
+//		this.dr = new ChromeDriver();
 		// dr = new
 		// ChromeDriver(br.enableExtension("C:\\\\Users\\jiany\\emailcrawlers\\hunter.crx"));
 		// try {
@@ -219,7 +214,7 @@ public class BrowserDriver {
 					}
 				}
 			}
-			System.out.println("url set size: " + result.size());
+			System.out.println("current url Set size: " + result.size());
 			pageTurn(++currentPage);
 		}
 		return result;

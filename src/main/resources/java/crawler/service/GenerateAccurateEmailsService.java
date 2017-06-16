@@ -1,15 +1,13 @@
-package crawler.model;
+package crawler.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import crawler.service.EmailVerifier;
-
-public class Customer {
+public class GenerateAccurateEmailsService {
 	private String name;
 	private HashMap<String, String> domainMap;
-	private EmailVerifier ev = new EmailVerifier();
+	private EmailVerifyService ev = new EmailVerifyService();
 	
-	public Customer(String name, HashMap<String, String> domainMap) {
+	public GenerateAccurateEmailsService(String name, HashMap<String, String> domainMap) {
 		this.name = name;
 		this.domainMap = domainMap;
 	}
@@ -45,9 +43,11 @@ public class Customer {
 		for (String domain : domainMap.values()) {
 			for (String username : usernames) {
 				String email = username + "@" + domain;
-				if (ev.valid(email, "outlook.com")) {
+				if (ev.valid(email, "gmail.com")) {
 					result.add(email);
 					System.out.println(email);
+				} else {
+					// System.out.println(email + "(invalid)");
 				}
 			}
 		}
