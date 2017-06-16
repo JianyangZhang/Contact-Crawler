@@ -57,7 +57,7 @@ public class PollSearchQueryService extends TimerTask {
 		private int status;
 		public void process(int status) {
 			this.status = status;
-			System.out.println("one search query has been done, status code: " + status);
+			System.out.println("attempted to poll search query, status code: " + status);
 			System.out.println("************************************************");
 			CRAWLER_IS_FREE = true;
 		}

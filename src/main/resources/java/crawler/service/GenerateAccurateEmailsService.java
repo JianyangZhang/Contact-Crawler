@@ -37,14 +37,14 @@ public class GenerateAccurateEmailsService {
 		return result;
 	}
 	
-	public ArrayList<String> getEmails() {
-		ArrayList<String> result = new ArrayList<String>();
+	public HashMap<String, String> getEmails() {
+		HashMap<String, String> result = new HashMap<String, String>();
 		ArrayList<String> usernames = guessPrefix(name);
-		for (String domain : domainMap.values()) {
+		for (String company : domainMap.keySet()) {
 			for (String username : usernames) {
-				String email = username + "@" + domain;
+				String email = username + "@" + domainMap.get(company);
 				if (ev.valid(email, "gmail.com")) {
-					result.add(email);
+					result.put(email, company);
 					System.out.println(email);
 				} else {
 					// System.out.println(email + "(invalid)");

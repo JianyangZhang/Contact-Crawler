@@ -65,18 +65,18 @@ CREATE TABLE Customer
                                                    customer_keywords varchar(255),
                                                    customer_create_time varchar(255),
                                                    customer_touch_time varchar(255),
-                                                   company_name varchar(255),
                                                    internal_company_id varchar(255),
                                                    compaign_step varchar(255),
-                                                   FOREIGN KEY(company_name) REFERENCES Company(company_name),
                                                    FOREIGN KEY(internal_company_id) REFERENCES Internal_Company(internal_company_id),
                                                    FOREIGN KEY (compaign_step) REFERENCES Compaign (compaign_step));
                                                    
                                                    
 CREATE TABLE Email
-									(emil_address varchar(255) NOT NULL PRIMARY KEY,
+									(email_address varchar(255) NOT NULL PRIMARY KEY,
                                     customer_linkedin_url varchar(255),
+                                    company_name varchar(255),
                                     email_response_time int,
+                                    FOREIGN KEY(company_name) REFERENCES Company(company_name),
                                     FOREIGN KEY(customer_linkedin_url) REFERENCES Customer(customer_linkedin_url));
                                     
 CREATE TABLE Enmployment 

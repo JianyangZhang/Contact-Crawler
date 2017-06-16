@@ -36,10 +36,10 @@ public class CrawlEmailService {
 				// hunterButton.click();
 				GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(name, domainMap);
 				System.out.println(name + "'s verified emails:");
-				ArrayList<String> emails = gaes.getEmails();
+				HashMap<String, String> emailsMap = gaes.getEmails();
 				System.out.println("------------------------------------------");
-				for (String email : emails) {
-					EmailDAO.insert(email, url, 0);
+				for (String email : emailsMap.keySet()) {
+					EmailDAO.insert(email, url, emailsMap.get(email), 0);
 				}
 				flag++;
 				if (flag == query.getCount()) {
