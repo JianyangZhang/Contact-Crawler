@@ -8,31 +8,37 @@ public class CrawlerQuery {
 	@Id
 	private String keyword;
 	private int	count;
+	private String linkedinID;
+	private String internalCompanyID;
 	
-	public CrawlerQuery() {
-		super();
-	}
-	
-	public CrawlerQuery(String keyword, int count) {
-		super();
-		this.keyword = keyword;
-		this.count = count;
-	}
-
 	public String getKeyword() {
 		return keyword;
 	}
-
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-
 	public int getCount() {
 		return count;
 	}
-
 	public void setCount(int count) {
 		this.count = count;
+	}
+	public String getLinkedinID() {
+		return linkedinID;
+	}
+	public void setLinkedinID(String linkedinID) {
+		this.linkedinID = linkedinID;
+	}
+	public String getInternalCompanyID() {
+		return internalCompanyID;
+	}
+	public void setInternalCompanyID(String internalCompanyID) {
+		this.internalCompanyID = internalCompanyID;
+	}
+	@Override
+	public String toString() {
+		return "CrawlerQuery [keyword=" + keyword + ", count=" + count + ", linkedinID=" + linkedinID
+				+ ", internalCompanyID=" + internalCompanyID + "]";
 	}
 }
 

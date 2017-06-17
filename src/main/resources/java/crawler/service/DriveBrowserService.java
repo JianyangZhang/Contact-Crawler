@@ -1,4 +1,5 @@
 package crawler.service;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -18,6 +19,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import crawler.model.Customer;
+
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -128,10 +132,15 @@ public class DriveBrowserService {
 	
 	/**
 	 * Linkedin page turn
+	 * @throws InterruptedException 
 	 */
-	private void pageTurn(int page) {
+	private void pageTurn(int page) throws InterruptedException {
 		String targetURL = dr.getCurrentUrl() + "&page=" + page;
 		dr.get(targetURL);
+		JavascriptExecutor jse = dr;
+		jse.executeScript("scroll(0, 500);");
+		jse.executeScript("scroll(0, 1000);"); // to load all search results
+		Thread.sleep(1500); // to fully load Linkedin page
 	}
 
 	/**
@@ -156,7 +165,6 @@ public class DriveBrowserService {
 
 	/**
 	 * search keyword in Linkedin
-	 * 
 	 * @throws InterruptedException
 	 **/
 	protected void searchKeyword(String title) throws InterruptedException {
@@ -172,59 +180,41 @@ public class DriveBrowserService {
 	/**
 	 * get people's basic info
 	 */
-	protected void getPeopleInfo() throws IOException, InterruptedException {
-		String page = dr.getPageSource();
-		Document doc = Jsoup.parse(page);
-		Elements elements_name = doc.select("span.name.actor-name");
-		Elements elements_title = doc.select("div.search-results__primary-cluster p.subline-level-1");
-
-		Iterator iter_name = elements_name.iterator();
-		Iterator iter_title = elements_title.iterator();
-
-		while (iter_name.hasNext() && iter_title.hasNext()) {
-			String name = ((Element) iter_name.next()).text();
-			String title = ((Element) iter_title.next()).text();
-			System.out.println("name: " + name + " | " + "title: " + title);
-		}
-	}
-
-	/**
-	 * get people's Linkedin url
-	 */
-	protected HashSet<String> getPeopleUrl(int count) throws IOException, InterruptedException {
+	protected ArrayList<Customer> getPeopleInfo(int count) throws IOException, InterruptedException {
+		ArrayList<Customer> customers = new ArrayList<Customer>();
 		int currentPage = 1;
-		HashSet<String> result = new HashSet<String>();
-		while (result.size() < count) {
+		while (true) {
 			String page = dr.getPageSource();
 			Document doc = Jsoup.parse(page);
-			Elements uls = doc.getElementsByTag("ul");
-			for (Element ul : uls) {
-				Elements lists = ul.getElementsByTag("li");
-				for (Element li : lists) {
-					try {
-						Elements aTags = li.getElementsByTag("a");
-						for (Element aTag : aTags) {
-							String href = aTag.attr("href");
-							if (href.startsWith("/in/")) {
-								result.add("https://www.linkedin.com" + href);
-							}
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
+			Elements elements_name = doc.select("span.name.actor-name");
+			Elements elements_title = doc.select("div.search-results__primary-cluster p.subline-level-1");
+			Elements elements_url = doc.select("a.search-result__result-link.ember-view");
+			this.uniquifyUrl(elements_url);
+			
+			Iterator iter_name = elements_name.iterator();
+			Iterator iter_title = elements_title.iterator();
+			Iterator iter_url = elements_url.iterator();
+			
+			while (iter_name.hasNext() && iter_title.hasNext() && iter_url.hasNext()) {
+				String name = ((Element) iter_name.next()).text();
+				String title = ((Element) iter_title.next()).text();
+				String url = "https://www.linkedin.com" + ((Element) iter_url.next()).attr("href");
+				
+				Customer customer = new Customer();
+				customer.setCustomer_name(name);
+				customer.setCustomer_title(title);
+				customer.setCustomer_linkedin_url(url);
+				customers.add(customer);
+				System.out.println("name: " + name + " | " + "title: " + title + " | " + "url: " + url);
 			}
-			System.out.println("current url Set size: " + result.size());
-			pageTurn(++currentPage);
+			System.out.println("current url Set size: " + customers.size());
+			if (customers.size() < count) {
+				pageTurn(++currentPage);
+			} else {
+				break;
+			}
 		}
-		return result;
-	}
-	
-	/**
-	 * extract name
-	 */
-	protected String extractName() {
-		return dr.findElement(By.xpath("//h1[contains(@class, 'pv-top-card-section__name')]")).getText();
+		return customers;
 	}
 
 	/**
@@ -277,6 +267,27 @@ public class DriveBrowserService {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * uniquify url (de-duplication)
+	 */
+	private void uniquifyUrl(Elements elements) {
+		String prev;
+		Iterator iter = elements.iterator();
+		if (iter.hasNext()) {
+			prev = ((Element) iter.next()).attr("href");
+		} else {
+			return;
+		}
+		while (iter.hasNext()) {
+			String cur = ((Element) iter.next()).attr("href");
+			if (cur.equals(prev)) {
+				iter.remove();
+			} else {
+				prev = cur;
+			}
+		}
 	}
 
 	/**
