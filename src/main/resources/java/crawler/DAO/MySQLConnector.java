@@ -38,7 +38,8 @@ public class MySQLConnector {
 			}
 		} catch (Exception e) {
 			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException) {
-				System.out.println("skipped duplicate entry!");
+				System.out.println("warning: tried to insert duplicate primary key, skipped and continue.");
+				// e.printStackTrace();
 			} else {
 				e.printStackTrace();
 			}

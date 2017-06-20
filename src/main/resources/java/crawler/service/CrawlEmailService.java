@@ -1,4 +1,5 @@
 package crawler.service;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import crawler.model.Email;
 
 @Service
 public class CrawlEmailService {
-	protected static DriveBrowserService br;
+	protected static DriveLinkedinService br;
 /*
 	public static void main(String[] args) {
 		crawl("uber", 10);
@@ -23,14 +24,27 @@ public class CrawlEmailService {
 */
 
 	public static void crawl(Callback callback, CrawlerQuery query) {
-		DriveBrowserService br = new DriveBrowserService();
+		DriveLinkedinService br = new DriveLinkedinService();
 		br.signInLinkedin("adam@thevelozgroup.com", "5056Veloz".toCharArray());
 		try {
 			br.searchKeyword(query.getKeyword());
 			ArrayList<Customer> customers = br.getPeopleInfo(query.getCount());
 			int flag = 0;
 			for (Customer customer : customers) {
-				DriveBrowserService.dr.get(customer.getCustomer_linkedin_url());
+				String url = customer.getCustomer_linkedin_url();
+				// avoid repeated crawling
+				if (ResultDAO.getAllByUrl(url).next()) {
+					System.out.println(customer.getCustomer_name() + " is detected that he/she has been crawled before, his/her info will not be printed here but it will be in the final report");
+					ResultDAO.insert(query.getSearchID(), url);
+					flag++;
+					if (flag == query.getCount()) {
+						br.dr.close();
+						if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
+						break;
+					}
+					continue;
+				}
+				br.dr.get(url);
 				HashSet<String> institutionSet = br.extractInstitution();
 				HashMap<String, String> domainMap = br.parseDomainFromGoogle(institutionSet);
 				// WebElement hunterButton =
@@ -42,15 +56,15 @@ public class CrawlEmailService {
 				HashMap<String, String> emailsMap = gaes.getEmails();
 				System.out.println("------------------------------------------");
 				if (!emailsMap.isEmpty()) {
-					CustomerDAO.insert(customer.getCustomer_linkedin_url(), customer.getCustomer_name(), customer.getCustomer_title(), "", query.getKeyword(), new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()), "", query.getInternalCompanyID(), "step0");
-					ResultDAO.insert(query.getSearchID(), customer.getCustomer_linkedin_url());
+					CustomerDAO.insert(url, customer.getCustomer_name(), customer.getCustomer_title(), "", query.getKeyword(), new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()), "", query.getInternalCompanyID(), "step0");
+					ResultDAO.insert(query.getSearchID(), url);
 					for (String email : emailsMap.keySet()) {
-						EmailDAO.insert(email, customer.getCustomer_linkedin_url(), emailsMap.get(email), 0);
+						EmailDAO.insert(email, url, emailsMap.get(email), 0);
 					}
 				}
 				flag++;
 				if (flag == query.getCount()) {
-					DriveBrowserService.dr.close();
+					br.dr.close();
 					if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
 					break;
 				}
