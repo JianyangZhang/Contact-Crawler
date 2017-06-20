@@ -6,11 +6,19 @@ import javax.persistence.Id;
 @Entity
 public class CrawlerQuery {
 	@Id
+	private String searchID;
 	private String keyword;
 	private int	count;
 	private String linkedinID;
 	private String internalCompanyID;
 	
+	
+	public String getSearchID() {
+		return searchID;
+	}
+	public void setSearchID(String searchID) {
+		this.searchID = searchID;
+	}
 	public String getKeyword() {
 		return keyword;
 	}
@@ -37,8 +45,8 @@ public class CrawlerQuery {
 	}
 	@Override
 	public String toString() {
-		return "CrawlerQuery [keyword=" + keyword + ", count=" + count + ", linkedinID=" + linkedinID
-				+ ", internalCompanyID=" + internalCompanyID + "]";
+		return "CrawlerQuery [searchID=" + searchID + ", keyword=" + keyword + ", count=" + count + ", linkedinID="
+				+ linkedinID + ", internalCompanyID=" + internalCompanyID + "]";
 	}
 }
 

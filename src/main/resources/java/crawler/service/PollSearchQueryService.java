@@ -30,10 +30,12 @@ public class PollSearchQueryService extends TimerTask {
 					String search_id = resultSet.getString(1);
 					SearchQueryDAO.updateToProcessing(search_id);
 					CrawlerQuery query = new CrawlerQuery();
+					System.out.print("search ID: " + resultSet.getString(1) + " | ");
 					System.out.print("keyword: " + resultSet.getString(3) + " | ");
 					System.out.print("client's linkedin ID: " + resultSet.getString(7) + " | ");
 					System.out.println("internal company ID: " + resultSet.getString(8));
 					System.out.println("target url Set size: " + resultSet.getInt(2));
+					query.setSearchID(resultSet.getString(1));
 					query.setKeyword(resultSet.getString(3));
 					query.setCount(resultSet.getInt(2));
 					query.setLinkedinID(resultSet.getString(7));

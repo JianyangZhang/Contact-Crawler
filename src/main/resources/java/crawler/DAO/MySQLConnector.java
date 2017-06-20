@@ -37,7 +37,11 @@ public class MySQLConnector {
 				return stmt.executeQuery(query);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException) {
+				System.out.println("skipped duplicate entry!");
+			} else {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

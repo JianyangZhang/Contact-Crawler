@@ -72,8 +72,15 @@ CREATE TABLE Email
     FOREIGN KEY(customer_linkedin_url) REFERENCES Customer(customer_linkedin_url));
 
 CREATE TABLE Employment
-	(customer_linkedin_url varchar(255) ,
+	(customer_linkedin_url varchar(255),
     company_name varchar(255),
     PRIMARY KEY(customer_linkedin_url, company_name),
     FOREIGN KEY (customer_linkedin_url) REFERENCES Customer (customer_linkedin_url),
     FOREIGN KEY(company_name) REFERENCES Company(company_name));
+    
+CREATE TABLE Result
+	(customer_linkedin_url varchar(255),
+    search_id varchar(255),
+    PRIMARY KEY(customer_linkedin_url, search_id),
+    FOREIGN KEY (customer_linkedin_url) REFERENCES Customer (customer_linkedin_url),
+    FOREIGN KEY (search_id) REFERENCES Search (search_id));

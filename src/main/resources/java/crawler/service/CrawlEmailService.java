@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import crawler.DAO.CustomerDAO;
 import crawler.DAO.EmailDAO;
+import crawler.DAO.ResultDAO;
 import crawler.model.CrawlerQuery;
 import crawler.model.Customer;
 import crawler.model.Email;
@@ -23,7 +24,7 @@ public class CrawlEmailService {
 
 	public static void crawl(Callback callback, CrawlerQuery query) {
 		DriveBrowserService br = new DriveBrowserService();
-		br.signInLinkedin("wangwent@usc.edu", "19940916".toCharArray());
+		br.signInLinkedin("adam@thevelozgroup.com", "5056Veloz".toCharArray());
 		try {
 			br.searchKeyword(query.getKeyword());
 			ArrayList<Customer> customers = br.getPeopleInfo(query.getCount());
@@ -42,6 +43,7 @@ public class CrawlEmailService {
 				System.out.println("------------------------------------------");
 				if (!emailsMap.isEmpty()) {
 					CustomerDAO.insert(customer.getCustomer_linkedin_url(), customer.getCustomer_name(), customer.getCustomer_title(), "", query.getKeyword(), new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()), "", query.getInternalCompanyID(), "step0");
+					ResultDAO.insert(query.getSearchID(), customer.getCustomer_linkedin_url());
 					for (String email : emailsMap.keySet()) {
 						EmailDAO.insert(email, customer.getCustomer_linkedin_url(), emailsMap.get(email), 0);
 					}

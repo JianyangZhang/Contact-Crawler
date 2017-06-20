@@ -23,7 +23,7 @@ import org.xbill.DNS.Type;
 
 public class EmailVerifyService {
 	public static void main(String[] args) {
-		// System.out.println(new EmailVerifier().valid("jianyang212@gmail.com", "outlook.com"));
+		// System.out.println(new EmailVerifyService().valid("adffadf@ngkfa.com", "outlook.com"));
 	}
 
 	/**
@@ -33,10 +33,15 @@ public class EmailVerifyService {
 	 * @return whether the email is available
 	 */
 	public boolean valid(String toMail, String domain) {
-		if (StringUtils.isBlank(toMail) || StringUtils.isBlank(domain))
+		if (StringUtils.isBlank(toMail) || StringUtils.isBlank(domain)) {
 			return false;
-		if (!StringUtils.contains(toMail, '@'))
+		}
+		if (!StringUtils.contains(toMail, '@')) {
 			return false;
+		}
+		if (StringUtils.contains(toMail, ' ')) {
+			return false;
+		}
 		String host = toMail.substring(toMail.indexOf('@') + 1);
 		if (host.equals(domain))
 			return false;
