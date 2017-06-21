@@ -1,4 +1,5 @@
 package crawler.service;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,13 +24,17 @@ import org.xbill.DNS.Type;
 
 public class EmailVerifyService {
 	public static void main(String[] args) {
-		// System.out.println(new EmailVerifyService().valid("adffadf@ngkfa.com", "outlook.com"));
+		// System.out.println(new
+		// EmailVerifyService().valid("adffadf@ngkfa.com", "outlook.com"));
 	}
 
 	/**
 	 * verify the email address whether is exist
-	 * @param toMail: the email need to be verified
-	 * @param domain: the domain send the request(can be anyone)
+	 * 
+	 * @param toMail:
+	 *            the email need to be verified
+	 * @param domain:
+	 *            the domain send the request(can be anyone)
 	 * @return whether the email is available
 	 */
 	public boolean valid(String toMail, String domain) {
@@ -43,14 +48,16 @@ public class EmailVerifyService {
 			return false;
 		}
 		String host = toMail.substring(toMail.indexOf('@') + 1);
-		if (host.equals(domain))
+		if (host.equals(domain)) {
 			return false;
+		}
 		Socket socket = new Socket();
 		try {
 			// find the mx records
 			Record[] mxRecords = new Lookup(host, Type.MX).run();
-			if (ArrayUtils.isEmpty(mxRecords))
+			if (ArrayUtils.isEmpty(mxRecords)) {
 				return false;
+			}
 			// the email server address
 			String mxHost = ((MXRecord) mxRecords[0]).getTarget().toString();
 			if (mxRecords.length > 1) { // sort by priority

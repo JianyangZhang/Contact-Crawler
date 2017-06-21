@@ -1,4 +1,5 @@
 package crawler.service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,14 +31,16 @@ import org.jsoup.select.Elements;
 
 public class DriveLinkedinService extends DriveBrowserService {
 	private String baseURL;
+
 	DriveLinkedinService() {
 		super(false);
 		this.dr.get("http://www.linkedin.com");
 	}
-	
+
 	/**
 	 * Linkedin page turn
-	 * @throws InterruptedException 
+	 * 
+	 * @throws InterruptedException
 	 */
 	private void pageTurn(int page) throws InterruptedException {
 		String targetURL = baseURL + "&page=" + page;
@@ -68,6 +71,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 
 	/**
 	 * search keyword in Linkedin
+	 * 
 	 * @throws InterruptedException
 	 **/
 	protected void searchKeyword(String title) throws InterruptedException {
@@ -92,14 +96,15 @@ public class DriveLinkedinService extends DriveBrowserService {
 			Elements elements_title = doc.select("div.search-results__primary-cluster p.subline-level-1");
 			Elements elements_url = doc.select("a.search-result__result-link.ember-view");
 			this.uniquifyUrl(elements_url);
-			
+
 			Iterator iter_name = elements_name.iterator();
 			Iterator iter_title = elements_title.iterator();
 			Iterator iter_url = elements_url.iterator();
 			boolean hasURL = false;
-			if(iter_name.hasNext())
+			if (iter_name.hasNext()) {
 				hasURL = true;
-			
+			}
+
 			while (iter_name.hasNext() && iter_title.hasNext() && iter_url.hasNext()) {
 				String name = ((Element) iter_name.next()).text();
 				String title = ((Element) iter_title.next()).text();
@@ -142,6 +147,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 
 	/**
 	 * find email domain from google search
+	 * 
 	 * @throws IOException
 	 */
 	protected HashMap<String, String> parseDomainFromGoogle(HashSet<String> institutionSet) throws IOException {
@@ -149,7 +155,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 		int flag = 0;
 		for (String s : institutionSet) {
 			String query = "https://www.google.com/search?q=" + s.replace(" ", "+") + "+official" + "+site";
-//			System.out.println("query: " + query);
+			// System.out.println("query: " + query);
 			Elements links = Jsoup.connect(query)
 					.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0").get()
 					.select(".g>.r>a");
@@ -161,9 +167,9 @@ public class DriveLinkedinService extends DriveBrowserService {
 			String domain;
 			try {
 				domain = domainFromURL(url);
-//				System.out.println("Official Site Title: " + title);
-//				System.out.println("Official Site URL: " + url);
-//				System.out.println("Domain: " + domain);
+				// System.out.println("Official Site Title: " + title);
+				// System.out.println("Official Site URL: " + url);
+				// System.out.println("Domain: " + domain);
 				result.put(s, domain);
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
@@ -171,7 +177,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * uniquify url (de-duplication)
 	 */
