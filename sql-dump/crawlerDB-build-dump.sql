@@ -23,12 +23,7 @@ CREATE TABLE Internal_Company
     linkedin_id varchar(255),
     FOREIGN KEY(linkedin_id) REFERENCES Linkedin_Account(linkedin_id));
 
-CREATE TABLE Login
-  (login_id varchar(255) NOT NULL PRIMARY KEY,
-    login_name varchar(255),
-    login_password varchar(255),
-    internal_company_id varchar(255),
-    FOREIGN KEY(internal_company_id) REFERENCES Internal_Company(internal_company_id));
+
 
 CREATE TABLE Search
     (search_id varchar(255) NOT NULL PRIMARY KEY,
