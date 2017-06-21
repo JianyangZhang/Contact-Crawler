@@ -47,6 +47,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 		dr.get(targetURL);
 		scrollTo(dr, "500");
 		scrollTo(dr, "1000");
+		scrollTo(dr, "1200");
 	}
 
 	/**
@@ -81,6 +82,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 		dr.get(url);
 		scrollTo(dr, "500");
 		scrollTo(dr, "1000");
+		scrollTo(dr, "1200");
 	}
 
 	/**
