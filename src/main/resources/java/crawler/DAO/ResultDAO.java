@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 
 public class ResultDAO {
 
-	private static Connection connection = MySQLConnector.createConnection("EmailCrawlerDB", "root", "");
+	private static Connection connection = MySQLConnector.createConnection("EmailCrawlerDB", "lyihan", "900225");
 
 	public static void insert(String search_id, String customer_linkedin_url) {
 		MySQLConnector.executeQuery(connection,

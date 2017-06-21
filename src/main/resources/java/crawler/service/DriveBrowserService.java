@@ -14,7 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 public class DriveBrowserService {
 	protected ChromeDriver dr;
 	DriveBrowserService() {
-		System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\jiany\\emailcrawlers\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "D:\\ASU2017Summer\\Veloz\\job\\chromedriver.exe");
 		this.dr = new ChromeDriver();
 	}
 	

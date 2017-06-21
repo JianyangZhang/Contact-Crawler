@@ -100,6 +100,9 @@ public class DriveLinkedinService extends DriveBrowserService {
 			Iterator iter_name = elements_name.iterator();
 			Iterator iter_title = elements_title.iterator();
 			Iterator iter_url = elements_url.iterator();
+			boolean hasURL = false;
+			if(iter_name.hasNext())
+				hasURL = true;
 			
 			while (iter_name.hasNext() && iter_title.hasNext() && iter_url.hasNext()) {
 				String name = ((Element) iter_name.next()).text();
@@ -114,7 +117,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 				System.out.println("name: " + name + " | " + "title: " + title + " | " + "url: " + url);
 			}
 			System.out.println("current url Set size: " + customers.size());
-			if (customers.size() < count) {
+			if (customers.size() < count && hasURL) {
 				pageTurn(++currentPage);
 			} else {
 				break;
