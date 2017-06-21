@@ -30,7 +30,7 @@ import org.jsoup.select.Elements;
 
 public class DriveLinkedinService extends DriveBrowserService {
 	DriveLinkedinService() {
-		super();
+		super(false);
 		this.dr.get("http://www.linkedin.com");
 	}
 	
@@ -41,10 +41,8 @@ public class DriveLinkedinService extends DriveBrowserService {
 	private void pageTurn(int page) throws InterruptedException {
 		String targetURL = dr.getCurrentUrl() + "&page=" + page;
 		dr.get(targetURL);
-		JavascriptExecutor jse = dr;
-		jse.executeScript("scroll(0, 500);");
-		jse.executeScript("scroll(0, 1000);"); // to load all search results
-		Thread.sleep(1500); // to fully load Linkedin page
+		scrollTo(dr, "500");
+		scrollTo(dr, "1000");
 	}
 
 	/**
@@ -75,10 +73,8 @@ public class DriveLinkedinService extends DriveBrowserService {
 		String url = "https://www.linkedin.com/search/results/people/?keywords=" + title
 				+ "&origin=GLOBAL_SEARCH_HEADER";
 		dr.get(url);
-		JavascriptExecutor jse = dr;
-		jse.executeScript("scroll(0, 500);");
-		jse.executeScript("scroll(0, 1000);"); // to load all search results
-		Thread.sleep(1500); // to fully load Linkedin page
+		scrollTo(dr, "500");
+		scrollTo(dr, "1000");
 	}
 
 	/**
@@ -126,12 +122,10 @@ public class DriveLinkedinService extends DriveBrowserService {
 	 */
 	protected HashSet<String> extractInstitution() throws InterruptedException {
 		HashSet<String> result = new HashSet<String>();
-		JavascriptExecutor jse = dr;
-		jse.executeScript("scroll(0, 500);");
-		jse.executeScript("scroll(0, 1000);");
-		jse.executeScript("scroll(0, 1500);");
-		jse.executeScript("scroll(0, 2000);"); // to load all search results
-		Thread.sleep(1500); // to fully load Linkedin page
+		scrollTo(dr, "500");
+		scrollTo(dr, "1000");
+		scrollTo(dr, "1500");
+		scrollTo(dr, "2000");
 		List<WebElement> webElements = dr.findElements(By
 				.xpath("//section[contains(@class, 'experience-section')]//span[@class='pv-entity__secondary-title']"));
 		// System.out.println(webElements.isEmpty());
