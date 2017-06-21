@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 
 public class SearchQueryDAO {
 	
-	private static Connection connection = MySQLConnector.createConnection("EmailCrawlerDB", "root", "");
+	private static Connection connection = MySQLConnector.createConnection("EmailCrawlerDB", "lyihan", "900225");
 	
 	public static ResultSet getPendingQuery() {
 		return MySQLConnector.executeQuery(connection, "SELECT * FROM Search WHERE search_progress = 'pending' ORDER BY search_id LIMIT 1;", false);

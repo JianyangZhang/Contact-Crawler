@@ -29,8 +29,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class DriveLinkedinService extends DriveBrowserService {
+	private String baseURL;
 	DriveLinkedinService() {
-		super();
+		super(false);
 		this.dr.get("http://www.linkedin.com");
 	}
 	
@@ -39,12 +40,10 @@ public class DriveLinkedinService extends DriveBrowserService {
 	 * @throws InterruptedException 
 	 */
 	private void pageTurn(int page) throws InterruptedException {
-		String targetURL = dr.getCurrentUrl() + "&page=" + page;
+		String targetURL = baseURL + "&page=" + page;
 		dr.get(targetURL);
-		JavascriptExecutor jse = dr;
-		jse.executeScript("scroll(0, 500);");
-		jse.executeScript("scroll(0, 1000);"); // to load all search results
-		Thread.sleep(1500); // to fully load Linkedin page
+		scrollTo(dr, "500");
+		scrollTo(dr, "1000");
 	}
 
 	/**
@@ -74,11 +73,10 @@ public class DriveLinkedinService extends DriveBrowserService {
 	protected void searchKeyword(String title) throws InterruptedException {
 		String url = "https://www.linkedin.com/search/results/people/?keywords=" + title
 				+ "&origin=GLOBAL_SEARCH_HEADER";
+		baseURL = url;
 		dr.get(url);
-		JavascriptExecutor jse = dr;
-		jse.executeScript("scroll(0, 500);");
-		jse.executeScript("scroll(0, 1000);"); // to load all search results
-		Thread.sleep(1500); // to fully load Linkedin page
+		scrollTo(dr, "500");
+		scrollTo(dr, "1000");
 	}
 
 	/**
@@ -98,6 +96,9 @@ public class DriveLinkedinService extends DriveBrowserService {
 			Iterator iter_name = elements_name.iterator();
 			Iterator iter_title = elements_title.iterator();
 			Iterator iter_url = elements_url.iterator();
+			boolean hasURL = false;
+			if(iter_name.hasNext())
+				hasURL = true;
 			
 			while (iter_name.hasNext() && iter_title.hasNext() && iter_url.hasNext()) {
 				String name = ((Element) iter_name.next()).text();
@@ -112,7 +113,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 				System.out.println("name: " + name + " | " + "title: " + title + " | " + "url: " + url);
 			}
 			System.out.println("current url Set size: " + customers.size());
-			if (customers.size() < count) {
+			if (customers.size() < count && hasURL) {
 				pageTurn(++currentPage);
 			} else {
 				break;
@@ -126,12 +127,10 @@ public class DriveLinkedinService extends DriveBrowserService {
 	 */
 	protected HashSet<String> extractInstitution() throws InterruptedException {
 		HashSet<String> result = new HashSet<String>();
-		JavascriptExecutor jse = dr;
-		jse.executeScript("scroll(0, 500);");
-		jse.executeScript("scroll(0, 1000);");
-		jse.executeScript("scroll(0, 1500);");
-		jse.executeScript("scroll(0, 2000);"); // to load all search results
-		Thread.sleep(1500); // to fully load Linkedin page
+		scrollTo(dr, "500");
+		scrollTo(dr, "1000");
+		scrollTo(dr, "1500");
+		scrollTo(dr, "2000");
 		List<WebElement> webElements = dr.findElements(By
 				.xpath("//section[contains(@class, 'experience-section')]//span[@class='pv-entity__secondary-title']"));
 		// System.out.println(webElements.isEmpty());
