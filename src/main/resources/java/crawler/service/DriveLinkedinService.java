@@ -29,6 +29,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class DriveLinkedinService extends DriveBrowserService {
+	private String baseURL;
 	DriveLinkedinService() {
 		super();
 		this.dr.get("http://www.linkedin.com");
@@ -39,7 +40,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 	 * @throws InterruptedException 
 	 */
 	private void pageTurn(int page) throws InterruptedException {
-		String targetURL = dr.getCurrentUrl() + "&page=" + page;
+		String targetURL = baseURL + "&page=" + page;
 		dr.get(targetURL);
 		JavascriptExecutor jse = dr;
 		jse.executeScript("scroll(0, 500);");
@@ -74,6 +75,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 	protected void searchKeyword(String title) throws InterruptedException {
 		String url = "https://www.linkedin.com/search/results/people/?keywords=" + title
 				+ "&origin=GLOBAL_SEARCH_HEADER";
+		baseURL = url;
 		dr.get(url);
 		JavascriptExecutor jse = dr;
 		jse.executeScript("scroll(0, 500);");
