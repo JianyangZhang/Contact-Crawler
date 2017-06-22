@@ -10,7 +10,7 @@ public class EmailDAO {
 		MySQLConnector.executeQuery(connection, "INSERT INTO Email VALUES(" 
 									+ "'" + email_address + "'" + ", "
 				                    + "'" + customer_linkedin_url + "'" + ", "
-				                    + "'" + company_name + "'" + ", " 
+				                    + "'" + company_name.replace("'", "''") + "'" + ", " 
 									+ "'" + email_response_time + "'" + ");", true);
 	}
 }

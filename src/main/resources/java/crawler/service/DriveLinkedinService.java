@@ -5,23 +5,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
-import java.util.Set;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-
-import crawler.DAO.ResultDAO;
 import crawler.model.Customer;
 
 import org.jsoup.*;
@@ -47,7 +37,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 		dr.get(targetURL);
 		scrollTo(dr, "500");
 		scrollTo(dr, "1000");
-		scrollTo(dr, "1200");
+		scrollTo(dr, "1500");
 	}
 
 	/**
@@ -82,7 +72,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 		dr.get(url);
 		scrollTo(dr, "500");
 		scrollTo(dr, "1000");
-		scrollTo(dr, "1200");
+		scrollTo(dr, "1500");
 	}
 
 	/**
@@ -99,9 +89,9 @@ public class DriveLinkedinService extends DriveBrowserService {
 			Elements elements_url = doc.select("a.search-result__result-link.ember-view");
 			this.uniquifyUrl(elements_url);
 
-			Iterator iter_name = elements_name.iterator();
-			Iterator iter_title = elements_title.iterator();
-			Iterator iter_url = elements_url.iterator();
+			Iterator<Element> iter_name = elements_name.iterator();
+			Iterator<Element> iter_title = elements_title.iterator();
+			Iterator<Element> iter_url = elements_url.iterator();
 			boolean hasURL = false;
 			if (iter_name.hasNext()) {
 				hasURL = true;
@@ -152,13 +142,14 @@ public class DriveLinkedinService extends DriveBrowserService {
 	 * 
 	 * @throws IOException
 	 */
-	protected HashMap<String, String> parseDomainFromGoogle(HashSet<String> institutionSet) throws IOException {
+	protected HashMap<String, String> parseDomainFromGoogle(HashSet<String> institutionSet) throws IOException, SocketTimeoutException {
 		HashMap<String, String> result = new HashMap<String, String>();
 		int flag = 0;
 		for (String s : institutionSet) {
 			String query = "https://www.google.com/search?q=" + s.replace(" ", "+") + "+official" + "+site";
-			// System.out.println("query: " + query);
+			System.out.println("query: " + query);
 			Elements links = Jsoup.connect(query)
+					.timeout(10000)
 					.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0").get()
 					.select(".g>.r>a");
 			String title = links.first().text();
