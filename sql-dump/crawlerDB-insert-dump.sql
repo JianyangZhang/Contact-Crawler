@@ -41,7 +41,7 @@ insert into Email VALUES('kobe8@baller.com','testurl1','baller','0');
 insert into Email VALUES('james@baller.com','testurl2','baller','0');
 insert into Email VALUES('james23@baller.com','testurl2','baller','0');
 insert into Email VALUES('james6@baller.com','testurl2','baller','0');
-insert into Email VALUES('tim@baller.com','testurl2','baller','2');
+insert into Email VALUES('tim@baller.com','testurl3','baller','2');
 insert into Result Values('20170621234247153','testurl1');
 Insert into Result Values('20170621234247153','testurl2');
 Insert into Result Values('20170621234247153','testurl3');
