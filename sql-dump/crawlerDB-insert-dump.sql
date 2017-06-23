@@ -48,3 +48,6 @@ Insert into Result Values('20170621234247153','testurl3');
 insert into Result Values('20170621234247153','testurl1');
 Insert into Result Values('20170621234247153','testurl2');
 Insert into Result Values('20170621234247153','testurl3');
+
+update Search set search_progress="completed" where search_id="20170621234247153";
+update Search set search_progress="processing" where search_id="20170621234436192";
