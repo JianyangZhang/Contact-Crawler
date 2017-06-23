@@ -1,4 +1,7 @@
 <h3>Linkedin EmailCrawler</h3>
+
+Crawl emails from Linkedin based on your keywords and send emails to each of them automatically.
+
 <p>
 Sample Input: "uber", 10<br/>
 Sample Output:<br/>
