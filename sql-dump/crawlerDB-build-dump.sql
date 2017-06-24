@@ -34,6 +34,7 @@ CREATE TABLE Search
     search_progress enum('pending', 'processing', 'completed', 'failed') NOT NULL,
     user_id varchar(255),
     internal_company_id varchar(255),
+    has_deleted int,
     FOREIGN KEY(user_id) REFERENCES User(user_id),
     FOREIGN KEY(internal_company_id) REFERENCES Internal_Company(internal_company_id));
 
