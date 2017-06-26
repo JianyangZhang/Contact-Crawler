@@ -10,7 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ReadHunterAccountsService {
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		try {
 			FileInputStream file = new FileInputStream(new File("/Users/Wentao/Documents/HunterAccounts.xlsx"));
 			
@@ -54,6 +54,6 @@ public class ReadHunterAccountsService {
 		    ioe.printStackTrace();
 		}
 
-	}
+	}*/
 
 }

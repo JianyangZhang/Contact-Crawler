@@ -25,6 +25,7 @@ Insert into User VALUES('ryan','ryan','123');
 Insert into User VALUES('caitlin','caitlin','123');
 
 
+
 -- create some test data into db
 Insert into Templete VALUES('1',"templete1","content1");
 Insert into Templete VALUES('2',"templete2","content2");
@@ -51,12 +52,12 @@ insert into Email VALUES('james23@baller.com','testurl2','baller','0');
 insert into Email VALUES('james6@baller.com','testurl2','baller','0');
 
 
-insert into Email VALUES('tim@baller.com','testurl3','baller','2');
-insert into Result Values('20170621234247153','testurl1');
-Insert into Result Values('20170621234247153','testurl2');
-Insert into Result Values('20170621234247153','testurl3');
-Insert into Result Values('20170621234247153','testurl4');
+insert into Result Values('20170623234150352','testurl1');
+Insert into Result Values('20170623234150352','testurl2');
+Insert into Result Values('20170623234150352','testurl3');
+Insert into Result Values('20170623234150352','testurl4');
 
 
-update Search set search_progress="completed" where search_id="20170621234247153";
-update Search set search_progress="processing" where search_id="20170621234436192";
+update Search set search_progress="completed" where search_id="20170623234150352";
+update Search set search_progress="processing" where search_id="201706232342197";
+update Search set has_deleted='1' where search_id="20170623234304762";
