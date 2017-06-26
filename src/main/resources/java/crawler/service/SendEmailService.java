@@ -20,11 +20,11 @@ public class SendEmailService {
 		this.receivers = receivers;
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		String [] receivers = new String [] { "lintcodept.1@gmail.com" };
 		SendEmailService sender = new SendEmailService("velozproject", "standby123", "test subject2", "test body2", receivers);
 		sender.send("gmail", 587);
-	}
+	}*/
 	
 	/**
 	 * send email via gmail with default settings
