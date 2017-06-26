@@ -2,14 +2,16 @@ package crawler.DAO;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
+import crawler.EmailCrawlerConfig;
+
 /**
  * Connect to MySQL database and execute queries.
  **/
 public class MySQLConnector {
 	public static Connection createConnection(String schema, String username, String password) {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + schema, username,
+			Class.forName(EmailCrawlerConfig.getConfig().readString("db-driver"));
+			Connection connection = DriverManager.getConnection(EmailCrawlerConfig.getConfig().readString("db-path") + schema, username,
 					password);
 			return connection;
 		} catch (Exception e) {

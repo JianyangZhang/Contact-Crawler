@@ -63,7 +63,7 @@ public class CrawlEmailService {
 				// 'ehunter_linkedin_button')]"));
 				// hunterButton.click();
 				GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(customer.getCustomer_name(), domainMap);
-				System.out.println("!" + customer.getCustomer_name() + "'s verified emails:");
+				System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
 				HashMap<String, String> emailsMap = gaes.getEmails();
 				System.out.println("------------------------------------------");
 				if (!emailsMap.isEmpty()) {
