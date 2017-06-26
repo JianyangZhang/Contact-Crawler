@@ -24,7 +24,7 @@ public class PollSearchQueryService extends TimerTask {
 			CRAWLER_IS_FREE = false;
 			MyCallback myCallback = new MyCallback();
 			ResultSet resultSet = SearchQueryDAO.getPendingQuery();
-			MySQLConnector.printResultSet(resultSet);
+			// MySQLConnector.printResultSet(resultSet);
 			try {
 				if (resultSet.next()) {
 					String search_id = resultSet.getString(1);
@@ -33,7 +33,7 @@ public class PollSearchQueryService extends TimerTask {
 					System.out.print("search ID: " + resultSet.getString(1) + " | ");
 					System.out.print("keyword: " + resultSet.getString(3) + " | ");
 					System.out.print("client's linkedin ID: " + resultSet.getString(7) + " | ");
-					System.out.println("internal company ID: " + resultSet.getString(8));
+					System.out.print("internal company ID: " + resultSet.getString(8));
 					System.out.println("target url Set size: " + resultSet.getInt(2));
 					query.setSearchID(resultSet.getString(1));
 					query.setKeyword(resultSet.getString(3));
