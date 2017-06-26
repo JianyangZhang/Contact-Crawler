@@ -1,6 +1,4 @@
-INSERT INTO Search VALUES("123", 3, "microsoft", "", "", "pending", "wentao", "veloz");
-INSERT INTO Search VALUES("456", 2, "interior designer", "", "", "pending", "wentao", "veloz");
-UPDATE Search SET search_progress = 'pending' WHERE search_id = 123;
+
 
 SELECT * FROM Email;
 SELECT * FROM Customer;
@@ -24,6 +22,7 @@ Insert into User VALUES('ryan','ryan','123');
 Insert into User VALUES('caitlin','caitlin','123');
 
 
+
 -- create some test data into db
 Insert into Templete VALUES('1',"templete1","content1");
 Insert into Templete VALUES('2',"templete2","content2");
@@ -31,23 +30,31 @@ Insert into Compaign VALUES('0','CT','1');
 Insert into Customer VALUES('testurl1','Kobe','ceo','los angeles','ceo','2017-06-18','2017-06-19','CT','0');
 Insert into Customer VALUES('testurl2','James','ceo','cleveland','ceo','2017-06-18','2017-06-19','CT','0');
 Insert into Customer VALUES('testurl3','Tim','ceo','texas','ceo','2017-06-18','2017-06-19','CT','0');
+Insert into Customer VALUES('testurl4','Tony','ceo','texas','ceo','2017-06-18','2017-06-19','CT','0');
+
 Insert into Company VALUES('baller','baller.com');
 insert into Employment VALUES('testurl1','baller');
 insert into Employment VALUES('testurl2','baller');
 insert into Employment VALUES('testurl3','baller');
+insert into Employment VALUES('testurl4','baller');
+
 insert into Email VALUES('kobe@baller.com','testurl1','baller','0');
 insert into Email VALUES('kobe24@baller.com','testurl1','baller','0');
 insert into Email VALUES('kobe8@baller.com','testurl1','baller','0');
+
+
+
 insert into Email VALUES('james@baller.com','testurl2','baller','0');
 insert into Email VALUES('james23@baller.com','testurl2','baller','0');
 insert into Email VALUES('james6@baller.com','testurl2','baller','0');
-insert into Email VALUES('tim@baller.com','testurl2','baller','2');
-insert into Result Values('20170621234247153','testurl1');
-Insert into Result Values('20170621234247153','testurl2');
-Insert into Result Values('20170621234247153','testurl3');
-insert into Result Values('20170621234247153','testurl1');
-Insert into Result Values('20170621234247153','testurl2');
-Insert into Result Values('20170621234247153','testurl3');
 
-update Search set search_progress="completed" where search_id="20170621234247153";
-update Search set search_progress="processing" where search_id="20170621234436192";
+
+insert into Result Values('20170623234150352','testurl1');
+Insert into Result Values('20170623234150352','testurl2');
+Insert into Result Values('20170623234150352','testurl3');
+Insert into Result Values('20170623234150352','testurl4');
+
+
+update Search set search_progress="completed" where search_id="20170623234150352";
+update Search set search_progress="processing" where search_id="201706232342197";
+update Search set has_deleted='1' where search_id="20170623234304762";
