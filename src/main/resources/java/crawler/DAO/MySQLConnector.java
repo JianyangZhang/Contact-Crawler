@@ -2,23 +2,16 @@ package crawler.DAO;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
+import crawler.EmailCrawlerConfig;
+
 /**
  * Connect to MySQL database and execute queries.
  **/
 public class MySQLConnector {
-	/*
-	public static void main(String[] args) {
-		// tester
-		Connection connection = MySQLConnector.createConnection("transcript", "root", "");
-		ResultSet resultSet = MySQLConnector.executeQuery(connection, "select * from student");
-		MySQLConnector.printResultSet(resultSet);
-	}
-	*/
-
 	public static Connection createConnection(String schema, String username, String password) {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + schema, username,
+			Class.forName(EmailCrawlerConfig.getConfig().readString("db-driver"));
+			Connection connection = DriverManager.getConnection(EmailCrawlerConfig.getConfig().readString("db-path") + schema, username,
 					password);
 			return connection;
 		} catch (Exception e) {
@@ -38,8 +31,8 @@ public class MySQLConnector {
 			}
 		} catch (Exception e) {
 			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException) {
-				System.out.println("warning: tried to insert duplicate primary key, skipped and continue.");
-				// e.printStackTrace();
+				// System.out.println("warning: tried to insert duplicate primary key, skipped and continue.");
+				e.printStackTrace();
 			} else {
 				e.printStackTrace();
 			}

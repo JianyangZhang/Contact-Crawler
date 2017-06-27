@@ -7,9 +7,12 @@ import java.util.HashSet;
 
 import org.springframework.stereotype.Service;
 
+import crawler.EmailCrawlerConfig;
 import crawler.DAO.CustomerDAO;
 import crawler.DAO.EmailDAO;
+import crawler.DAO.MySQLConnector;
 import crawler.DAO.ResultDAO;
+import crawler.DAO.SearchQueryDAO;
 import crawler.model.CrawlerQuery;
 import crawler.model.Customer;
 import crawler.model.Email;
@@ -25,12 +28,20 @@ public class CrawlEmailService {
 
 	public static void crawl(Callback callback, CrawlerQuery query) {
 		DriveLinkedinService br = new DriveLinkedinService();
-		br.signInLinkedin("adam@thevelozgroup.com", "5056Veloz".toCharArray());
+		br.signInLinkedin(EmailCrawlerConfig.getConfig().readString("linkedin-username"), EmailCrawlerConfig.getConfig().readString("linkedin-password").toCharArray());
 		try {
 			br.searchKeyword(query.getKeyword());
 			ArrayList<Customer> customers = br.getPeopleInfo(query.getCount());
 			int flag = 0;
 			for (Customer customer : customers) {
+				if (flag % 5 == 0) {
+					ResultSet hasDeleted = SearchQueryDAO.hasDeleted(query.getSearchID());
+					if(hasDeleted.next() && hasDeleted.getInt(1) == 1) {
+						System.out.println("This query has been deleted from front-end");
+						if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
+						break;
+					}
+				}
 				String url = customer.getCustomer_linkedin_url();
 				// avoid repeated crawling
 				if (ResultDAO.getAllByUrl(url).next()) {
@@ -52,7 +63,7 @@ public class CrawlEmailService {
 				// 'ehunter_linkedin_button')]"));
 				// hunterButton.click();
 				GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(customer.getCustomer_name(), domainMap);
-				System.out.println(customer.getCustomer_name() + "'s verified emails:");
+				System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
 				HashMap<String, String> emailsMap = gaes.getEmails();
 				System.out.println("------------------------------------------");
 				if (!emailsMap.isEmpty()) {

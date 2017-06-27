@@ -23,10 +23,7 @@ import org.xbill.DNS.TextParseException;
 import org.xbill.DNS.Type;
 
 public class EmailVerifyService {
-	public static void main(String[] args) {
-		// System.out.println(new
-		// EmailVerifyService().valid("adffadf@ngkfa.com", "outlook.com"));
-	}
+	
 
 	/**
 	 * verify the email address whether is exist

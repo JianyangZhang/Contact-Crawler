@@ -1,4 +1,7 @@
-
+INSERT INTO Search VALUES("123", 2, "microsoft", "", "", "pending", "wentao", "veloz", 0);
+INSERT INTO Search VALUES("456", 2, "interior designer", "", "", "pending", "wentao", "veloz", 0);
+UPDATE Search SET search_progress = 'pending' WHERE search_id = 123;
+UPDATE Search SET has_deleted = 1 WHERE search_id = 123;
 
 SELECT * FROM Email;
 SELECT * FROM Customer;

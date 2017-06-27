@@ -19,13 +19,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 
+import crawler.EmailCrawlerConfig;
+
 public class DriveBrowserService {
 
 	protected WebDriver dr;
 
 	DriveBrowserService(boolean hasGUI) {
 		if (hasGUI) {
-			System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\jiany\\emailcrawlers\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", EmailCrawlerConfig.getConfig().readString("chrome-driver-path"));
 			this.dr = new ChromeDriver();
 		} else {
 			// this.dr = new HtmlUnitDriver(BrowserVersion.CHROME, true);
@@ -33,7 +35,7 @@ public class DriveBrowserService {
 			caps.setJavascriptEnabled(true);
 			caps.setCapability("takesScreenshot", false);
 			caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-					"C:\\\\Users\\jiany\\emailcrawlers\\phantomjs.exe");
+					EmailCrawlerConfig.getConfig().readString("phantom-driver-path"));
 			this.dr = new PhantomJSDriver(caps);
 		}
 	}
