@@ -58,3 +58,5 @@ Insert into Result Values('20170623234150352','testurl4');
 update Search set search_progress="completed" where search_id="20170623234150352";
 update Search set search_progress="processing" where search_id="201706232342197";
 update Search set has_deleted='1' where search_id="20170623234304762";
+update Search set has_deleted= 0 where search_id="20170623234240107";
+
