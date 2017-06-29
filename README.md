@@ -1,10 +1,20 @@
-<h3>Linkedin EmailCrawler</h3>
+<h2>EmailCrawler - Crawl Over 8000 Deliverable Emails Per day</h2>
 
-Crawl emails from Linkedin based on your keywords and send emails to each of them automatically.
+**Front-End: <br/>
+  schedule crawl queries; <br/>
+  check query status; <br/>
+  export results to .csv files and download; <br/>
+  send bulk emails** <br/>
+  
+**Back-End: <br/>
+  scan and process the pending queries multithreaded; <br/>
+  crawl emails from Linkedin & Google; <br/>
+  verify if the emails are valid and deliverable; <br/>
+  store results into MySQL** <br/>
 
 <p>
-Sample Input: "uber", 10<br/>
-Sample Output:<br/>
+Sample Back-End Input: "uber", 10<br/>
+Sample Back-End Output:<br/>
 Junchao Wu's verified emails:<br/>
 junchaow@lab126.com<br/>
 junchaow@uber.com<br/>
