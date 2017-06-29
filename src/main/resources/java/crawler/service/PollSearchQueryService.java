@@ -19,7 +19,7 @@ public class PollSearchQueryService extends TimerTask {
 	// poll and crawl one pending query from database
 	@Override
 	public void run() {
-		System.out.println("polling search query from database...");
+		//System.out.println("polling search query from database...");
 		if (CRAWLER_IS_FREE) {
 			CRAWLER_IS_FREE = false;
 			MyCallback myCallback = new MyCallback();

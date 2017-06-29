@@ -149,7 +149,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 		int flag = 0;
 		for (String s : institutionSet) {
 			String query = "https://www.google.com/search?q=" + s.replace(" ", "+") + "+official" + "+site";
-			System.out.println("parsing domain from: " + query);
+			//System.out.println("parsing domain from: " + query);
 			Elements links = Jsoup.connect(query)
 					.timeout(10000)
 					.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0").get()
@@ -162,10 +162,10 @@ public class DriveLinkedinService extends DriveBrowserService {
 			String domain;
 			try {
 				domain = domainFromURL(url);
-				System.out.println("Official Site Title: " + title);
-				System.out.println("Official Site URL: " + url);
+				//System.out.println("Official Site Title: " + title);
+				//System.out.println("Official Site URL: " + url);
 				System.out.println("Domain: " + domain);
-				result.put(s, domain);
+				result.put(domain, s);
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}

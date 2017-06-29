@@ -20,6 +20,9 @@ import crawler.model.Email;
 @Service
 public class CrawlEmailService {
 	protected static DriveLinkedinService br;
+	private static enum Option {Single, CustomThread};
+	private static Option multi_option = Option.CustomThread;
+	private static ArrayList<CrawlCustomerThread> pool = new ArrayList<CrawlCustomerThread>();
 /*
 	public static void main(String[] args) {
 		crawl("uber", 10);
@@ -27,6 +30,7 @@ public class CrawlEmailService {
 */
 
 	public static void crawl(Callback callback, CrawlerQuery query) {
+		
 		DriveLinkedinService br = new DriveLinkedinService();
 		br.signInLinkedin(EmailCrawlerConfig.getConfig().readString("linkedin-username"), EmailCrawlerConfig.getConfig().readString("linkedin-password").toCharArray());
 		try {
@@ -58,17 +62,20 @@ public class CrawlEmailService {
 				br.dr.get(url);
 				HashSet<String> institutionSet = br.extractInstitution();
 				HashMap<String, String> domainMap = br.parseDomainFromGoogle(institutionSet);
-				// WebElement hunterButton =
-				// dr.findElement(By.xpath("//button[contains(@class,
-				// 'ehunter_linkedin_button')]"));
-				// hunterButton.click();
-				GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(customer.getCustomer_name(), domainMap);
-				System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
-				HashMap<String, String> emailsMap = gaes.getEmails();
-				System.out.println("------------------------------------------");
-				if (!emailsMap.isEmpty()) {
+				if(multi_option == Option.CustomThread) {
+					CrawlCustomerThread thread = new CrawlCustomerThread("Thread-"+customer.getCustomer_name(),
+					customer, url, domainMap, callback, query);
+					pool.add(thread);
+					thread.start();
+				}
+				else if(multi_option == Option.Single) {
+					GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(customer.getCustomer_name(), domainMap, false);
+					System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
+					HashMap<String, String> emailsMap = gaes.getEmails();
+					System.out.println("------------------------------------------");
 					CustomerDAO.insert(url, customer.getCustomer_name(), customer.getCustomer_title(), "", query.getKeyword(), new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()), "", query.getInternalCompanyID(), "step0");
 					ResultDAO.insert(query.getSearchID(), url);
+					System.out.println("Email set size: " + emailsMap.size());
 					for (String email : emailsMap.keySet()) {
 						EmailDAO.insert(email, url, emailsMap.get(email), 0);
 					}
@@ -76,10 +83,12 @@ public class CrawlEmailService {
 				flag++;
 				if (flag == query.getCount()) {
 					br.dr.close();
+					for(CrawlCustomerThread thread : pool)
+						thread.join();
 					if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
 					break;
 				}
-			} // what if urls is not enough
+			}
 		} catch (Exception exception) {
 			if (callback != null) { callback.process(PollSearchQueryService.FAILED); }
 			exception.printStackTrace();

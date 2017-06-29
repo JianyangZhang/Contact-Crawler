@@ -4,12 +4,14 @@ import java.util.HashMap;
 
 public class GenerateAccurateEmailsService {
 	private String name;
+	private boolean multi = false;
 	private HashMap<String, String> domainMap;
 	private EmailVerifyService ev = new EmailVerifyService();
 	
-	public GenerateAccurateEmailsService(String name, HashMap<String, String> domainMap) {
+	public GenerateAccurateEmailsService(String name, HashMap<String, String> domainMap, boolean multi) {
 		this.name = name;
 		this.domainMap = domainMap;
+		this.multi = multi;
 	}
 
 	public String getName() {
@@ -37,19 +39,31 @@ public class GenerateAccurateEmailsService {
 		return result;
 	}
 	
-	public HashMap<String, String> getEmails() {
+	public HashMap<String, String> getEmails() throws InterruptedException {
 		HashMap<String, String> result = new HashMap<String, String>();
 		ArrayList<String> usernames = guessPrefix(name);
-		for (String company : domainMap.keySet()) {
-			for (String username : usernames) {
-				String email = username + "@" + domainMap.get(company);
-				if (ev.valid(email, "gmail.com")) {
-					result.put(email, company);
-					System.out.println(email);
-				} else {
-					// System.out.println(email + "(invalid)");
+		ArrayList<CrawlCompanyThread> threadlist = new ArrayList<CrawlCompanyThread>();
+		for (String domain : domainMap.keySet()) {
+			String company = domainMap.get(domain);
+			if(!multi) {
+				for (String username : usernames) {
+					String email = username + "@" + domain;
+					if (ev.valid(email, "gmail.com")) {
+						result.put(email, company);
+						System.out.println(email);
+					} else {
+						// System.out.println(email + "(invalid)");
+					}
 				}
 			}
+			else {
+				CrawlCompanyThread thread = new CrawlCompanyThread(name+"-"+company, usernames, company, domain, result, ev);
+				thread.start();
+				threadlist.add(thread);
+			}
+		}
+		for(CrawlCompanyThread thread : threadlist){
+			thread.join();
 		}
 		return result;
 	}
