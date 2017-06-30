@@ -1,4 +1,4 @@
-<h2>EmailCrawler :zap: Crawl Over 8000 Deliverable Emails Per day</h2>
+<h2>EmailCrawler :zap: Crawl Over Ten Thousands Deliverable Emails Per day</h2>
 
 **Front-End: <br/>
   schedule crawl queries; <br/>
