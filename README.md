@@ -146,3 +146,6 @@ lix@uber.com<br/>
 Weijian Lin's verified emails:<br/>
 weijian@uber.com<br/>
 ------------------------------------------<br/>
+
+## Copyright and license
+Code and documentation copyright 2016-2017 the [Jianyang Zhang](https://github.com/JianyangZhang), [Wentao Wang](https://github.com/wentao-wang) and [Yihan Lu](https://github.com/xdoobx). Code released under the [MIT License](https://github.com/JianyangZhang/EmailCrawler/blob/master/licence).
