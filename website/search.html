@@ -128,49 +128,7 @@
                                 url:'./refresh.php',
                                 data:{},
                                 success:function($response){
-                                    var response=JSON.parse($response);
-                            // alert("res");
-                            // alert(response);
-
-                            var cellCount=response.length;
-                            
-
-                            var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
-
-                            for(var i=0;i<cellCount;i++){
-                                if(response[i][3]=='0'){
-                                    htmltext+="<tr>";
-                                // htmltext+="<td width='800' id=' ";
-                                // htmltext+=response[i][0];
-                                // htmltext+="'>";
-                                // htmltext+=response[i][0];
-                                // htmltext+="</td>";
-                               
-
-                                // alert(subString(response[i][0]));
-                                htmltext+="<td width='800'>";
-                                htmltext+=subString(response[i][0]);
-                                htmltext+="</td>";
-
-                                for(var j=1;j<3;j++){
-                                    htmltext+="<td width='800'>";
-                                    htmltext+=response[i][j];
-                                    htmltext+="</td>";
-                                }
-                                
-                                htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
-                                htmltext+="<td><button onclick=del('";
-                                htmltext+=response[i][0];
-                                htmltext+="')>delete</button></td></tr>";
-
-
-                            }
-                        }
-                        htmltext+="</tbody></table></center>";
-                        $('#appendArea').html(htmltext);
-                            // alert(cellCount);
-
-
+                                     drawTable($response);
 
 
 
@@ -186,44 +144,7 @@
         data:{id:id},
 
         success:function($response){
-            // alert('suc');
-            var response=JSON.parse($response);
-                            // alert("res");
-                            // alert(response);
-
-                            var cellCount=response.length;
-                            
-                            
-                            
-                            
-
-                            var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
-
-                            for(var i=0;i<cellCount;i++){
-                                if(response[i][3]=='0'){
-
-                                    htmltext+="<tr>";
-                                     htmltext+="<td width='800'>";
-                                htmltext+=subString(response[i][0]);
-                                htmltext+="</td>";
-                                    for(var j=1;j<3;j++){
-
-                                        htmltext+="<td width='800'>";
-                                        htmltext+=response[i][j];
-                                        htmltext+="</td>";
-                                    }
-                                    htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
-                                    htmltext+="<td><button onclick=del('";
-                                    htmltext+=response[i][0];
-                                    htmltext+="')>delete</button></td></tr>";
-                                    // htmltext+="<td><button class='del'>delete</button></td></tr>";
-
-                                }
-
-
-                            }
-                            htmltext+="</tbody></table></center>";
-                            $('#appendArea').html(htmltext);
+            drawTable($response);
 
                         }
 
@@ -247,6 +168,44 @@ function subString(s){
     return ss;
 }
 
+function drawTable($response){
+
+    var response=JSON.parse($response);
+    var cellCount=response.length;
+
+    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
+
+    for(var i=0;i<cellCount;i++){
+        if(response[i][3]=='0'){
+
+            htmltext+="<tr>";
+            htmltext+="<td width='800'>";
+            htmltext+=subString(response[i][0]);
+            htmltext+="</td>";
+            for(var j=1;j<3;j++){
+
+                htmltext+="<td width='800'>";
+                htmltext+=response[i][j];
+                htmltext+="</td>";
+            }
+            htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
+            htmltext+="<td><button onclick=del('";
+            htmltext+=response[i][0];
+            htmltext+="')>delete</button></td></tr>";
+                                    // htmltext+="<td><button class='del'>delete</button></td></tr>";
+
+        }
+
+
+     }
+          htmltext+="</tbody></table></center>";
+         $('#appendArea').html(htmltext);
+
+    // alert('draw');
+
+}
+
+
 
 
 
@@ -258,51 +217,7 @@ $(document).ready(function() {
         url:'./refresh.php',
         data:{},
         success:function($response){
-            var response=JSON.parse($response);
-                            // alert("res");
-                            // alert(response);
-
-                            var cellCount=response.length;
-                            
-                            
-                            
-                            
-
-                            var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
-
-                            for(var i=0;i<cellCount;i++){
-                                if(response[i][3]=='0'){
-
-                                    htmltext+="<tr>";
-                                     htmltext+="<td width='800'>";
-                                htmltext+=subString(response[i][0]);
-                                htmltext+="</td>";
-                                    for(var j=1;j<3;j++){
-
-                                        htmltext+="<td width='800'>";
-                                        htmltext+=response[i][j];
-                                        htmltext+="</td>";
-                                    }
-                                    htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
-                                    htmltext+="<td><button onclick=del('";
-                                    htmltext+=response[i][0];
-                                    htmltext+="')>delete</button></td></tr>";
-                                    // htmltext+="<td><button class='del'>delete</button></td></tr>";
-
-                                }
-
-
-                            }
-                            htmltext+="</tbody></table></center>";
-                            $('#appendArea').html(htmltext);
-                            // alert(cellCount);
-
-
-
-                            
-
-
-
+             drawTable($response);
                         }
                     });
 
@@ -325,56 +240,7 @@ $('#sub').click(function(){
         url:'./searchQ.php',
         data:{title:title,city:city,count:count},
         success:function($response){
-            var response=JSON.parse($response);
-                            // alert("res");
-                            // alert(response);
-
-                            var cellCount=response.length;
-                            
-                            
-                            // $('#appendBody').html("");
-                            
-                            // var tcontent="<tr>";
-                            //  for(var i =0;i<cellCount;i++){
-                            //      for(var j =0;j<3;j++){
-                            //          tcontent+="<td width='800'>";
-                            //          tcontent+=response[i][j];
-                            //          tcontent+="</td>"
-                            //      }
-                            //      tcontent+="<td width='800'>result</td>";
-                            //      tcontent+="</tr>";
-                            //      $('#appendTable').find('tbody').append(tcontent);
-                            //      tcontent="<tr>";
-
-                            //  }
-
-                            var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
-
-                            for(var i=0;i<cellCount;i++){
-                                if(response[i][3]=='0'){
-                                    htmltext+="<tr>";
-                                     htmltext+="<td width='800'>";
-                                htmltext+=subString(response[i][0]);
-                                htmltext+="</td>";
-                                    for(var j=1;j<3;j++){
-                                        htmltext+="<td width='800'>";
-                                        htmltext+=response[i][j];
-                                        htmltext+="</td>";
-                                    }
-                                    htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
-                                    htmltext+="<td><button onclick=del('";
-                                    htmltext+=response[i][0];
-                                    htmltext+="')>delete</button></td></tr>";
-                                // htmltext+="<td><button class='del'>delete</button></td></tr>";
-                            }
-                        }
-                        htmltext+="</tbody></table></center>";
-                        $('#appendArea').html(htmltext);
-                            // alert(cellCount);
-
-
-                            
-
+             drawTable($response);
                         }
 
                     });
