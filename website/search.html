@@ -1,0 +1,425 @@
+<!doctype html>
+<html >
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> Find Email</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+
+    <!-- Styles -->
+    <style>
+        html, body {
+            background-color: #fff;
+            color: #636b6f;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
+            min-height: : 100vh;
+            margin: 0;
+        }
+        th,td{
+            text-align: center;
+        }
+
+        .full-height {
+            min-height: 100vh;
+        }
+
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .position-ref {
+            position: relative;
+        }
+
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
+
+        .content {
+            text-align: center;
+        }
+        .content2{
+            text-align: center;
+        }
+        .result_content {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 80px;
+            margin-top: 0px
+        }
+
+        .links > a {
+            color: #636b6f;
+            padding: 0 25px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .m-b-md {
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="flex-center position-ref full-height">
+
+
+        <div class="content">
+            <div class="title m-b-md">
+                Begin Search
+            </div>
+
+            <div class="links">
+                <a href="./index.html">HomePage</a>
+                <a href="./index.html">Switch Account</a>
+            </div>
+            <div class="page">
+              <br /><br /><br />
+              
+              <div class="container">
+                <div class="result_content">
+                    <div class="container">
+                        <div class="row">
+                            <div name="theSearch"> 
+                                Keyword (required):<br>
+                                <input type='text' name='title' id ="title" required="required"><br><br>
+                                City:<br>
+                                <input type='text' name='city' id='city'><br><br>
+                                Count:<br>
+                                <input type='number' name='count' id ='count' ><br><br>
+
+                                <button id="sub" >Add to search queue </button>
+
+
+                                <!-- <input type="submit" name="search" value="Add to search queue"> -->
+                            </div><br>
+                            <button id="ref" >Refresh</button>
+
+
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+
+
+                        $('#ref').click(function(){
+                            $.ajax({
+
+                                type:'GET',
+                                url:'./refresh.php',
+                                data:{},
+                                success:function($response){
+                                    var response=JSON.parse($response);
+                            // alert("res");
+                            // alert(response);
+
+                            var cellCount=response.length;
+                            
+
+                            var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
+
+                            for(var i=0;i<cellCount;i++){
+                                if(response[i][3]=='0'){
+                                    htmltext+="<tr>";
+                                // htmltext+="<td width='800' id=' ";
+                                // htmltext+=response[i][0];
+                                // htmltext+="'>";
+                                // htmltext+=response[i][0];
+                                // htmltext+="</td>";
+                               
+
+                                // alert(subString(response[i][0]));
+                                htmltext+="<td width='800'>";
+                                htmltext+=subString(response[i][0]);
+                                htmltext+="</td>";
+
+                                for(var j=1;j<3;j++){
+                                    htmltext+="<td width='800'>";
+                                    htmltext+=response[i][j];
+                                    htmltext+="</td>";
+                                }
+                                
+                                htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
+                                htmltext+="<td><button onclick=del('";
+                                htmltext+=response[i][0];
+                                htmltext+="')>delete</button></td></tr>";
+
+
+                            }
+                        }
+                        htmltext+="</tbody></table></center>";
+                        $('#appendArea').html(htmltext);
+                            // alert(cellCount);
+
+
+
+
+
+                        }
+                    });
+                        });
+
+                        function del(id){
+    // alert(id);
+    $.ajax({
+        type:'GET',
+        url:'./delete.php',
+        data:{id:id},
+
+        success:function($response){
+            // alert('suc');
+            var response=JSON.parse($response);
+                            // alert("res");
+                            // alert(response);
+
+                            var cellCount=response.length;
+                            
+                            
+                            
+                            
+
+                            var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
+
+                            for(var i=0;i<cellCount;i++){
+                                if(response[i][3]=='0'){
+
+                                    htmltext+="<tr>";
+                                     htmltext+="<td width='800'>";
+                                htmltext+=subString(response[i][0]);
+                                htmltext+="</td>";
+                                    for(var j=1;j<3;j++){
+
+                                        htmltext+="<td width='800'>";
+                                        htmltext+=response[i][j];
+                                        htmltext+="</td>";
+                                    }
+                                    htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
+                                    htmltext+="<td><button onclick=del('";
+                                    htmltext+=response[i][0];
+                                    htmltext+="')>delete</button></td></tr>";
+                                    // htmltext+="<td><button class='del'>delete</button></td></tr>";
+
+                                }
+
+
+                            }
+                            htmltext+="</tbody></table></center>";
+                            $('#appendArea').html(htmltext);
+
+                        }
+
+
+
+
+                    });
+
+}
+
+
+
+
+
+function subString(s){
+    ss=s.substr(0,4);
+    ss+="-";
+    ss+=s.substr(4,2);
+    ss+="-";
+    ss+=s.substr(6,2);
+    return ss;
+}
+
+
+
+
+
+$(document).ready(function() {
+    $.ajax({
+
+        type:'GET',
+        url:'./refresh.php',
+        data:{},
+        success:function($response){
+            var response=JSON.parse($response);
+                            // alert("res");
+                            // alert(response);
+
+                            var cellCount=response.length;
+                            
+                            
+                            
+                            
+
+                            var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
+
+                            for(var i=0;i<cellCount;i++){
+                                if(response[i][3]=='0'){
+
+                                    htmltext+="<tr>";
+                                     htmltext+="<td width='800'>";
+                                htmltext+=subString(response[i][0]);
+                                htmltext+="</td>";
+                                    for(var j=1;j<3;j++){
+
+                                        htmltext+="<td width='800'>";
+                                        htmltext+=response[i][j];
+                                        htmltext+="</td>";
+                                    }
+                                    htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
+                                    htmltext+="<td><button onclick=del('";
+                                    htmltext+=response[i][0];
+                                    htmltext+="')>delete</button></td></tr>";
+                                    // htmltext+="<td><button class='del'>delete</button></td></tr>";
+
+                                }
+
+
+                            }
+                            htmltext+="</tbody></table></center>";
+                            $('#appendArea').html(htmltext);
+                            // alert(cellCount);
+
+
+
+                            
+
+
+
+                        }
+                    });
+
+});
+
+
+
+
+
+
+
+
+$('#sub').click(function(){
+    var title=$('#title').val();
+    var city=$('#city').val();
+    var count=$('#count').val();
+    $.ajax({
+
+        type:'GET',
+        url:'./searchQ.php',
+        data:{title:title,city:city,count:count},
+        success:function($response){
+            var response=JSON.parse($response);
+                            // alert("res");
+                            // alert(response);
+
+                            var cellCount=response.length;
+                            
+                            
+                            // $('#appendBody').html("");
+                            
+                            // var tcontent="<tr>";
+                            //  for(var i =0;i<cellCount;i++){
+                            //      for(var j =0;j<3;j++){
+                            //          tcontent+="<td width='800'>";
+                            //          tcontent+=response[i][j];
+                            //          tcontent+="</td>"
+                            //      }
+                            //      tcontent+="<td width='800'>result</td>";
+                            //      tcontent+="</tr>";
+                            //      $('#appendTable').find('tbody').append(tcontent);
+                            //      tcontent="<tr>";
+
+                            //  }
+
+                            var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
+
+                            for(var i=0;i<cellCount;i++){
+                                if(response[i][3]=='0'){
+                                    htmltext+="<tr>";
+                                     htmltext+="<td width='800'>";
+                                htmltext+=subString(response[i][0]);
+                                htmltext+="</td>";
+                                    for(var j=1;j<3;j++){
+                                        htmltext+="<td width='800'>";
+                                        htmltext+=response[i][j];
+                                        htmltext+="</td>";
+                                    }
+                                    htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
+                                    htmltext+="<td><button onclick=del('";
+                                    htmltext+=response[i][0];
+                                    htmltext+="')>delete</button></td></tr>";
+                                // htmltext+="<td><button class='del'>delete</button></td></tr>";
+                            }
+                        }
+                        htmltext+="</tbody></table></center>";
+                        $('#appendArea').html(htmltext);
+                            // alert(cellCount);
+
+
+                            
+
+                        }
+
+                    });
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<br><br>
+</div>
+<div id="appendArea">
+<!-- <h4>Search Queue</h4>
+<center>
+    <table border="1" width="800" id="appendTable">
+        <tbody id="appendBody">
+        <tr >
+            <th width="800">Id</th>
+            
+            <th width="800">Keyword</th>
+            <th width="800">Status</th>
+            <th width="800">Result</th>
+
+        </tr> -->
+
+
+
+        
+
+            <!--    
+            </tbody>
+        </table>
+    </center> -->
+</div><br><br><br>
+</div>
+</div>
+</div>
+</body>
+</html>
