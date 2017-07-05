@@ -53,9 +53,11 @@ public class CrawlEmailService {
 					ResultDAO.insert(query.getSearchID(), url);
 					flag++;
 					if (flag == query.getCount()) {
+						for(CrawlCustomerThread thread : pool)
+							thread.join();
 						br.dr.close();
 						if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
-						break;
+						return;
 					}
 					continue;
 				}
@@ -82,16 +84,21 @@ public class CrawlEmailService {
 				}
 				flag++;
 				if (flag == query.getCount()) {
-					br.dr.close();
 					for(CrawlCustomerThread thread : pool)
 						thread.join();
 					if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
-					break;
+					br.dr.close();
+					return;
 				}
 			}
+			for(CrawlCustomerThread thread : pool)
+				thread.join();
+			br.dr.close();
+			if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
 		} catch (Exception exception) {
 			if (callback != null) { callback.process(PollSearchQueryService.FAILED); }
 			exception.printStackTrace();
+			br.dr.close();
 			return;
 		}
 	}

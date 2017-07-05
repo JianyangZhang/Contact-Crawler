@@ -18,7 +18,7 @@ public class EmailCrawlerConfig {
 		try {
 			input = new FileInputStream("config.properties");
 			prop.load(input);
-			System.out.println("config: " + propName + ": " + prop.getProperty(propName));
+			//System.out.println("config: " + propName + ": " + prop.getProperty(propName));
 			return Integer.parseInt(prop.getProperty(propName));
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -40,7 +40,7 @@ public class EmailCrawlerConfig {
 		try {
 			input = new FileInputStream("config.properties");
 			prop.load(input);
-			System.out.println("config: " + propName + ": " + prop.getProperty(propName));
+			//System.out.println("config: " + propName + ": " + prop.getProperty(propName));
 			return prop.getProperty(propName);
 		} catch (IOException ex) {
 			ex.printStackTrace();

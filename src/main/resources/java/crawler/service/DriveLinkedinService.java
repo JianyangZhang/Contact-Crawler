@@ -37,9 +37,11 @@ public class DriveLinkedinService extends DriveBrowserService {
 	private void pageTurn(int page) throws InterruptedException {
 		String targetURL = baseURL + "&page=" + page;
 		dr.get(targetURL);
-		scrollTo(dr, "500");
-		scrollTo(dr, "1000");
-		scrollTo(dr, "1500");
+		int cur_height = screen_height;
+		while(cur_height <= 1500) {
+			scrollTo(dr, String.valueOf(cur_height));
+			cur_height += screen_height;
+		}
 	}
 
 	/**
@@ -72,9 +74,11 @@ public class DriveLinkedinService extends DriveBrowserService {
 				+ "&origin=GLOBAL_SEARCH_HEADER";
 		baseURL = url;
 		dr.get(url);
-		scrollTo(dr, "500");
-		scrollTo(dr, "1000");
-		scrollTo(dr, "1500");
+		int cur_height = screen_height;
+		while(cur_height <= 1500) {
+			scrollTo(dr, String.valueOf(cur_height));
+			cur_height += screen_height;
+		}
 	}
 
 	/**
@@ -83,7 +87,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 	protected ArrayList<Customer> getPeopleInfo(int count) throws IOException, InterruptedException {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		int currentPage = 1;
-		while (true) {
+		while (currentPage <= 100) {
 			String page = dr.getPageSource();
 			Document doc = Jsoup.parse(page);
 			Elements elements_name = doc.select("span.name.actor-name");
@@ -126,10 +130,11 @@ public class DriveLinkedinService extends DriveBrowserService {
 	 */
 	protected HashSet<String> extractInstitution() throws InterruptedException {
 		HashSet<String> result = new HashSet<String>();
-		scrollTo(dr, "500");
-		scrollTo(dr, "1000");
-		scrollTo(dr, "1500");
-		scrollTo(dr, "2000");
+		int cur_height = screen_height;
+		while(cur_height < 2000) {
+			scrollTo(dr, String.valueOf(cur_height));
+			cur_height += screen_height;
+		}
 		List<WebElement> webElements = dr.findElements(By
 				.xpath("//section[contains(@class, 'experience-section')]//span[@class='pv-entity__secondary-title']"));
 		// System.out.println(webElements.isEmpty());
@@ -154,18 +159,24 @@ public class DriveLinkedinService extends DriveBrowserService {
 					.timeout(10000)
 					.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0").get()
 					.select(".g>.r>a");
+			if(links.isEmpty()) {
+				continue;
+			}
 			String title = links.first().text();
 			String url = links.first().absUrl("href"); // Google returns URLs in
 														// format
 														// "http://www.google.com/url?q=<url>&sa=U&ei=<someKey>".
 			url = URLDecoder.decode(url.substring(url.indexOf('=') + 1, url.indexOf('&')), "UTF-8");
+			
 			String domain;
 			try {
 				domain = domainFromURL(url);
 				//System.out.println("Official Site Title: " + title);
 				//System.out.println("Official Site URL: " + url);
-				System.out.println("Domain: " + domain);
-				result.put(domain, s);
+				if(!domain.equals("yelp.com")) {
+					System.out.println("Domain: " + domain);
+					result.put(domain, s);
+				}
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}

@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,6 +25,7 @@ import crawler.EmailCrawlerConfig;
 public class DriveBrowserService {
 
 	protected WebDriver dr;
+	protected int screen_height;
 
 	DriveBrowserService(boolean hasGUI) {
 		if (hasGUI) {
@@ -36,7 +38,11 @@ public class DriveBrowserService {
 			caps.setCapability("takesScreenshot", false);
 			caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
 					EmailCrawlerConfig.getConfig().readString("phantom-driver-path"));
+			String[] args = new String[] {"--webdriver-loglevel=NONE"};
+			caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, args);
 			this.dr = new PhantomJSDriver(caps);
+			Dimension size = this.dr.manage().window().getSize();
+			screen_height = size.height;
 		}
 	}
 
