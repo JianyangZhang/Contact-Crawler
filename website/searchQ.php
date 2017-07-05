@@ -10,11 +10,12 @@
 
 		$title="";
 		$city ="";
-		$count="10";
+		$count="";
 
 		if(isset($_GET['title'])) $title=$_GET['title'];
 		if(isset($_GET['city'])) $city=$_GET['city'];
 		if(isset($_GET['count'])) $count=$_GET['count'];
+		if($_GET['count']==''|| $_GET['count']=='0') $count="10";
         // return response()->json([ $title,$city,$count]);
 
 		$serverName = '54.69.239.219';
