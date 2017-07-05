@@ -10,7 +10,7 @@
 
 		$title="";
 		$city ="";
-		$count="";
+		$count="10";
 
 		if(isset($_GET['title'])) $title=$_GET['title'];
 		if(isset($_GET['city'])) $city=$_GET['city'];
