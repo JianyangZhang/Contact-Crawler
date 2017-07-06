@@ -83,7 +83,7 @@ public class CrawlEmailService {
 					}
 				}
 				flag++;
-				if (flag == query.getCount()) {
+				if (flag >= query.getCount()) {
 					for(CrawlCustomerThread thread : pool)
 						thread.join();
 					if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }

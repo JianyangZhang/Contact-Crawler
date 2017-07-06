@@ -131,7 +131,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 	protected HashSet<String> extractInstitution() throws InterruptedException {
 		HashSet<String> result = new HashSet<String>();
 		int cur_height = screen_height;
-		while(cur_height < 2000) {
+		while(cur_height <= 2000) {
 			scrollTo(dr, String.valueOf(cur_height));
 			cur_height += screen_height;
 		}
@@ -174,7 +174,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 				//System.out.println("Official Site Title: " + title);
 				//System.out.println("Official Site URL: " + url);
 				if(!domain.equals("yelp.com")) {
-					System.out.println("Domain: " + domain);
+					//System.out.println("Domain: " + domain);
 					result.put(domain, s);
 				}
 			} catch (URISyntaxException e) {
