@@ -23,7 +23,7 @@
             background-color: #fff;
             color: #636b6f;
             font-family: 'Raleway', sans-serif;
-            font-weight: 100;
+            font-weight: 600;
             min-height: : 100vh;
             margin: 0;
         }
@@ -70,7 +70,7 @@
             color: #636b6f;
             padding: 0 25px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 500;
             letter-spacing: .1rem;
             text-decoration: none;
             text-transform: uppercase;
@@ -124,7 +124,7 @@ else if(GetRequest("status")=="failed"){
 
 // }
 else{
-    text="<br><br><center><p class='title'> Result</p><center>";
+    text="<br><br><center><p class='title' style='font-weight: 100'> Result</p><center>";
     text+="<center><br><table border='1' width='800' height='300px' id='resultTable'><tbody><tr ><th width='800'>Linkedin</th><th width='800'>Name</th><th width='800'>Title</th><th width='800'>Emails</th></tr>";
     var searchId= GetRequest("id");
     $.ajax({
