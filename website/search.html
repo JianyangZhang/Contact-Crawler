@@ -170,10 +170,12 @@ function subString(s){
 
 function drawTable($response){
 
-    var response=JSON.parse($response);
+    var responseData=JSON.parse($response);
+    var response = responseData[0];
+    var people = responseData[1];
     var cellCount=response.length;
 
-    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
+    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>People</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
 
     for(var i=0;i<cellCount;i++){
         if(response[i][3]=='0'){
@@ -188,6 +190,9 @@ function drawTable($response){
                 htmltext+=response[i][j];
                 htmltext+="</td>";
             }
+            htmltext+="<td width='800'>"
+             htmltext+=people[i];
+             htmltext+="</td>";
             htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
             htmltext+="<td><button onclick=del('";
             htmltext+=response[i][0];

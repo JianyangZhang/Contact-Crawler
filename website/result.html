@@ -138,9 +138,11 @@ else{
             // alert(response[3][2]);
 
             for(var i = 0; i<response[0].length;i++){
-                text+="<tr><td width='800'>";
+                text+="<tr><td width='800'><a target='_blank' href='";
                 text+=response[0][i];
-                text+="</td><td width='800'>";
+                text+="'>";
+                text+=response[0][i];
+                text+="</a></td><td width='800'>";
                 text+=response[1][i];
                 text+="</td><td width='800'>";
                 text+=response[2][i]; 
