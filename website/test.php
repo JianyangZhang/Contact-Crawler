@@ -25,12 +25,13 @@
 
         
 
-        $sql1='select customer_linkedin_url from Result where search_id="'.$id.'" ;';
+        $sql1='select customer_linkedin_url from Result where search_id="20170703082724435" ;';
                 // $sql1='select * from Result where search_id="20170621234247153";';
         $result=mysqli_query($con, $sql1 );
         $response=array();
         while($row = mysqli_fetch_array($result,MYSQLI_NUM)){
             $response[]=$row[0];
+            // echo $row[0]."\n";
 
         }
 
@@ -40,6 +41,7 @@
 
             $result2=mysqli_query($con, $sql2 );
             $response2[]= mysqli_fetch_row($result2);
+            var_dump( $response2);
         }
         $response2plus=array();
         foreach ($response2 as $res) {
@@ -52,6 +54,7 @@
 
             $result3=mysqli_query($con, $sql3 );
             $response3[]=mysqli_fetch_row($result3);
+            var_dump($response3);
         }
          $response3plus=array();
         foreach ($response3 as $res) {
@@ -66,7 +69,7 @@
             $result4=mysqli_query($con, $sql4 );
             while($row = mysqli_fetch_row($result4)){
                 $email[]=utf8_encode($row[0]);
-                // echo $row[0]."\n";
+                echo $row[0]."\n";
             }
             
             array_push($response4,$email);
@@ -81,10 +84,10 @@
         
 
         $result=array($response,$response2plus,$response3plus,$response4);
-// var_dump($result);
+var_dump($result);
 
         echo json_encode($result);
-         // echo json_last_error_msg();
+         echo json_last_error_msg();
 
         mysqli_close($con);
 
