@@ -52,7 +52,7 @@
 
 		// echo "<script language=\"JavaScript\">alert(\"Wrong username or password\");</script>";
 		
-		header("refresh:0;url=http://localhost/~wentao/findemail/welcome.html");
+		header("refresh:0;url=./.");
 
 		echo "<script language=\"JavaScript\">alert(\"Wrong username or password\");</script>";
 		

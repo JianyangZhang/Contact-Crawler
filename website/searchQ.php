@@ -15,6 +15,7 @@
 		if(isset($_GET['title'])) $title=$_GET['title'];
 		if(isset($_GET['city'])) $city=$_GET['city'];
 		if(isset($_GET['count'])) $count=$_GET['count'];
+		if($_GET['count']==''|| $_GET['count']=='0') $count="10";
         // return response()->json([ $title,$city,$count]);
 
 		$serverName = '54.69.239.219';
@@ -54,7 +55,22 @@
 			$response[]=$row;
 
 		}
-  		echo json_encode($response);
+		$response2=array();
+		foreach ($response as $searchid){
+			$sql3='select count(customer_linkedin_url) from Result where search_id="'.$searchid[0].'";';
+		$result3=mysqli_query($con,$sql3);
+		$count=mysqli_fetch_array($result3,MYSQLI_NUM);
+		$response2[]=$count[0];
+		}
+		// echo json_encode($response2);
+
+		$response3=array();
+		$response3=[$response,$response2];	
+  	
+		
+		
+  		echo json_encode($response3);
+  		
 
 		mysqli_close($con);
 
