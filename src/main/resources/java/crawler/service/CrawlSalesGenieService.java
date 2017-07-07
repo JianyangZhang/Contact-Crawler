@@ -14,8 +14,7 @@ public class CrawlSalesGenieService {
 		List<WebElement> webElements = br.dr.findElements(By.xpath("//h3[contains(@class, 'ssg')]//a[contains(@class, 'action-restore-search')]"));
 		for (WebElement element : webElements) {
 			element.click();
-//			JavascriptExecutor js = (JavascriptExecutor) br.dr;
-//			js.executeScript("window.history.go(-1)");
+			br.crawlCurrentTable();
 		}
 	}
 }
