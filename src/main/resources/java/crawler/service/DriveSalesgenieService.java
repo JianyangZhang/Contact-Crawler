@@ -65,7 +65,7 @@ public class DriveSalesgenieService extends DriveBrowserService{
 			String city = element.select("td").get(9).text().trim();
 			String state = element.select("td").get(10).text().trim();
 			String zipCode = element.select("td").get(11).text().trim();
-			if (!personName.equals("")) {
+			if (!personName.equals("") && !phoneNumber.equals("")) {
 				System.out.print(companyName + " ");
 				System.out.print(personName + " ");
 				System.out.print(phoneNumber + " ");
