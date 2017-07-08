@@ -1,4 +1,5 @@
-<h2>Contact Crawler :zap: Crawl Over Ten Thousands Deliverable Emails & Phone Numbers Per Day</h2>
+<h1>Contact Crawler :zap: </h1>
+<h2>Crawl Over Ten Thousands Deliverable Emails & Phone Numbers Per Day</h2>
 
 **Front-End: <br/>
   login and schedule crawl queries; <br/>
