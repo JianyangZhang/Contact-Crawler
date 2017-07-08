@@ -1,14 +1,15 @@
-<h2>EmailCrawler :zap: Crawl Over Ten Thousands Deliverable Emails Per Day</h2>
+<h2>Contact Crawler :zap: Crawl Over Ten Thousands Deliverable Emails & Phone Number Based On Keywords Per Day</h2>
 
 **Front-End: <br/>
-  schedule crawl queries; <br/>
+  login and schedule crawl queries; <br/>
   check query status; <br/>
+  extract results from database and display in tables<br/>
   export results to .csv files and download; <br/>
   send bulk emails** <br/>
   
 **Back-End: <br/>
   scan and process the pending queries multithreaded; <br/>
-  crawl emails from Linkedin & Google; <br/>
+  crawl target emails & phone numbers from Linkedin / SalesGenie / Google; <br/>
   verify if the emails are valid and deliverable; <br/>
   store results into MySQL** <br/>
  
@@ -18,7 +19,7 @@
 <h3>Sample Front-End Output:</h3>
 <img width="1439" alt="screen shot 2017-06-29 at 4 43 29 pm" src="https://user-images.githubusercontent.com/22739177/27715449-174cd4fe-5cec-11e7-8b24-9e28d6d71581.png">
 
-<h3>Sample Back-End Input: "uber", 10</h3>
+<h3>Sample Back-End Input: "uber", "LinkedIn", 10</h3>
 <h3>Sample Back-End Output:</h3>
 Junchao Wu's verified emails:<br/>
 junchaow@lab126.com<br/>
