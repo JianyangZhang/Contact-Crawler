@@ -173,7 +173,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 				domain = domainFromURL(url);
 				//System.out.println("Official Site Title: " + title);
 				//System.out.println("Official Site URL: " + url);
-				if(!domain.equals("yelp.com")) {
+				if(!domain.equals("yelp.com") && !domain.equals("")) {
 					//System.out.println("Domain: " + domain);
 					result.put(domain, s);
 				}
@@ -211,6 +211,11 @@ public class DriveLinkedinService extends DriveBrowserService {
 	private String domainFromURL(String url) throws URISyntaxException {
 		URI uri = new URI(url);
 		String domain = uri.getHost();
-		return domain.startsWith("www.") ? domain.substring(4) : domain;
+		try {
+			return domain.startsWith("www.") ? domain.substring(4) : domain;
+		}catch(NullPointerException e) {
+			return "";
+		}
+		
 	}
 }

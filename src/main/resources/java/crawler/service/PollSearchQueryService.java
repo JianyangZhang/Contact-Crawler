@@ -13,7 +13,7 @@ public class PollSearchQueryService extends TimerTask {
 	private static boolean CRAWLER_IS_FREE = true;
 	static final int NO_RESULT = 0;
 	static final int COMPLETED = 1;
-	static final int FAILED = 2;
+	public static final int FAILED = 2;
 	
 	
 	// poll and crawl one pending query from database

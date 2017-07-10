@@ -1,7 +1,9 @@
-package crawler.service;
+package crawler.thread;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import crawler.service.EmailVerifyService;
 
 public class CrawlCompanyThread implements Runnable{
 	private Thread t;
@@ -12,7 +14,7 @@ public class CrawlCompanyThread implements Runnable{
 	private HashMap<String, String> results;
 	private EmailVerifyService ev;
 	
-	CrawlCompanyThread(String name, ArrayList<String> usernames, String company, String domain, HashMap<String, String> results, EmailVerifyService ev){
+	public CrawlCompanyThread(String name, ArrayList<String> usernames, String company, String domain, HashMap<String, String> results, EmailVerifyService ev){
 		threadName = name;
 		this.usernames = usernames;
 		this.company = company;
