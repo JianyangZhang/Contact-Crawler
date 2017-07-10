@@ -1,15 +1,15 @@
 <h1 align="center">Contact Crawler :zap: </h1>
 <h2>Crawl Over Ten Thousands Deliverable Emails & Phone Numbers Per Day</h2>
 
-**Front-End: <br/>
-  login and schedule crawl queries(keywords, location, count, data source); <br/>
+<h3>Front-End:</h3><br/>
+  **login and schedule crawl queries(keywords, location, count, data source); <br/>
   check query status; <br/>
   extract results from database and display in tables<br/>
   export results to .csv files and download; <br/>
   send bulk emails** <br/>
   
-**Back-End: <br/>
-  scan and process the pending queries multithreaded; <br/>
+<h3>Back-End:</h3><br/>
+  **scan and process the pending queries multithreaded; <br/>
   crawl target emails & phone numbers from Linkedin & SalesGenie & Google; <br/>
   verify if the emails are valid and deliverable; <br/>
   store results into MySQL** <br/>
