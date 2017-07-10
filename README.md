@@ -10,7 +10,7 @@
   
 <h3>Back-End:</h3>
   - scan and process the pending queries multithreaded<br/>
-  - crawl target emails & phone numbers from Linkedin & SalesGenie & Google<br/>
+  - crawl target emails & phone numbers from Linkedin & SalesGenie & Google<br/>
   - verify if the emails are valid and deliverable<br/>
   - store results into MySQL<br/>
  
