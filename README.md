@@ -2,17 +2,17 @@
 <h2>Crawl Over Ten Thousands Deliverable Emails & Phone Numbers Per Day</h2>
 
 <h3>Front-End:</h3>
-  **login and schedule crawl queries(keywords, location, count, data source);**<br/>
-  **check query status;**<br/>
-  **extract results from database and display in tables;**<br/>
-  **export results to .csv files and download;**<br/>
-  **send bulk emails**<br/>
+  - login and schedule crawl queries<br/>
+  - check query status<br/>
+  - display results in tables<br/>
+  - export results to .csv files and download<br/>
+  - send bulk emails<br/>
   
 <h3>Back-End:</h3>
-  **scan and process the pending queries multithreaded;**<br/>
-  **crawl target emails & phone numbers from Linkedin & SalesGenie & Google;**<br/>
-  **verify if the emails are valid and deliverable;**<br/>
-  **store results into MySQL**<br/>
+  - scan and process the pending queries multithreaded<br/>
+  - crawl target emails & phone numbers from Linkedin & SalesGenie & Google<br/>
+  - verify if the emails are valid and deliverable<br/>
+  - store results into MySQL<br/>
  
 <h3>Sample Input:</h3>
 <img width="1440" alt="screen shot 2017-06-29 at 4 43 49 pm" src="https://user-images.githubusercontent.com/22739177/27715450-174e9b54-5cec-11e7-9515-ff5ce7ae7efb.png">
