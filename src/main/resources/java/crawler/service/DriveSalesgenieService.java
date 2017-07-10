@@ -49,6 +49,7 @@ public class DriveSalesgenieService extends DriveBrowserService{
 		} finally {}
 		try {
 			WebElement x = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'walkme-x-button')]"))).findElement(By.xpath("//div[contains(@class, 'walkme-x-button')]"));
+			x.click();
 		} catch (TimeoutException e) {
 			System.out.println("the pop-up did not show up this time");
 		} finally {}
@@ -68,12 +69,17 @@ public class DriveSalesgenieService extends DriveBrowserService{
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("businessName")));
 		dr.findElement(By.id("businessName")).sendKeys(keywords);
 		dr.findElement(By.id("submit-quick-find")).click();
-		waitTillTableLoad();
+		try {
+			waitTillTableLoad();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void waitTillTableLoad() {
+	private void waitTillTableLoad() throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait(dr, WAIT_LONG);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("grid-view-table-container")));
+		Thread.sleep(3000);
 	}
 	
 	private void waitTillTableRefresh(int timeOut) throws InterruptedException {
@@ -90,10 +96,8 @@ public class DriveSalesgenieService extends DriveBrowserService{
 	
 	protected ArrayList<SalesGenieResult> crawlSalesgenieResults(int count) {
 		ArrayList<SalesGenieResult> resultList = new ArrayList<SalesGenieResult>();
-		int flag = count;
-		while (flag > 0) {
+		while (resultList.size() < count) {
 			resultList.addAll(crawlCurrentTable());
-			flag -= resultList.size();
 			WebElement pageNextBtn = dr.findElement(By.xpath("//div[contains(@class, 'action-page-next')]"));
 			if (pageNextBtn.isEnabled()) {
 				pageNextBtn.click();
