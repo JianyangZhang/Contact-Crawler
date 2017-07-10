@@ -41,7 +41,7 @@ CREATE TABLE Search
     search_keywords varchar(255),
     search_location varchar(255),
     search_company_size varchar(255),
-    search_from varchar(255),
+    search_from enum('linkedin', 'salegenie'),
     search_progress enum('pending', 'processing', 'completed', 'failed') NOT NULL,
     user_id varchar(255),
     internal_company_id varchar(255),
