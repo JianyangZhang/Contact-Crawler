@@ -16,6 +16,7 @@ import crawler.DAO.SearchQueryDAO;
 import crawler.model.CrawlerQuery;
 import crawler.model.Customer;
 import crawler.model.Email;
+import crawler.thread.CrawlCustomerThread;
 
 @Service
 public class CrawlEmailService {
@@ -52,7 +53,7 @@ public class CrawlEmailService {
 					System.out.println(customer.getCustomer_name() + " is detected that he/she has been crawled before, his/her info will not be printed here but it will be in the final report");
 					ResultDAO.insert(query.getSearchID(), url);
 					flag++;
-					if (flag == query.getCount()) {
+					if (flag >= query.getCount()) {
 						for(CrawlCustomerThread thread : pool)
 							thread.join();
 						br.dr.close();
@@ -71,7 +72,7 @@ public class CrawlEmailService {
 					thread.start();
 				}
 				else if(multi_option == Option.Single) {
-					GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(customer.getCustomer_name(), domainMap, false);
+					GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(customer.getCustomer_name().replace("'", ""), domainMap, false);
 					System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
 					HashMap<String, String> emailsMap = gaes.getEmails();
 					System.out.println("------------------------------------------");

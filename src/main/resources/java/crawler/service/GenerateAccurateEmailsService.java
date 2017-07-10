@@ -2,6 +2,8 @@ package crawler.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import crawler.thread.CrawlCompanyThread;
+
 public class GenerateAccurateEmailsService {
 	private String name;
 	private boolean multi = false;

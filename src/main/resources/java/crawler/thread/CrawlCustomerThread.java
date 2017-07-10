@@ -1,4 +1,4 @@
-package crawler.service;
+package crawler.thread;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -7,6 +7,9 @@ import crawler.DAO.EmailDAO;
 import crawler.DAO.ResultDAO;
 import crawler.model.CrawlerQuery;
 import crawler.model.Customer;
+import crawler.service.Callback;
+import crawler.service.GenerateAccurateEmailsService;
+import crawler.service.PollSearchQueryService;
 
 public class CrawlCustomerThread implements Runnable{
 	private Thread t;
@@ -17,7 +20,7 @@ public class CrawlCustomerThread implements Runnable{
 	private String url;
 	private HashMap<String, String> domainMap;
 	
-	CrawlCustomerThread( String name, Customer customer, String url, HashMap<String, String> domainMap, Callback callback, CrawlerQuery query) {
+	public CrawlCustomerThread( String name, Customer customer, String url, HashMap<String, String> domainMap, Callback callback, CrawlerQuery query) {
 	      threadName = name;
 	      System.out.println("Creating " +  threadName );
 	      this.customer = customer;

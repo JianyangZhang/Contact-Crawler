@@ -10,8 +10,10 @@ public class EmailDAO {
 	private static Connection connection = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
 	
 	public static void reconnect() throws SQLException {
-		connection.close();
-		connection = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
+		Connection connection2 = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
+		Connection connection3 = connection;
+		connection = connection2;
+		connection3.close();
 	}
 	
 	public static void insert(String email_address, String customer_linkedin_url, String company_name, int email_response_time) {
