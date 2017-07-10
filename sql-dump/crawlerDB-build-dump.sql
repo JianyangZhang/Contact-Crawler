@@ -2,6 +2,16 @@ DROP SCHEMA IF EXISTS EmailCrawlerDB;
 Create DataBase EmailCrawlerDB;
 USE EmailCrawlerDB;
 
+CREATE TABLE SalesGenie
+  (sg_person_name varchar(255) NOT NULL,
+   sg_phone_number varchar(255) NOT NULL,
+   sg_company_name varchar(255),
+   sg_street varchar(255),
+   sg_city varchar(255),
+   sg_state varchar(255),
+   sg_zipcode varchar(255),
+   PRIMARY KEY(sg_person_name, sg_phone_number));
+    
 CREATE TABLE User
   (user_id varchar(255) NOT NULL PRIMARY KEY,
     user_name varchar(255),
@@ -31,6 +41,7 @@ CREATE TABLE Search
     search_keywords varchar(255),
     search_location varchar(255),
     search_company_size varchar(255),
+    search_from varchar(255),
     search_progress enum('pending', 'processing', 'completed', 'failed') NOT NULL,
     user_id varchar(255),
     internal_company_id varchar(255),
@@ -85,3 +96,13 @@ CREATE TABLE Result
     PRIMARY KEY(search_id, customer_linkedin_url),
     FOREIGN KEY (search_id) REFERENCES Search (search_id),
     FOREIGN KEY (customer_linkedin_url) REFERENCES Customer (customer_linkedin_url));
+    
+CREATE TABLE Result_SG
+  (search_id varchar(255),
+  sg_person_name varchar(255),
+  sg_phone_number varchar(255),
+  PRIMARY KEY(search_id, sg_person_name,sg_phone_number),
+  FOREIGN KEY (search_id) REFERENCES Search (search_id),
+  FOREIGN KEY (sg_person_name,sg_phone_number) REFERENCES SalesGenie (sg_person_name,sg_phone_number));
+
+  
