@@ -1,5 +1,6 @@
 package crawler.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -7,57 +8,132 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class DriveSalesgenieService extends DriveBrowserService{
+import crawler.EmailCrawlerConfig;
+import crawler.DAO.SalesgenieDAO;
+import crawler.model.SalesGenieResult;
 
-	DriveSalesgenieService(boolean hasGUI) {
-		super(hasGUI);
-		this.dr.get("https://www.salesgenie.com/");
+public class DriveSalesgenieService extends DriveBrowserService{
+	private static final int WAIT_LONG = 30;
+	private static final int WAIT_MEDIUM = 10;
+	private static final int WAIT_SHORT = 3;
+
+	DriveSalesgenieService() {
+		super(Boolean.parseBoolean(EmailCrawlerConfig.getConfig().readString("show-gui")));
+		this.dr.get("https://app.salesgenie.com/Login");
+		// resize browser window to avoid element being invisible in no-GUI mode 
+		if (!Boolean.parseBoolean(EmailCrawlerConfig.getConfig().readString("show-gui"))) {
+			Dimension dimension = new Dimension(1920, 1080);
+			this.dr.manage().window().setSize(dimension);
+		}
 	}
 	
 	/**
 	 * Login Salesgenie
 	 */
 	protected void signInSalesgenie(String userName, String password) {
-		WebElement signInButton = dr.findElement(By.xpath("//li[contains(@class, 'pre-auth')]"));
-		signInButton.click();
+		WebDriverWait wait = new WebDriverWait(dr, WAIT_MEDIUM);
 		dr.findElement(By.id("UserName")).sendKeys(userName);
 		dr.findElement(By.id("Password")).sendKeys(password);
 		dr.findElement(By.id("formSignIn")).click();
 		try {
 			dr.findElement(By.id("submit")).click();
-			WebDriverWait wait = new WebDriverWait(dr, 40);
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'walkme-x-button')]")));
-			dr.findElement(By.xpath("//div[contains(@class, 'walkme-x-button')]")).click();
-		} catch (Exception e) {
-			System.out.println("something wrong in method 'signInSalesgenie'");
+		} catch (NoSuchElementException e) {
+			System.out.println("is this your first time to sign in today?");
+		} finally {}
+		try {
+			WebElement x = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'walkme-x-button')]"))).findElement(By.xpath("//div[contains(@class, 'walkme-x-button')]"));
+		} catch (TimeoutException e) {
+			System.out.println("the pop-up did not show up this time");
+		} finally {}
+	}
+	
+	/**
+	 * search keywords
+	 */
+	protected void searchKeywords(String keywords) {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		dr.findElement(By.id("quickSearchUsBusiness")).click();
+		WebDriverWait wait = new WebDriverWait(dr, WAIT_SHORT);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("businessName")));
+		dr.findElement(By.id("businessName")).sendKeys(keywords);
+		dr.findElement(By.id("submit-quick-find")).click();
+		waitTillTableLoad();
 	}
 	
-	private String waitTillTableLoad() {
-		WebDriverWait wait = new WebDriverWait(dr, 40);
+	private void waitTillTableLoad() {
+		WebDriverWait wait = new WebDriverWait(dr, WAIT_LONG);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("grid-view-table-container")));
-		return dr.getPageSource();
 	}
 	
-	protected void crawlCurrentTable() {
-		String page = waitTillTableLoad();
+	private void waitTillTableRefresh(int timeOut) throws InterruptedException {
+		String originText = dr.findElement(By.id("iconBarPageNo")).getText();
+		String newText = originText;
+		int flag = 0;
+		do {
+			flag++;
+			Thread.sleep(1000);
+			newText = dr.findElement(By.id("iconBarPageNo")).getText();
+		} while (newText.equals(originText) && flag < timeOut);
+		Thread.sleep(3000); // Salesgenie will load for a longer time without this line
+	}
+	
+	protected ArrayList<SalesGenieResult> crawlSalesgenieResults(int count) {
+		ArrayList<SalesGenieResult> resultList = new ArrayList<SalesGenieResult>();
+		int flag = count;
+		while (flag > 0) {
+			resultList.addAll(crawlCurrentTable());
+			flag -= resultList.size();
+			WebElement pageNextBtn = dr.findElement(By.xpath("//div[contains(@class, 'action-page-next')]"));
+			if (pageNextBtn.isEnabled()) {
+				pageNextBtn.click();
+				try {
+					waitTillTableRefresh(WAIT_LONG);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("no more result avaliable");
+				break;
+			}
+		}
+		return resultList;
+	}
+	
+	private ArrayList<SalesGenieResult> crawlCurrentTable() {
+		ArrayList<SalesGenieResult> resultList = new ArrayList<SalesGenieResult>();
+		String page = dr.getPageSource();
 		Document doc = Jsoup.parse(page);
 		Elements elements_odd_tr = doc.select("tr.odd");
 		Elements elements_even_tr = doc.select("tr.even");
 		for (Element element : elements_odd_tr) {
-			extractTableInfo(element);
+			SalesGenieResult result = extractTableInfo(element);
+			if (result != null) {
+				resultList.add(result);
+			}
 		}
 		for (Element element : elements_even_tr) {
-			extractTableInfo(element);
+			SalesGenieResult result = extractTableInfo(element);
+			if (result != null) {
+				resultList.add(result);
+			}
 		}
+		return resultList;
 	}
 	
-	private void extractTableInfo(Element element) {
-		if (element.children().size() > 10) {
+	private SalesGenieResult extractTableInfo(Element element) {
+		SalesGenieResult result = null;
+		if (element.children().size() > 10) { // there are many empty "tr" elements in this page for some reason
 			String companyName = element.select("div.BusinessName").text().trim();
 			String personName = element.select("div.executive-name-field").text().trim();
 			String phoneNumber = element.select("div[data-is-wireless]").attr("data-phone").trim();
@@ -66,14 +142,24 @@ public class DriveSalesgenieService extends DriveBrowserService{
 			String state = element.select("td").get(10).text().trim();
 			String zipCode = element.select("td").get(11).text().trim();
 			if (!personName.equals("") && !phoneNumber.equals("")) {
-				System.out.print(companyName + " ");
-				System.out.print(personName + " ");
-				System.out.print(phoneNumber + " ");
-				System.out.print(street + " ");
-				System.out.print(city + " ");
-				System.out.print(state + " ");
+				result = new SalesGenieResult();
+				System.out.println(companyName + " ");
+				result.setCompanyName(companyName);
+				System.out.println(personName + " ");
+				result.setPersonName(personName);
+				System.out.println(phoneNumber + " ");
+				result.setPhoneNumber(phoneNumber);
+				System.out.println(street + " ");
+				result.setStreet(street);
+				System.out.println(city + " ");
+				result.setCity(city);
+				System.out.println(state + " ");
+				result.setState(state);
 				System.out.println(zipCode + " ");
+				result.setZipCode(zipCode);
+				return result;
 			}
 		}
+		return result;
 	}
 }
