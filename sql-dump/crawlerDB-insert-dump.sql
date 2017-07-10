@@ -14,7 +14,7 @@ SELECT * FROM Result;
 INSERT INTO Result VALUES("789", "https://www.linkedin.com/in/annie-thomas-harrison-a0103354/");
 
 
-
+SELECT * FROM SalesGenie;
 
 
 -- after create db, excute these queries;

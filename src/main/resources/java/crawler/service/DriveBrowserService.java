@@ -96,7 +96,18 @@ public class DriveBrowserService {
 			exception.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * navigate back
+	 */
+	protected void navBack() {
+		JavascriptExecutor js = (JavascriptExecutor) dr;
+		js.executeScript("window.history.go(-1)");
+	}
+	
+	/**
+	 * scroll current window to a specific position by pixel 
+	 */
 	protected synchronized void scrollTo(WebDriver driver, String position) throws InterruptedException {
 		String oldpage = "";
 		String newpage = "";

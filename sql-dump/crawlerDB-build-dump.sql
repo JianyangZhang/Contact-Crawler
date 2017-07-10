@@ -2,6 +2,16 @@ DROP SCHEMA IF EXISTS EmailCrawlerDB;
 Create DataBase EmailCrawlerDB;
 USE EmailCrawlerDB;
 
+CREATE TABLE SalesGenie
+  (sg_person_name varchar(255) NOT NULL,
+   sg_phone_number varchar(255) NOT NULL,
+   sg_company_name varchar(255),
+   sg_street varchar(255),
+   sg_city varchar(255),
+   sg_state varchar(255),
+   sg_zipcode varchar(255),
+   PRIMARY KEY(sg_person_name, sg_phone_number));
+    
 CREATE TABLE User
   (user_id varchar(255) NOT NULL PRIMARY KEY,
     user_name varchar(255),
