@@ -4,6 +4,7 @@ public class SalesGenieResult {
 	private String companyName;
 	private String personName;
 	private String phoneNumber;
+	private String title;
 	private String street;
 	private String city;
 	private String state;
@@ -52,5 +53,11 @@ public class SalesGenieResult {
 	}
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

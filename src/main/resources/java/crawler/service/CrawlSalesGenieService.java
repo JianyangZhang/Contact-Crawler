@@ -18,7 +18,7 @@ public class CrawlSalesGenieService {
 		br.searchKeywords(keywords);
 		ArrayList<SalesGenieResult> resultList = br.crawlSalesgenieResults(count);
 		for (SalesGenieResult result : resultList) {
-			SalesgenieDAO.insert(result.getPersonName(), result.getPhoneNumber(), result.getCompanyName(), result.getStreet(), result.getCity(), result.getState(), result.getZipCode());
+			SalesgenieDAO.insert(result.getPersonName(), result.getPhoneNumber(), result.getTitle(), result.getCompanyName(), result.getStreet(), result.getCity(), result.getState(), result.getZipCode());
 		}
 		br.dr.close();
 	}

@@ -5,6 +5,7 @@ USE EmailCrawlerDB;
 CREATE TABLE SalesGenie
   (sg_person_name varchar(255) NOT NULL,
    sg_phone_number varchar(255) NOT NULL,
+   sg_title varchar(255) NOT NULL,
    sg_company_name varchar(255),
    sg_street varchar(255),
    sg_city varchar(255),
