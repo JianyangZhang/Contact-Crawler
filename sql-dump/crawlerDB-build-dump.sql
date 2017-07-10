@@ -41,6 +41,7 @@ CREATE TABLE Search
     search_keywords varchar(255),
     search_location varchar(255),
     search_company_size varchar(255),
+    search_from enum('linkedin', 'salegenie'),
     search_progress enum('pending', 'processing', 'completed', 'failed') NOT NULL,
     user_id varchar(255),
     internal_company_id varchar(255),
@@ -95,3 +96,13 @@ CREATE TABLE Result
     PRIMARY KEY(search_id, customer_linkedin_url),
     FOREIGN KEY (search_id) REFERENCES Search (search_id),
     FOREIGN KEY (customer_linkedin_url) REFERENCES Customer (customer_linkedin_url));
+    
+CREATE TABLE Result_SG
+  (search_id varchar(255),
+  sg_person_name varchar(255),
+  sg_phone_number varchar(255),
+  PRIMARY KEY(search_id, sg_person_name,sg_phone_number),
+  FOREIGN KEY (search_id) REFERENCES Search (search_id),
+  FOREIGN KEY (sg_person_name,sg_phone_number) REFERENCES SalesGenie (sg_person_name,sg_phone_number));
+
+  
