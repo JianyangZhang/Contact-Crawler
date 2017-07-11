@@ -106,7 +106,7 @@
                                 <input type='text' name='city' id='city'><br><br>
                                 Count:<br>
                                 <input type='number' name='count' id ='count' ><br><br>
-                                <select name="searchFrom" required="required">
+                                <select name="searchFrom" required="required" id="searchChoice">
                                 <option value="0">---Search From Linkedin---</option>
                                 <option value="1">---Search From Salesgenie---</option>
                                 
@@ -245,11 +245,12 @@ $('#sub').click(function(){
     var title=$('#title').val();
     var city=$('#city').val();
     var count=$('#count').val();
+    var searchFrom = $('#searchChoice').val();
     $.ajax({
 
         type:'GET',
         url:'./searchQ.php',
-        data:{title:title,city:city,count:count},
+        data:{title:title,city:city,count:count,searchFrom:searchFrom},
         success:function($response){
              drawTable($response);
                         }

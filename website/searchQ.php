@@ -11,11 +11,15 @@
 		$title="";
 		$city ="";
 		$count="";
+		$searchFrom="linkedin";
 
 		if(isset($_GET['title'])) $title=$_GET['title'];
 		if(isset($_GET['city'])) $city=$_GET['city'];
 		if(isset($_GET['count'])) $count=$_GET['count'];
 		if($_GET['count']==''|| $_GET['count']=='0') $count="10";
+
+		if($_GET['searchFrom']=='0') $searchFrom = 'linkedin';
+		if($_GET['searchFrom']=='1') $searchFrom = 'salegenie';
         // return response()->json([ $title,$city,$count]);
 
 		$serverName = '54.69.239.219';
@@ -42,7 +46,7 @@
 		$userId=$_SESSION['userId'];
 		$internalCompany=$_SESSION['internalCompany'];
 
-		$sql1='insert into Search values("'.$id.'","'.$count.'","'.$title.'","'.$city.'","150","pending","'.$userId.'","'.$internalCompany.'",0);';
+		$sql1='insert into Search values("'.$id.'","'.$count.'","'.$title.'","'.$city.'","150","'.$searchFrom.'","pending","'.$userId.'","'.$internalCompany.'",0);';
 		$result=mysqli_query($con, $sql1 );
 
 		$sql2='select search_id,search_keywords,search_progress, has_deleted from Search where user_id="'.$userId.'" and internal_company_id="'.$internalCompany.'";';
