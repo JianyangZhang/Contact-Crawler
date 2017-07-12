@@ -36,7 +36,7 @@
 
          $response2=array();
         foreach ($response as $url) {
-            $sql2='select sg_city, sg_state from SalesGenie where sg_person_name="'.$url[0].'"and sg_phone_number ="'.$url[1].'" and sg_company_name="'.$url[2].'";';
+            $sql2='select sg_title, sg_city, sg_state from SalesGenie where sg_person_name="'.$url[0].'"and sg_phone_number ="'.$url[1].'" and sg_company_name="'.$url[2].'";';
 
             $result2=mysqli_query($con, $sql2 );
             $response2[]= mysqli_fetch_row($result2);

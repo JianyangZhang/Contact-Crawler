@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="./favicon.ico">
+
 
     <title> Result</title>
 
@@ -199,7 +201,7 @@ else if(GetRequest("from")=="linkedin"){
 
 
         text="<br><br><center><p class='title' style='font-weight: 100'> Result</p><center>";
-    text+="<center><br><table border='1' width='800' height='300px' id='resultTable'><tbody><tr ><th width='800'>Name</th><th width='800'>Phone Number</th><th width='800'>Company Name</th><th width='800'>City</th><th width='800'>State</th></tr>";
+    text+="<center><br><table border='1' width='800' height='300px' id='resultTable'><tbody><tr ><th width='800'>Name</th><th width='800'>Phone Number</th><th width='800'>Company Name</th><th width='800'>Title</th><th width='800'>City</th><th width='800'>State</th></tr>";
     var searchId= GetRequest("id");
     $.ajax({
         type:'GET',
@@ -220,6 +222,8 @@ else if(GetRequest("from")=="linkedin"){
                  text+=response[1][i][0];
                  text+="</td><td width='800'>";
                  text+=response[1][i][1];
+                 text+="</td><td width='800'>";
+                 text+=response[1][i][2];
                  text+="</td></tr>";
 
 
