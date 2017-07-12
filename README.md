@@ -1,5 +1,5 @@
 
-<h1 align="center">Contact Crawler :four_leaf_clover: </h1>
+<h1 align="center">Contact Crawler :mag_right: </h1>
 <h2>Crawl Over Ten Thousands Deliverable Emails & Phone Numbers Per Day</h2>
 
 <h3>Front-End:</h3>
