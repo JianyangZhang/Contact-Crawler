@@ -229,6 +229,23 @@ else if(GetRequest("from")=="linkedin"){
             text+="</tbody></table></center>";
             $('#resTable').html(text);
 
+
+            $('#resultTable').each(function () {
+        var $table = $(this);
+
+        var $button = $("<button type='button'>");
+        $button.text("Export to CSV");
+        $button.insertAfter($('.title'));
+
+        $button.click(function () {
+
+            var csv = $table.table2CSV({delivery: 'value'});
+            // alert("csv");
+            window.location.href = 'data:text/csv;charset=UTF-8,'+ encodeURIComponent(csv);
+
+        });
+    });
+
         }
 
         
