@@ -49,7 +49,7 @@
 		$sql1='insert into Search values("'.$id.'","'.$count.'","'.$title.'","'.$city.'","150","'.$searchFrom.'","pending","'.$userId.'","'.$internalCompany.'",0);';
 		$result=mysqli_query($con, $sql1 );
 
-		$sql2='select search_id,search_keywords,search_progress, has_deleted from Search where user_id="'.$userId.'" and internal_company_id="'.$internalCompany.'";';
+		$sql2='select search_id,search_keywords,search_progress, has_deleted, search_from from Search where user_id="'.$userId.'" and internal_company_id="'.$internalCompany.'";';
 
 		// $sql2='select search_id,search_keywords,search_progress from Search where user_id="ryan" and internal_company_id="BHC";';
 
@@ -61,10 +61,24 @@
 		}
 		$response2=array();
 		foreach ($response as $searchid){
-			$sql3='select count(customer_linkedin_url) from Result where search_id="'.$searchid[0].'";';
+			$sql4='select search_from from Search where search_id="'.$searchid[0].'";';
+			$fromresult=mysqli_query($con,$sql4);
+			$from=mysqli_fetch_array($fromresult,MYSQLI_NUM);
+			
+			if($from[0]=='linkedin'){
+				$sql3='select count(customer_linkedin_url) from Result where search_id="'.$searchid[0].'";';
 		$result3=mysqli_query($con,$sql3);
 		$count=mysqli_fetch_array($result3,MYSQLI_NUM);
 		$response2[]=$count[0];
+		
+	}else{
+		$sql3='select count(sg_person_name) from Result_SG where search_id ="'.$searchid[0].'";';
+		$result3=mysqli_query($con,$sql3);
+		$count=mysqli_fetch_array($result3,MYSQLI_NUM);
+		$response2[]=$count[0];
+
+	}
+			
 		}
 		// echo json_encode($response2);
 

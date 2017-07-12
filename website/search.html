@@ -199,7 +199,7 @@ function drawTable($response){
             htmltext+="<td width='800'>"
              htmltext+=people[i];
              htmltext+="</td>";
-            htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"'>result</a></td>";
+            htmltext+="<td width='800'><a target='_blank' href='./result.html?id="+response[i][0]+"&status="+response[i][2]+"&from="+response[i][4]+"'>result</a></td>";
             htmltext+="<td><button onclick=del('";
             htmltext+=response[i][0];
             htmltext+="')>delete</button></td></tr>";
