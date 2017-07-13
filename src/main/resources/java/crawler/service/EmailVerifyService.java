@@ -84,6 +84,7 @@ public class EmailVerifyService {
 
 			// connect
 			if (getResponseCode(timeout, sleepSect, bufferedReader) != 220) {
+				socket.close();
 				return false;
 			}
 
@@ -91,39 +92,41 @@ public class EmailVerifyService {
 			bufferedWriter.write("HELO " + domain + "\r\n");
 			bufferedWriter.flush();
 			if (getResponseCode(timeout, sleepSect, bufferedReader) != 250) {
+				socket.close();
 				return false;
 			}
 			// id
 			bufferedWriter.write("MAIL FROM: <check@" + domain + ">\r\n");
 			bufferedWriter.flush();
 			if (getResponseCode(timeout, sleepSect, bufferedReader) != 250) {
+				socket.close();
 				return false;
 			}
 			// verify
 			bufferedWriter.write("RCPT TO: <" + toMail + ">\r\n");
 			bufferedWriter.flush();
 			if (getResponseCode(timeout, sleepSect, bufferedReader) != 250) {
+				socket.close();
 				return false;
 			}
 			// disconnect
 			bufferedWriter.write("QUIT\r\n");
 			bufferedWriter.flush();
+			socket.close();
 			return true;
 		} catch (NumberFormatException e) {
 		} catch (TextParseException e) {
 		} catch (IOException e) {
-			System.out.println("too many ports");
-			e.printStackTrace();
+			//System.out.println("too many ports");
+			//e.printStackTrace();
 		} catch (InterruptedException e) {
-		} finally {
-
-			try {
-				socket.close();
-			} catch (IOException e) {
-			}
 		}
 
-		System.out.println("Other issue.");
+		try {
+			socket.close();
+		} catch (IOException e) {
+		}
+		//System.out.println("Other issue.");
 		return false;
 	}
 

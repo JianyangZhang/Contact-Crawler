@@ -11,7 +11,7 @@ CREATE TABLE SalesGenie
    sg_city varchar(255),
    sg_state varchar(255),
    sg_zipcode varchar(255),
-   PRIMARY KEY(sg_person_name, sg_phone_number));
+   PRIMARY KEY(sg_person_name, sg_phone_number, sg_company_name));
     
 CREATE TABLE User
   (user_id varchar(255) NOT NULL PRIMARY KEY,
@@ -102,8 +102,9 @@ CREATE TABLE Result_SG
   (search_id varchar(255),
   sg_person_name varchar(255),
   sg_phone_number varchar(255),
-  PRIMARY KEY(search_id, sg_person_name,sg_phone_number),
+  sg_company_name varchar(255),
+  PRIMARY KEY(search_id, sg_person_name,sg_phone_number, sg_company_name),
   FOREIGN KEY (search_id) REFERENCES Search (search_id),
-  FOREIGN KEY (sg_person_name,sg_phone_number) REFERENCES SalesGenie (sg_person_name,sg_phone_number));
+  FOREIGN KEY (sg_person_name,sg_phone_number, sg_company_name) REFERENCES SalesGenie (sg_person_name,sg_phone_number, sg_company_name));
 
   

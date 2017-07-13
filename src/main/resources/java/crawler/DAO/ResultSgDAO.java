@@ -5,8 +5,7 @@ import java.sql.SQLException;
 
 import crawler.EmailCrawlerConfig;
 
-public class EmailDAO {
-	
+public class ResultSgDAO {
 	private static Connection connection = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
 	
 	public static void reconnect() throws SQLException {
@@ -14,11 +13,9 @@ public class EmailDAO {
 		connection = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
 	}
 	
-	public static void insert(String email_address, String customer_linkedin_url, String company_name, int email_response_time) {
-		MySQLConnector.executeQuery(connection, "INSERT INTO Email VALUES('" 
-									+ email_address + "', '"
-				                    + customer_linkedin_url + "', '"
-				                    + company_name.replace("'", "''") + "', '" 
-									+ email_response_time + "');", true);
+	public static void insert(String search_id, String name, String phone_num, String company) {
+		MySQLConnector.executeQuery(connection,
+				"INSERT INTO Result_SG VALUES('" + search_id + "', '" + name + "', '" + phone_num + "', '" + company + "');",
+				true);
 	}
 }

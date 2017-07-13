@@ -13,9 +13,9 @@ import crawler.service.PollSearchQueryService;
 public class EmailCrawlerAPI {
 	public static void main(String[] args) {
 		SpringApplication.run(EmailCrawlerAPI.class, args);
-		//new Timer().schedule(new PollSearchQueryService(), 0, EmailCrawlerConfig.getConfig().readInt("scan-interval"));
-		//new Timer().schedule(new RecnctThread(),  0, 1440000);
-		CrawlSalesGenieService.crawl("game", 1000);
+		new Timer().schedule(new PollSearchQueryService(), 0, EmailCrawlerConfig.getConfig().readInt("scan-interval"));
+		new Timer().schedule(new RecnctThread(),  0, 1440000);
+		//CrawlSalesGenieService.crawl("game", 1000);
 
 	}
 }

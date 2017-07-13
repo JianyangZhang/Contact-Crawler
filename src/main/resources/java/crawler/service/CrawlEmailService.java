@@ -56,7 +56,7 @@ public class CrawlEmailService {
 					if (flag >= query.getCount()) {
 						for(CrawlCustomerThread thread : pool)
 							thread.join();
-						br.dr.close();
+						br.dr.quit();
 						if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
 						return;
 					}
@@ -73,12 +73,12 @@ public class CrawlEmailService {
 				}
 				else if(multi_option == Option.Single) {
 					GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(customer.getCustomer_name().replace("'", ""), domainMap, false);
-					System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
+					//System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
 					HashMap<String, String> emailsMap = gaes.getEmails();
-					System.out.println("------------------------------------------");
+					//System.out.println("------------------------------------------");
 					CustomerDAO.insert(url, customer.getCustomer_name(), customer.getCustomer_title(), "", query.getKeyword(), new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()), "", query.getInternalCompanyID(), "step0");
 					ResultDAO.insert(query.getSearchID(), url);
-					System.out.println("Email set size: " + emailsMap.size());
+					//System.out.println("Email set size: " + emailsMap.size());
 					for (String email : emailsMap.keySet()) {
 						EmailDAO.insert(email, url, emailsMap.get(email), 0);
 					}
@@ -88,18 +88,18 @@ public class CrawlEmailService {
 					for(CrawlCustomerThread thread : pool)
 						thread.join();
 					if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
-					br.dr.close();
+					br.dr.quit();
 					return;
 				}
 			}
 			for(CrawlCustomerThread thread : pool)
 				thread.join();
-			br.dr.close();
+			br.dr.quit();
 			if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
 		} catch (Exception exception) {
 			if (callback != null) { callback.process(PollSearchQueryService.FAILED); }
 			exception.printStackTrace();
-			br.dr.close();
+			br.dr.quit();
 			return;
 		}
 	}

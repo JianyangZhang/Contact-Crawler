@@ -74,7 +74,7 @@ public class GenerateAccurateEmailsService {
 	 * guess email prefix
 	 */
 	private static ArrayList<String> guessPrefix(String name) {
-		name = name.toLowerCase();
+		name = name.replaceAll("[^a-zA-Z ]", "").toLowerCase().trim();
 		String firstName = name.substring(0, name.indexOf(" "));
 		String lastName = name.substring(name.indexOf(" ") + 1, name.length());
 		char lastName_initial = lastName.charAt(0);

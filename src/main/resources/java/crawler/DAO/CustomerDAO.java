@@ -9,10 +9,8 @@ public class CustomerDAO {
 	private static Connection connection = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
 	
 	public static void reconnect() throws SQLException {
-		Connection connection2 = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
-		Connection connection3 = connection;
-		connection = connection2;
-		connection3.close();
+		connection.close();
+		connection = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
 	}
 	public static void insert(String customer_linkedin_url, String customer_name, String customer_title, String customer_location, String customer_keywords, String customer_create_time, String customer_touch_time, String internal_company_id, String compaign_step) {
 		MySQLConnector.executeQuery(connection, "INSERT INTO Customer VALUES('" 
