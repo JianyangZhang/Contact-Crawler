@@ -22,7 +22,7 @@ public class CrawlCustomerThread implements Runnable{
 	
 	public CrawlCustomerThread( String name, Customer customer, String url, HashMap<String, String> domainMap, Callback callback, CrawlerQuery query) {
 	      threadName = name;
-	      System.out.println("Creating " +  threadName );
+	      //System.out.println("Creating " +  threadName );
 	      this.customer = customer;
 	      this.callback = callback;
 	      this.query = query;
@@ -35,7 +35,7 @@ public class CrawlCustomerThread implements Runnable{
 		try {
 			
 			GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(customer.getCustomer_name(), domainMap, false);
-			System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
+			//System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
 			HashMap<String, String> emailsMap = gaes.getEmails();
 			//System.out.println("------------------------------------------");
 			CustomerDAO.insert(url, customer.getCustomer_name(), customer.getCustomer_title(), "", query.getKeyword(), new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()), "", query.getInternalCompanyID(), "step0");
@@ -52,7 +52,7 @@ public class CrawlCustomerThread implements Runnable{
 	}
 	
 	public void start () {
-		System.out.println("Starting " +  threadName );
+		//System.out.println("Starting " +  threadName );
 		if (t == null) {
 			t = new Thread (this, threadName);
 			t.start ();
@@ -60,7 +60,7 @@ public class CrawlCustomerThread implements Runnable{
 	}
 
 	public void join () throws InterruptedException {
-		System.out.println("Joining " +  threadName );
+		//System.out.println("Joining " +  threadName );
 		if (t != null) {
 			t.join();
 		}

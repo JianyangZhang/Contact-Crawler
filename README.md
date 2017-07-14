@@ -1,5 +1,6 @@
-<h1 align="center">Contact Crawler :zap: </h1>
-<h2>Crawl Over Ten Thousands Deliverable Emails & Phone Numbers Per Day</h2>
+
+<h1 align="center">Contact Crawler</h1>
+<h2>Crawl Over Ten Thousands Deliverable Emails & Phone Numbers Per Day :heavy_check_mark: </h2>
 
 <h3>Front-End:</h3>
   - login and schedule crawl queries<br/>

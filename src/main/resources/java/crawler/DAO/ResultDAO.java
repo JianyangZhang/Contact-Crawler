@@ -11,10 +11,8 @@ public class ResultDAO {
 	private static Connection connection = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
 	
 	public static void reconnect() throws SQLException {
-		Connection connection2 = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
-		Connection connection3 = connection;
-		connection = connection2;
-		connection3.close();
+		connection.close();
+		connection = MySQLConnector.createConnection("EmailCrawlerDB", EmailCrawlerConfig.getConfig().readString("db-username"), EmailCrawlerConfig.getConfig().readString("db-password"));
 	}
 	
 	public static void insert(String search_id, String customer_linkedin_url) {
