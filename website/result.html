@@ -92,7 +92,7 @@
         // alert('test');
         function GetRequest(strName)
         {
-         var strHref = window.location.href; 
+         var strHref = decodeURI(window.location.href); 
          var intPos = strHref.indexOf("?");  
          var strRight = strHref.substr(intPos + 1);
          var arrTmp = strRight.split("&"); 
