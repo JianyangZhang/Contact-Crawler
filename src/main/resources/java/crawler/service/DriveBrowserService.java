@@ -24,7 +24,7 @@ import crawler.EmailCrawlerConfig;
 
 public class DriveBrowserService {
 
-	protected WebDriver dr;
+	protected static WebDriver dr;
 	protected int screen_height;
 
 	DriveBrowserService(boolean hasGUI) {

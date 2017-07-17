@@ -22,7 +22,7 @@ import crawler.model.SalesGenieResult;
 public class DriveSalesgenieService extends DriveBrowserService{
 	private static final int WAIT_LONG = 30;
 	private static final int WAIT_MEDIUM = 10;
-	private static final int WAIT_SHORT = 3;
+	private static final int WAIT_SHORT = 5;
 
 	DriveSalesgenieService() {
 		super(Boolean.parseBoolean(EmailCrawlerConfig.getConfig().readString("show-gui")));
@@ -58,7 +58,31 @@ public class DriveSalesgenieService extends DriveBrowserService{
 	/**
 	 * search keywords
 	 */
-	protected void searchKeywords(String keywords) {
+	protected void searchAll() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("buildListUsBusiness")).click();
+		WebDriverWait wait = new WebDriverWait(dr, WAIT_LONG);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("critEmail")));
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("critEmail")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("emailTrue")));
+		dr.findElement(By.id("emailTrue")).click();
+		dr.findElement(By.id("submitCriteria")).click();
+		try {
+			waitTillTableLoad();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	protected boolean searchKeywords(String keywords, String location) {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -68,12 +92,21 @@ public class DriveSalesgenieService extends DriveBrowserService{
 		WebDriverWait wait = new WebDriverWait(dr, WAIT_SHORT);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("businessName")));
 		dr.findElement(By.id("businessName")).sendKeys(keywords);
+		dr.findElement(By.id("rangeStreetCity")).sendKeys(location);
 		dr.findElement(By.id("submit-quick-find")).click();
 		try {
+			dr.findElement(By.id("originErrorSummary"));
+			System.out.println("No records matching.");
+			return false;
+		}catch(NoSuchElementException e){
+		}
+		try {
 			waitTillTableLoad();
+			return true;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	private void waitTillTableLoad() throws InterruptedException {
@@ -91,6 +124,7 @@ public class DriveSalesgenieService extends DriveBrowserService{
 			Thread.sleep(1000);
 			newText = dr.findElement(By.id("iconBarPageNo")).getText();
 		} while (newText.equals(originText) && flag < timeOut);
+		System.out.println(newText);
 		Thread.sleep(3000); // Salesgenie will load for a longer time without this line
 	}
 	
@@ -99,7 +133,7 @@ public class DriveSalesgenieService extends DriveBrowserService{
 		while (resultList.size() < count) {
 			resultList.addAll(crawlCurrentTable());
 			WebElement pageNextBtn = dr.findElement(By.xpath("//div[contains(@class, 'action-page-next')]"));
-			if (pageNextBtn.isEnabled()) {
+			if (pageNextBtn.getAttribute("aria-disabled").equals("false")) {
 				pageNextBtn.click();
 				try {
 					waitTillTableRefresh(WAIT_LONG);
@@ -110,6 +144,22 @@ public class DriveSalesgenieService extends DriveBrowserService{
 				System.out.println("no more result avaliable");
 				break;
 			}
+		}
+		return resultList;
+	}
+	protected ArrayList<SalesGenieResult> crawlAllSalesgenieResults(){
+		ArrayList<SalesGenieResult> resultList = new ArrayList<SalesGenieResult>();
+		resultList.addAll(crawlCurrentTable());
+		WebElement pageNextBtn = dr.findElement(By.xpath("//div[contains(@class, 'action-page-next')]"));
+		if (pageNextBtn.getAttribute("aria-disabled").equals("false")) {
+			pageNextBtn.click();
+			try {
+				waitTillTableRefresh(WAIT_LONG);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("no more result avaliable");
 		}
 		return resultList;
 	}
@@ -148,21 +198,21 @@ public class DriveSalesgenieService extends DriveBrowserService{
 			String zipCode = element.select("td").get(11).text().trim();
 			if (!personName.equals("") && !phoneNumber.equals("")) {
 				result = new SalesGenieResult();
-				System.out.print(companyName + " ");
+				//System.out.print(companyName + " ");
 				result.setCompanyName(companyName);
-				System.out.print(personName + " ");
+				//System.out.print(personName + " ");
 				result.setPersonName(personName);
-				System.out.print(phoneNumber + " ");
+				//System.out.print(phoneNumber + " ");
 				result.setPhoneNumber(phoneNumber);
-				System.out.println(title + " ");
+				//System.out.println(title + " ");
 				result.setTitle(title);
-				System.out.print(street + " ");
+				//System.out.print(street + " ");
 				result.setStreet(street);
-				System.out.print(city + " ");
+				//System.out.print(city + " ");
 				result.setCity(city);
-				System.out.print(state + " ");
+				//System.out.print(state + " ");
 				result.setState(state);
-				System.out.println(zipCode + " ");
+				//System.out.println(zipCode + " ");
 				result.setZipCode(zipCode);
 				return result;
 			}

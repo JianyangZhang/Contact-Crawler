@@ -9,6 +9,7 @@ public class CrawlerQuery {
 	private String searchID;
 	private String keyword;
 	private int	count;
+	private String location;
 	private String linkedinID;
 	private String internalCompanyID;
 	
@@ -47,6 +48,12 @@ public class CrawlerQuery {
 	public String toString() {
 		return "CrawlerQuery [searchID=" + searchID + ", keyword=" + keyword + ", count=" + count + ", linkedinID="
 				+ linkedinID + ", internalCompanyID=" + internalCompanyID + "]";
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 }
 

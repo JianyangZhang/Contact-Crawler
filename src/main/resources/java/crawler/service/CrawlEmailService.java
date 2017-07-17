@@ -35,7 +35,10 @@ public class CrawlEmailService {
 		DriveLinkedinService br = new DriveLinkedinService();
 		br.signInLinkedin(EmailCrawlerConfig.getConfig().readString("linkedin-username"), EmailCrawlerConfig.getConfig().readString("linkedin-password").toCharArray());
 		try {
-			br.searchKeyword(query.getKeyword());
+			if(query.getLocation().equals(""))
+				br.searchKeyword(query.getKeyword());
+			else
+				br.searchKeyword(query.getKeyword()+" "+query.getLocation());
 			ArrayList<Customer> customers = br.getPeopleInfo(query.getCount());
 			int flag = 0;
 			for (Customer customer : customers) {
