@@ -41,9 +41,8 @@ public class DriveBrowserService {
 			String[] args = new String[] {"--webdriver-loglevel=NONE"};
 			caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, args);
 			this.dr = new PhantomJSDriver(caps);
-			Dimension size = this.dr.manage().window().getSize();
-			screen_height = size.height;
 		}
+		screen_height = this.dr.manage().window().getSize().height;
 	}
 
 	/**
