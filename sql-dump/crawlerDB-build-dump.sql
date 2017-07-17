@@ -51,8 +51,8 @@ CREATE TABLE Search
     FOREIGN KEY(internal_company_id) REFERENCES Internal_Company(internal_company_id));
 
 CREATE TABLE Company
-  (company_name varchar(255) NOT NULL PRIMARY KEY,
-    company_domain varchar(255));
+  ( company_name varchar(255) NOT NULL PRIMARY KEY,
+	company_domain varchar(255));
 
 CREATE TABLE Compaign
   (compaign_step varchar(255) NOT NULL,
@@ -100,8 +100,8 @@ CREATE TABLE Result
     
 CREATE TABLE Result_SG
   (search_id varchar(255),
-  sg_person_name varchar(255),
-  sg_phone_number varchar(255),
+  sg_person_name varchar(100),
+  sg_phone_number varchar(100),
   sg_company_name varchar(255),
   PRIMARY KEY(search_id, sg_person_name,sg_phone_number, sg_company_name),
   FOREIGN KEY (search_id) REFERENCES Search (search_id),

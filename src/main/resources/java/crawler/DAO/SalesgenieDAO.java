@@ -15,11 +15,11 @@ public class SalesgenieDAO {
 	public static void insert(String sg_person_name, String sg_phone_number, String sg_title, String sg_company_name, String sg_street, String sg_city, String sg_state, String sg_zipcode) {
 		MySQLConnector.executeQuery(connection, "INSERT INTO SalesGenie VALUES('" 
 			+ sg_person_name + "', '" 
-			+ sg_phone_number.replace("'", "''") + "', '"
-			+ sg_title.replace("'", "''") + "', '"
-			+ sg_company_name.replace("'", "''") + "', '"
-			+ sg_street.replace("'", "''") + "', '"
-			+ sg_city.replace("'", "''") + "', '" 
+			+ sg_phone_number + "', '"
+			+ sg_title + "', '"
+			+ sg_company_name + "', '"
+			+ sg_street + "', '"
+			+ sg_city + "', '" 
 			+ sg_state + "', '" 
 			+ sg_zipcode + "');", true);
 	}

@@ -37,6 +37,7 @@ public class PollSearchQueryService extends TimerTask {
 					query.setSearchID(resultSet.getString(1));
 					query.setKeyword(resultSet.getString(3));
 					query.setCount(resultSet.getInt(2));
+					query.setLocation(resultSet.getString(4));
 					query.setLinkedinID(resultSet.getString(8));
 					query.setInternalCompanyID(resultSet.getString(9));
 					if(resultSet.getString(6).equals("linkedin")) {

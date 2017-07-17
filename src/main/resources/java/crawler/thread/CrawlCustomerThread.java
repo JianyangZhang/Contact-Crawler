@@ -2,6 +2,8 @@ package crawler.thread;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+
+import crawler.DAO.CompanyDAO;
 import crawler.DAO.CustomerDAO;
 import crawler.DAO.EmailDAO;
 import crawler.DAO.ResultDAO;
@@ -33,7 +35,9 @@ public class CrawlCustomerThread implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			
+			for (String s : domainMap.keySet()) {
+				CompanyDAO.insert(domainMap.get(s), s);
+			}
 			GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(customer.getCustomer_name(), domainMap, false);
 			//System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
 			HashMap<String, String> emailsMap = gaes.getEmails();
