@@ -115,6 +115,15 @@
                                     
                                 </select><br><br>
 
+                                <button id="switchLkedin"> Switch Linkedin Account (optional)</button>
+                                <p id="linkedin_switch" style="display:none"><br>
+                                Linkedin Email:<br>
+                                <input type='text' id='linkedin_email'><br><br>
+                                Password:<br>
+                                <input type='password'  id ='linkedin_password' >
+
+                                </p><br><br>
+
                                 <button id="sub" >Add to search queue </button>
 
 
@@ -127,6 +136,16 @@
                     </div>
 
                     <script type="text/javascript">
+
+                    $('#switchLkedin').click(function(){
+                        // if($("#linkedin_switch").hide()){
+                        //     $("#linkedin_switch").show();
+                        // }else{
+                        //     $("#linkedin_switch").hide();
+                        // }
+                        $("#linkedin_switch").toggle();
+
+                    });
 
 
                         $('#ref').click(function(){
