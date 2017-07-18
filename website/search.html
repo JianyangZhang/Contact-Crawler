@@ -118,9 +118,9 @@
                                 <button id="switchLkedin"> Switch Linkedin Account (optional)</button>
                                 <p id="linkedin_switch" style="display:none"><br>
                                 Linkedin Email:<br>
-                                <input type='text' id='linkedin_email'><br><br>
+                                <input type='text' id='linkedin_email' ><br><br>
                                 Password:<br>
-                                <input type='password'  id ='linkedin_password' >
+                                <input type='password'  id ='linkedin_password' autocomplete="new-password">
 
                                 </p><br><br>
 
@@ -269,11 +269,14 @@ $('#sub').click(function(){
     var city=$('#city').val();
     var count=$('#count').val();
     var searchFrom = $('#searchChoice').val();
+    var linkedin_email = $('#linkedin_email').val();
+    var linkedin_password = $('#linkedin_password').val();
+    
     $.ajax({
 
         type:'GET',
         url:'./searchQ.php',
-        data:{title:title,city:city,count:count,searchFrom:searchFrom},
+        data:{title:title,city:city,count:count,searchFrom:searchFrom,linkedin_email:linkedin_email,linkedin_password:linkedin_password},
         success:function($response){
              drawTable($response);
                         }

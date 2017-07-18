@@ -12,10 +12,15 @@
 		$city ="";
 		$count="";
 		$searchFrom="linkedin";
+		$lkdemail="";
+		$lkdpassword="";
 
 		if(isset($_GET['title'])) $title=$_GET['title'];
 		if(isset($_GET['city'])) $city=$_GET['city'];
 		if(isset($_GET['count'])) $count=$_GET['count'];
+		if($_GET['linkedin_email']!='') $lkdemail=$_GET['linkedin_email'];
+		if($_GET['linkedin_password']!='') $lkdpassword=$_GET['linkedin_password'];
+
 		if($_GET['count']==''|| $_GET['count']=='0') $count="10";
 
 		if($_GET['searchFrom']=='0') $searchFrom = 'linkedin';
@@ -46,7 +51,7 @@
 		$userId=$_SESSION['userId'];
 		$internalCompany=$_SESSION['internalCompany'];
 
-		$sql1='insert into Search values("'.$id.'","'.$count.'","'.$title.'","'.$city.'","150","'.$searchFrom.'","pending","'.$userId.'","'.$internalCompany.'",0);';
+		$sql1='insert into Search values("'.$id.'","'.$count.'","'.$title.'","'.$city.'","150","'.$searchFrom.'","pending","'.$userId.'","'.$internalCompany.'",0,"'.$lkdemail.'","'.$lkdpassword.'");';
 		$result=mysqli_query($con, $sql1 );
 
 		$sql2='select search_id,search_keywords,search_progress, has_deleted, search_from from Search where user_id="'.$userId.'" and internal_company_id="'.$internalCompany.'";';
