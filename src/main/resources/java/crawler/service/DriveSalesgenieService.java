@@ -66,16 +66,28 @@ public class DriveSalesgenieService extends DriveBrowserService{
 		}
 		dr.findElement(By.id("buildListUsBusiness")).click();
 		WebDriverWait wait = new WebDriverWait(dr, WAIT_LONG);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("critEmail")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("critOfficeSize")));
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		dr.findElement(By.id("critEmail")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("emailTrue")));
-		dr.findElement(By.id("emailTrue")).click();
-		dr.findElement(By.id("submitCriteria")).click();
+		dr.findElement(By.id("critOfficeSize")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("checkboxLabelPair")));
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		List<WebElement> result_list = dr.findElements(By.name("squareFoot"));
+		if(result_list.isEmpty()) {
+			System.out.println("No records matching.");
+		}else {
+			for(WebElement element : result_list) {
+				element.click();
+			}
+			dr.findElement(By.id("submitCriteria")).click();
+		}
 		try {
 			waitTillTableLoad();
 		} catch (InterruptedException e) {
@@ -88,18 +100,41 @@ public class DriveSalesgenieService extends DriveBrowserService{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		dr.findElement(By.id("quickSearchUsBusiness")).click();
-		WebDriverWait wait = new WebDriverWait(dr, WAIT_SHORT);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("businessName")));
-		dr.findElement(By.id("businessName")).sendKeys(keywords);
-		dr.findElement(By.id("rangeStreetCity")).sendKeys(location);
-		dr.findElement(By.id("submit-quick-find")).click();
+		dr.findElement(By.id("buildListUsBusiness")).click();
+		WebDriverWait wait = new WebDriverWait(dr, WAIT_LONG);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("critLineOfBusinessSic")));
 		try {
-			dr.findElement(By.id("originErrorSummary"));
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("critLineOfBusinessSic")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("sicLookupKeyword")));
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("sicLookupKeyword")).sendKeys(keywords);
+		dr.findElement(By.className("action-sic-lookup")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("sicLookupResults")));
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		WebElement results = dr.findElement(By.id("sicLookupResults"));
+		List<WebElement> result_list = results.findElements(By.tagName("li"));
+		if(result_list.isEmpty()) {
 			System.out.println("No records matching.");
 			return false;
-		}catch(NoSuchElementException e){
+		}else {
+			for(WebElement element : result_list) {
+				element.click();
+			}
+			dr.findElement(By.id("submitCriteria")).click();
 		}
+			
 		try {
 			waitTillTableLoad();
 			return true;
@@ -128,23 +163,21 @@ public class DriveSalesgenieService extends DriveBrowserService{
 		Thread.sleep(3000); // Salesgenie will load for a longer time without this line
 	}
 	
-	protected ArrayList<SalesGenieResult> crawlSalesgenieResults(int count) {
+	protected ArrayList<SalesGenieResult> crawlSalesgenieResults() {
 		ArrayList<SalesGenieResult> resultList = new ArrayList<SalesGenieResult>();
-		while (resultList.size() < count) {
-			resultList.addAll(crawlCurrentTable());
-			WebElement pageNextBtn = dr.findElement(By.xpath("//div[contains(@class, 'action-page-next')]"));
-			if (pageNextBtn.getAttribute("aria-disabled").equals("false")) {
-				pageNextBtn.click();
-				try {
-					waitTillTableRefresh(WAIT_LONG);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			} else {
-				System.out.println("no more result avaliable");
-				break;
+		resultList.addAll(crawlCurrentTable());
+		WebElement pageNextBtn = dr.findElement(By.xpath("//div[contains(@class, 'action-page-next')]"));
+		if (pageNextBtn.getAttribute("aria-disabled").equals("false")) {
+			pageNextBtn.click();
+			try {
+				waitTillTableRefresh(WAIT_LONG);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+		} else {
+			System.out.println("no more result avaliable");
 		}
+	
 		return resultList;
 	}
 	protected ArrayList<SalesGenieResult> crawlAllSalesgenieResults(){

@@ -20,20 +20,26 @@ public class CrawlSalesGenieService {
 		br.signInSalesgenie(EmailCrawlerConfig.readString("salesgenie-username"),
 				EmailCrawlerConfig.readString("salesgenie-password"));
 		if(br.searchKeywords(query.getKeyword(), query.getLocation())) {
-			ArrayList<SalesGenieResult> resultList = br.crawlSalesgenieResults(query.getCount());
-			for (SalesGenieResult result : resultList) {
-				SalesgenieDAO.insert(result.getPersonName().replace("'", "''"),
-						result.getPhoneNumber().replace("'", "''"),
-						result.getTitle().replace("'", "''"),
-						result.getCompanyName().replace("'", "''"),
-						result.getStreet().replace("'", "''"),
-						result.getCity().replace("'", "''"),
-						result.getState(),
-						result.getZipCode());
-				ResultSgDAO.insert(query.getSearchID(),
-						result.getPersonName().replace("'", "''"),
-						result.getPhoneNumber().replace("'", "''"),
-						result.getCompanyName().replace("'", "''"));
+			int count = 0;
+			while (count < query.getCount()) {
+				ArrayList<SalesGenieResult> resultList = br.crawlSalesgenieResults();
+				if(resultList.isEmpty())
+					break;
+				count += resultList.size();
+				for (SalesGenieResult result : resultList) {
+					SalesgenieDAO.insert(result.getPersonName().replace("'", "''"),
+							result.getPhoneNumber().replace("'", "''"),
+							result.getTitle().replace("'", "''"),
+							result.getCompanyName().replace("'", "''"),
+							result.getStreet().replace("'", "''"),
+							result.getCity().replace("'", "''"),
+							result.getState(),
+							result.getZipCode());
+					ResultSgDAO.insert(query.getSearchID(),
+							result.getPersonName().replace("'", "''"),
+							result.getPhoneNumber().replace("'", "''"),
+							result.getCompanyName().replace("'", "''"));
+				}
 			}
 		}
 		callback.process(PollSearchQueryService.COMPLETED);
