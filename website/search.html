@@ -202,16 +202,16 @@ function drawTable($response){
     var people = responseData[1];
     var cellCount=response.length;
 
-    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>People</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
+    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Location</th><th width='800'>From</th><th width='800'>Status</th><th width='800'>People</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
 
     for(var i=0;i<cellCount;i++){
-        if(response[i][3]=='0'){
+        if(response[i][5]=='0'){
 
             htmltext+="<tr>";
             htmltext+="<td width='800'>";
             htmltext+=subString(response[i][0]);
             htmltext+="</td>";
-            for(var j=1;j<3;j++){
+            for(var j=1;j<5;j++){
 
                 htmltext+="<td width='800'>";
                 htmltext+=response[i][j];
@@ -220,7 +220,7 @@ function drawTable($response){
             htmltext+="<td width='800'>"
              htmltext+=people[i];
              htmltext+="</td>";
-             var resultUrl= encodeURI("./result.html?id="+response[i][0]+"&status="+response[i][2]+"&from="+response[i][4]);
+             var resultUrl= encodeURI("./result.html?id="+response[i][0]+"&status="+response[i][4]+"&from="+response[i][3]);
 
             htmltext+="<td width='800'><a target='_blank' href='"+resultUrl+"'>result</a></td>";
             htmltext+="<td><button onclick=del('";

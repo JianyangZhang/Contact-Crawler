@@ -54,7 +54,7 @@
 		$sql1='insert into Search values("'.$id.'","'.$count.'","'.$title.'","'.$city.'","150","'.$searchFrom.'","pending","'.$userId.'","'.$internalCompany.'",0,"'.$lkdemail.'","'.$lkdpassword.'");';
 		$result=mysqli_query($con, $sql1 );
 
-		$sql2='select search_id,search_keywords,search_progress, has_deleted, search_from from Search where user_id="'.$userId.'" and internal_company_id="'.$internalCompany.'";';
+		$sql2='select search_id,search_keywords,search_location,search_from,search_progress, has_deleted from Search where user_id="'.$userId.'" and internal_company_id="'.$internalCompany.'";';
 
 		// $sql2='select search_id,search_keywords,search_progress from Search where user_id="ryan" and internal_company_id="BHC";';
 
