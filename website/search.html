@@ -223,7 +223,7 @@ function drawTable($response){
              var resultUrl= encodeURI("./result.html?id="+response[i][0]+"&status="+response[i][4]+"&from="+response[i][3]);
 
             htmltext+="<td width='800'><a target='_blank' href='"+resultUrl+"'>result</a></td>";
-            htmltext+="<td><button >salesforce</button></td>";
+            htmltext+="<td><a href='https://na35.salesforce.com/home/home.jsp' target='_blank'>salesforce</a></td>";
             htmltext+="<td><button onclick=del('";
             htmltext+=response[i][0];
             htmltext+="')>delete</button></td></tr>";
