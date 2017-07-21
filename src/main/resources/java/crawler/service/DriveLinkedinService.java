@@ -58,9 +58,9 @@ public class DriveLinkedinService extends DriveBrowserService {
 	/**
 	 * login Linkedin
 	 */
-	protected void signInLinkedin(String userName, char[] password) {
+	protected void signInLinkedin(String userName, String password) {
 		dr.findElement(By.name("session_key")).sendKeys(userName);
-		dr.findElement(By.name("session_password")).sendKeys(new String(password));
+		dr.findElement(By.name("session_password")).sendKeys(password);
 		dr.findElement(By.id("login-submit")).click();
 	}
 
@@ -144,45 +144,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 		return result;
 	}
 
-	/**
-	 * find email domain from google search
-	 * 
-	 * @throws IOException
-	 */
-	protected HashMap<String, String> parseDomainFromGoogle(HashSet<String> institutionSet) throws IOException, SocketTimeoutException {
-		HashMap<String, String> result = new HashMap<String, String>();
-		int flag = 0;
-		for (String s : institutionSet) {
-			String query = "https://www.google.com/search?q=" + s.replace(" ", "+") + "+official" + "+site";
-			//System.out.println("parsing domain from: " + query);
-			Elements links = Jsoup.connect(query)
-					.timeout(10000)
-					.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0").get()
-					.select(".g>.r>a");
-			if(links.isEmpty()) {
-				continue;
-			}
-			String title = links.first().text();
-			String url = links.first().absUrl("href"); // Google returns URLs in
-														// format
-														// "http://www.google.com/url?q=<url>&sa=U&ei=<someKey>".
-			url = URLDecoder.decode(url.substring(url.indexOf('=') + 1, url.indexOf('&')), "UTF-8");
-			
-			String domain;
-			try {
-				domain = domainFromURL(url);
-				//System.out.println("Official Site Title: " + title);
-				//System.out.println("Official Site URL: " + url);
-				if(!domain.equals("yelp.com") && !domain.equals("")) {
-					//System.out.println("Domain: " + domain);
-					result.put(domain, s);
-				}
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
+	
 
 	/**
 	 * uniquify url (de-duplication)
@@ -205,17 +167,5 @@ public class DriveLinkedinService extends DriveBrowserService {
 		}
 	}
 
-	/**
-	 * substring domain from url
-	 */
-	private String domainFromURL(String url) throws URISyntaxException {
-		URI uri = new URI(url);
-		String domain = uri.getHost();
-		try {
-			return domain.startsWith("www.") ? domain.substring(4) : domain;
-		}catch(NullPointerException e) {
-			return "";
-		}
-		
-	}
+	
 }

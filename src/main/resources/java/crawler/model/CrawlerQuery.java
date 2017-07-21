@@ -12,6 +12,8 @@ public class CrawlerQuery {
 	private String location;
 	private String linkedinID;
 	private String internalCompanyID;
+	private String lkedin_email;
+	private String lkedin_passoword;
 	
 	
 	public String getSearchID() {
@@ -54,6 +56,18 @@ public class CrawlerQuery {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public String getLkedin_email() {
+		return lkedin_email;
+	}
+	public void setLkedin_email(String lkedin_email) {
+		this.lkedin_email = lkedin_email;
+	}
+	public String getLkedin_passoword() {
+		return lkedin_passoword;
+	}
+	public void setLkedin_passoword(String lkedin_passoword) {
+		this.lkedin_passoword = lkedin_passoword;
 	}
 }
 

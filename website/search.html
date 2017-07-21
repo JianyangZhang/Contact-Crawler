@@ -115,6 +115,15 @@
                                     
                                 </select><br><br>
 
+                                <button id="switchLkedin"> Switch Linkedin Account (optional)</button>
+                                <p id="linkedin_switch" style="display:none"><br>
+                                Linkedin Email:<br>
+                                <input type='text' id='linkedin_email' ><br><br>
+                                Password:<br>
+                                <input type='password'  id ='linkedin_password' autocomplete="new-password">
+
+                                </p><br><br>
+
                                 <button id="sub" >Add to search queue </button>
 
 
@@ -127,6 +136,16 @@
                     </div>
 
                     <script type="text/javascript">
+
+                    $('#switchLkedin').click(function(){
+                        // if($("#linkedin_switch").hide()){
+                        //     $("#linkedin_switch").show();
+                        // }else{
+                        //     $("#linkedin_switch").hide();
+                        // }
+                        $("#linkedin_switch").toggle();
+
+                    });
 
 
                         $('#ref').click(function(){
@@ -183,16 +202,16 @@ function drawTable($response){
     var people = responseData[1];
     var cellCount=response.length;
 
-    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Status</th><th width='800'>People</th><th width='800'>Result</th><th width='200'>Delete</th></tr>";
+    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Location</th><th width='800'>From</th><th width='800'>Status</th><th width='800'>People</th><th width='800'>Result</th><th width='800'>Send to salesforce</th><th width='200'>Delete</th></tr>";
 
     for(var i=0;i<cellCount;i++){
-        if(response[i][3]=='0'){
+        if(response[i][5]=='0'){
 
             htmltext+="<tr>";
             htmltext+="<td width='800'>";
             htmltext+=subString(response[i][0]);
             htmltext+="</td>";
-            for(var j=1;j<3;j++){
+            for(var j=1;j<5;j++){
 
                 htmltext+="<td width='800'>";
                 htmltext+=response[i][j];
@@ -201,9 +220,10 @@ function drawTable($response){
             htmltext+="<td width='800'>"
              htmltext+=people[i];
              htmltext+="</td>";
-             var resultUrl= encodeURI("./result.html?id="+response[i][0]+"&status="+response[i][2]+"&from="+response[i][4]);
+             var resultUrl= encodeURI("./result.html?id="+response[i][0]+"&status="+response[i][4]+"&from="+response[i][3]);
 
             htmltext+="<td width='800'><a target='_blank' href='"+resultUrl+"'>result</a></td>";
+            htmltext+="<td><a href='https://na35.salesforce.com/home/home.jsp' target='_blank'>salesforce</a></td>";
             htmltext+="<td><button onclick=del('";
             htmltext+=response[i][0];
             htmltext+="')>delete</button></td></tr>";
@@ -250,11 +270,14 @@ $('#sub').click(function(){
     var city=$('#city').val();
     var count=$('#count').val();
     var searchFrom = $('#searchChoice').val();
+    var linkedin_email = $('#linkedin_email').val();
+    var linkedin_password = $('#linkedin_password').val();
+    
     $.ajax({
 
         type:'GET',
         url:'./searchQ.php',
-        data:{title:title,city:city,count:count,searchFrom:searchFrom},
+        data:{title:title,city:city,count:count,searchFrom:searchFrom,linkedin_email:linkedin_email,linkedin_password:linkedin_password},
         success:function($response){
              drawTable($response);
                         }
