@@ -65,6 +65,7 @@ public class DriveSalesgenieService extends DriveBrowserService{
 			e.printStackTrace();
 		}
 		dr.findElement(By.id("buildListUsBusiness")).click();
+		
 		WebDriverWait wait = new WebDriverWait(dr, WAIT_LONG);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("critOfficeSize")));
 		try {
@@ -73,7 +74,7 @@ public class DriveSalesgenieService extends DriveBrowserService{
 			e.printStackTrace();
 		}
 		dr.findElement(By.id("critOfficeSize")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("checkboxLabelPair")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("squareFoot")));
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -180,6 +181,13 @@ public class DriveSalesgenieService extends DriveBrowserService{
 	
 		return resultList;
 	}
+	
+	protected void crawSalesgenieHTML() {
+		WebElement companyLink = dr.findElement(By.className("BusinessName"));
+		companyLink.click();
+		String pageHTML = dr.getPageSource();
+	}
+	
 	protected ArrayList<SalesGenieResult> crawlAllSalesgenieResults(){
 		ArrayList<SalesGenieResult> resultList = new ArrayList<SalesGenieResult>();
 		resultList.addAll(crawlCurrentTable());

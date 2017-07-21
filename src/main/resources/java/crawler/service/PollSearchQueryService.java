@@ -40,6 +40,8 @@ public class PollSearchQueryService extends TimerTask {
 					query.setLocation(resultSet.getString(4));
 					query.setLinkedinID(resultSet.getString(8));
 					query.setInternalCompanyID(resultSet.getString(9));
+					query.setLkedin_email(resultSet.getString(11));
+					query.setLkedin_passoword(resultSet.getString(12));
 					if(resultSet.getString(6).equals("linkedin")) {
 						CrawlEmailService.crawl(myCallback, query);
 					}

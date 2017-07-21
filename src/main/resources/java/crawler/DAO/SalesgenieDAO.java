@@ -1,6 +1,7 @@
 package crawler.DAO;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import crawler.EmailCrawlerConfig;
@@ -21,6 +22,19 @@ public class SalesgenieDAO {
 			+ sg_street + "', '"
 			+ sg_city + "', '" 
 			+ sg_state + "', '" 
-			+ sg_zipcode + "');", true);
+			+ sg_zipcode + "', '');", true);
+	}
+
+	public static ResultSet getSGNamesAll() {
+		return MySQLConnector.executeQuery(connection, "SELECT `sg_person_name`, `sg_company_name`, `sg_title` FROM `SalesGenie` WHERE `email`='';", false);
+	}
+	
+	public static void updateEmail(String name, String company, String title, String email) {
+		MySQLConnector.executeQuery(connection, "UPDATE `SalesGenie` SET `email`='"
+				+ email.replace("'", "''") + "' WHERE `sg_person_name`='"
+				+ name.replace("'", "''") + "' and `sg_company_name`='"
+				+ company.replace("'", "''") + "' and `sg_title`='"
+				+ title + "';", true);
+		
 	}
 }

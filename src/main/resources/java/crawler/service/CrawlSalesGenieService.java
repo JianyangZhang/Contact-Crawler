@@ -1,13 +1,13 @@
 package crawler.service;
 
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-
+import java.util.HashMap;
+import java.util.HashSet;
 import crawler.EmailCrawlerConfig;
+import crawler.DAO.CompanyDAO;
 import crawler.DAO.ResultSgDAO;
 import crawler.DAO.SalesgenieDAO;
 import crawler.model.CrawlerQuery;
@@ -68,6 +68,39 @@ public class CrawlSalesGenieService {
 						result.getPhoneNumber().replace("'", "''"),
 						result.getCompanyName().replace("'", "''"));
 			}
+		}
+	}
+	public static void crawlEmail() {
+		br = new DriveSalesgenieService();
+		ResultSet resultSet = SalesgenieDAO.getSGNamesAll();
+		try {
+			while(resultSet.next()) {
+				String name = resultSet.getString(1);
+				String inst = resultSet.getString(2);
+				String title = resultSet.getString(3);
+				HashSet<String> instSet = new HashSet<String>();
+				instSet.add(inst);
+				HashMap<String, String> domainMap = br.parseDomainFromGoogle(instSet);
+				GenerateAccurateEmailsService gaes = new GenerateAccurateEmailsService(name.replace("'", ""), domainMap, false);
+				//System.out.println("! " + customer.getCustomer_name() + "'s verified emails:");
+				HashMap<String, String> emailsMap = gaes.getEmails();
+				if(emailsMap.isEmpty()) {
+					SalesgenieDAO.updateEmail(name, inst, title, "NULL");
+				}
+				for (String s : domainMap.keySet()) {
+					CompanyDAO.insert(domainMap.get(s), s);
+				}
+				for (String email : emailsMap.keySet()) {
+					SalesgenieDAO.updateEmail(name, inst, title, email);
+				}
+			}
+			br.dr.quit();
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
