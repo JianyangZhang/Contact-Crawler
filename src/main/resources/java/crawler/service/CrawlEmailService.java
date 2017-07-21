@@ -33,8 +33,11 @@ public class CrawlEmailService {
 	public static void crawl(Callback callback, CrawlerQuery query) {
 		
 		DriveLinkedinService br = new DriveLinkedinService();
-		br.signInLinkedin(EmailCrawlerConfig.getConfig().readString("linkedin-username"), EmailCrawlerConfig.getConfig().readString("linkedin-password").toCharArray());
-		try {
+		if(query.getLkedin_email().equals("") || query.getLkedin_passoword().equals(""))
+			br.signInLinkedin(EmailCrawlerConfig.getConfig().readString("linkedin-username"), EmailCrawlerConfig.getConfig().readString("linkedin-password"));
+		else
+			br.signInLinkedin(query.getLkedin_email(), query.getLkedin_passoword());
+		try {	
 			if(query.getLocation().equals(""))
 				br.searchKeyword(query.getKeyword());
 			else

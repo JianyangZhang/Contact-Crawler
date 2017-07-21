@@ -23,4 +23,10 @@ public class CompanyDAO {
 				"INSERT INTO Company VALUES('" + company_name.replace("'", "''") + "', '" + company_domain + "');",
 				true);
 	}
+	
+	public static void updateHTML(String company_name, String HTML) {
+		MySQLConnector.executeQuery(connection,
+				"UPDATE `Company` SET `company_detail`='"+ HTML + "' WHERE company_name = '"+ company_name + "';",
+				true);
+	}
 }
