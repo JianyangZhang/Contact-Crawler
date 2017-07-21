@@ -71,7 +71,7 @@
         }
 
         .links > a {
-            color: #636b6f;
+            color: green;
             padding: 0 25px;
             font-size: 12px;
             font-weight: 600;
@@ -85,12 +85,12 @@
         }
     </style>
 </head>
-<body>
+<body background="./bg.jpg">
     <div class="flex-center position-ref full-height">
 
 
         <div class="content">
-            <div class="title m-b-md" style="font-weight: 100">
+            <div class="title m-b-md" style="font-weight: 100; color:green">
             <div class="logo"></div>
                 Begin <img style="margin-top: -60px" src="./logo.png" alt="logo" height="100px"/> Search
             </div>
@@ -207,7 +207,7 @@ function drawTable($response){
     var people = responseData[1];
     var cellCount=response.length;
 
-    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Location</th><th width='800'>From</th><th width='800'>Status</th><th width='800'>People</th><th width='800'>Result</th><th width='800'>Send to salesforce</th><th width='200'>Delete</th></tr>";
+    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800' style='border-color: black'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Location</th><th width='800'>From</th><th width='800'>Status</th><th width='800'>People</th><th width='800'>Result</th><th width='800'>Send to salesforce</th><th width='200'>Delete</th></tr>";
 
     for(var i=0;i<cellCount;i++){
         if(response[i][5]=='0'){
