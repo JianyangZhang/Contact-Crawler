@@ -17,9 +17,15 @@
 		if(isset($_GET['id'])) $id=$_GET['id'];
 		
 
-		$serverName = '54.69.239.219';
-		$userName = 'lyihan';
-		$password= '900225';
+		// $serverName = '54.69.239.219';
+		// $userName = 'lyihan';
+		// $password= '900225';
+		// $database = 'EmailCrawlerDB';
+
+
+		$serverName = 'kiwispider.com';
+		$userName = 'root';
+		$password= '';
 		$database = 'EmailCrawlerDB';
 		$con = mysqli_connect($serverName,$userName,$password,$database);
 		if (!$con)
