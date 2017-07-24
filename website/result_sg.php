@@ -16,7 +16,7 @@
         // $password= '900225';
         // $database = 'EmailCrawlerDB';
 
-        $serverName = 'kiwispider.com';
+        $serverName = 'localhost';
         $userName = 'root';
         $password= '';
         $database = 'EmailCrawlerDB';

@@ -79,6 +79,9 @@
             text-decoration: none;
             text-transform: uppercase;
         }
+        .row{
+             margin-left: -100px;
+        }
 
         .m-b-md {
             margin-bottom: 0px;
@@ -173,7 +176,7 @@
     $.ajax({
         type:'GET',
         url:'./delete.php',
-        data:{id:id},
+        data:{id:decodeURI(id)},
 
         success:function($response){
             drawTable($response);
@@ -207,7 +210,7 @@ function drawTable($response){
     var people = responseData[1];
     var cellCount=response.length;
 
-    var htmltext="<h4>Search Queue</h4><center><table border='1' width='800' style='border-color: black'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Location</th><th width='800'>From</th><th width='800'>Status</th><th width='800'>People</th><th width='800'>Result</th><th width='800'>Send to salesforce</th><th width='200'>Delete</th></tr>";
+    var htmltext="<div class='row'><h4>Search Queue</h4></div><center><table border='1' width='800' style='border-color: black'><tbody><tr ><th width='800'>Date</th><th width='800'>Keyword</th><th width='800'>Location</th><th width='800'>From</th><th width='800'>Status</th><th width='800'>People</th><th width='800'>Result</th><th width='800'>Send to salesforce</th><th width='200'>Delete</th></tr>";
 
     for(var i=0;i<cellCount;i++){
         if(response[i][5]=='0'){
@@ -230,7 +233,7 @@ function drawTable($response){
             htmltext+="<td width='800'><a target='_blank' href='"+resultUrl+"'>result</a></td>";
             htmltext+="<td><a href='https://na35.salesforce.com/home/home.jsp' target='_blank'>salesforce</a></td>";
             htmltext+="<td><button onclick=del('";
-            htmltext+=response[i][0];
+            htmltext+=encodeURI(response[i][0]);
             htmltext+="')>delete</button></td></tr>";
                                     // htmltext+="<td><button class='del'>delete</button></td></tr>";
 
