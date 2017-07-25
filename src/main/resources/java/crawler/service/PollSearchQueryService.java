@@ -56,7 +56,7 @@ public class PollSearchQueryService extends TimerTask {
 					
 					
 				} else {
-					System.out.println("no pending search query");
+					//System.out.println("no pending search query");
 					myCallback.process(this.NO_RESULT);
 				}
 			} catch (SQLException e) {

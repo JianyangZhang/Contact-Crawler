@@ -144,6 +144,7 @@ public class DriveBrowserService {
 				continue;
 			}
 			String title = links.first().text();
+			//System.out.println(s);
 			String url = links.first().absUrl("href"); // Google returns URLs in
 														// format
 														// "http://www.google.com/url?q=<url>&sa=U&ei=<someKey>".
@@ -169,6 +170,7 @@ public class DriveBrowserService {
 	 * substring domain from url
 	 */
 	private String domainFromURL(String url) throws URISyntaxException {
+		//System.out.println(url);
 		URI uri = new URI(url);
 		String domain = uri.getHost();
 		try {
