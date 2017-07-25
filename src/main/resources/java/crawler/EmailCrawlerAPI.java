@@ -17,5 +17,6 @@ public class EmailCrawlerAPI {
 		new Timer().schedule(new RecnctThread(),  0, 1400000);
 		//CrawlSalesGenieService.crawlAll();
 		//CrawlSalesGenieService.crawlEmail();
+
 	}
 }
