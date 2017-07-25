@@ -15,7 +15,7 @@ import java.util.Set;
 
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.Dimension;
+import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

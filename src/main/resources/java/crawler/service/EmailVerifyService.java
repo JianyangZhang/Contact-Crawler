@@ -74,7 +74,7 @@ public class EmailVerifyService {
 			// start smtp
 			socket.setReuseAddress(true);
 			socket.connect(new InetSocketAddress(mxHost, 25));
-			System.out.println("Socket port "+socket.getLocalPort());
+			//System.out.println("Socket port "+socket.getLocalPort());
 			BufferedReader bufferedReader = new BufferedReader(
 					new InputStreamReader(new BufferedInputStream(socket.getInputStream())));
 			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));

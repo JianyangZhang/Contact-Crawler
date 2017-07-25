@@ -11,6 +11,7 @@ CREATE TABLE SalesGenie
    sg_city varchar(255),
    sg_state varchar(255),
    sg_zipcode varchar(255),
+   email varchar(255),
    PRIMARY KEY(sg_person_name, sg_phone_number, sg_company_name));
     
 CREATE TABLE User
@@ -54,7 +55,8 @@ CREATE TABLE Search
 
 CREATE TABLE Company
   ( company_name varchar(255) NOT NULL PRIMARY KEY,
-	company_domain varchar(255));
+	company_domain varchar(255),
+    company_detail longtext);
 
 CREATE TABLE Compaign
   (compaign_step varchar(255) NOT NULL,

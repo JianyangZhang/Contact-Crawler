@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import crawler.EmailCrawlerConfig;
+import crawler.DAO.CompanyDAO;
 import crawler.DAO.SalesgenieDAO;
 import crawler.model.SalesGenieResult;
 
@@ -118,9 +119,8 @@ public class DriveSalesgenieService extends DriveBrowserService{
 		}
 		dr.findElement(By.id("sicLookupKeyword")).sendKeys(keywords);
 		dr.findElement(By.className("action-sic-lookup")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("sicLookupResults")));
 		try {
-			Thread.sleep(500);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -182,10 +182,25 @@ public class DriveSalesgenieService extends DriveBrowserService{
 		return resultList;
 	}
 	
-	protected void crawSalesgenieHTML() {
-		WebElement companyLink = dr.findElement(By.className("BusinessName"));
+	protected void crawSalesgenieHTML() throws InterruptedException {
+		try {
+			waitTillTableLoad();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		WebElement companyLink = dr.findElement(By.className("detailLink"));
 		companyLink.click();
-		String pageHTML = dr.getPageSource();
+		WebDriverWait wait = new WebDriverWait(dr, WAIT_LONG);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("HistoricalData")));
+		while(true) {
+			Thread.sleep(5000);
+			String companyName = dr.findElement(By.className("data-business-name")).getText();
+			String pageHTML = dr.getPageSource();
+			CompanyDAO.updateHTML(companyName, pageHTML);
+			WebElement nextButton = dr.findElement(By.className("next"));
+			nextButton.click();
+		}
+		
 	}
 	
 	protected ArrayList<SalesGenieResult> crawlAllSalesgenieResults(){

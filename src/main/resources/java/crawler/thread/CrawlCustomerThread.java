@@ -44,7 +44,7 @@ public class CrawlCustomerThread implements Runnable{
 			//System.out.println("------------------------------------------");
 			CustomerDAO.insert(url, customer.getCustomer_name(), customer.getCustomer_title(), "", query.getKeyword(), new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()), "", query.getInternalCompanyID(), "step0");
 			ResultDAO.insert(query.getSearchID(), url);
-			System.out.println("Email set size: " + emailsMap.size());
+			//System.out.println("Email set size: " + emailsMap.size());
 			for (String email : emailsMap.keySet()) {
 				EmailDAO.insert(email, url, emailsMap.get(email), 0);
 			}

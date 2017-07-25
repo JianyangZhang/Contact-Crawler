@@ -115,7 +115,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 				customers.add(customer);
 				//System.out.println("name: " + name + " | " + "title: " + title + " | " + "url: " + url);
 			}
-			System.out.println("current url Set size: " + customers.size());
+			//System.out.println("current url Set size: " + customers.size());
 			if (customers.size() < count && hasURL) {
 				pageTurn(++currentPage);
 			} else {

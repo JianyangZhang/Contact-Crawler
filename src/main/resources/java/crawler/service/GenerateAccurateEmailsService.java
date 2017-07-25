@@ -52,7 +52,7 @@ public class GenerateAccurateEmailsService {
 					String email = username + "@" + domain;
 					if (ev.valid(email, "gmail.com")) {
 						result.put(email, company);
-						System.out.println(email);
+						//System.out.println(email);
 					} else {
 						// System.out.println(email + "(invalid)");
 					}
