@@ -20,7 +20,7 @@ insert pending query -> query get scanned -> update query's status -> check resu
   - store results into MySQL<br/>
 </p>
 
-<h4>Documentation:</h4>
+<h4>Documentation: </h4>
 
 | Package crawler          | Description   |
 | ----------------         |---------------|
