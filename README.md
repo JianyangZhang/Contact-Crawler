@@ -21,6 +21,7 @@ insert pending query -> query get scanned -> update query's status -> check resu
 </p>
 
 <h4>Documentation</h4>
+
 | Package crawler          | Description   |
 | ----------------         |---------------|
 | EmailCrawlerAPI          | Entrance of the program, launch the Spring Boot |
