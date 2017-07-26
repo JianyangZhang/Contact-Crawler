@@ -43,6 +43,31 @@ insert pending query -> query get scanned -> update query's status -> check resu
 | SalesgenieDAO     | insert and update data to the SalesgenieDAO table |
 | SearchQueryDAO     | insert and update data to the SearchQueryDAO table |
 
+| Package crawler.model | Description   |
+| ----------------         |---------------|
+| CrawlerQuery     | Data model of a query |
+| Customer     | Data model of a customer |
+| Email     | Data model of an Email |
+| SalesGenieResult     |  Data model of a result from SalesGenie |
+
+| Package crawler.service | Description   |
+| ----------------         |---------------|
+| Callback     | Interface of the callback when a query has been completed or failed |
+| PollSearchQueryService     | Check if there is any pending query in database. If yes, send it to the line of production |
+| CrawlEmailService     | The process of crawling email from Linkedin  |
+| CrawlSalesGenieService     | The process of crawling SalesGenie |
+| DriveBrowserService     | The implementation of the general browser operations |
+| DriveLinkedinService     | The implementation of the browser operations for crawling Linkedin |
+| DriveSalesgenieService     | The implementation of the browser operations for crawling SalesGenie |
+| EmailVerifyService     | Verify if a given email address is deliverable |
+| GeneratAccurateEmailsService     | Generate a person's email addresses based on his name and companies |
+| SendEmailService     | Send email by Java code, should not be used to spam emails |
+| LaunchWindowService     | UI by Java Swing (discarded) |
+
+| Package crawler.thread | Description   |
+| ----------------       |---------------|
+| CrawlCompanyThread   | ??? |
+| CrawlCustomerThread   | ??? |
 
 ## Copyright and license
 Code and documentation copyright 2016-2017 the [Jianyang Zhang](https://github.com/JianyangZhang), [Wentao Wang](https://github.com/wentao-wang) and [Yihan Lu](https://github.com/xdoobx). Code released under the [MIT License](https://github.com/JianyangZhang/EmailCrawler/blob/master/licence).
