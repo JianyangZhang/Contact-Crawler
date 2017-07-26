@@ -90,8 +90,8 @@ insert pending query -> query get scanned -> update query's status -> check resu
 
 | Package crawler.thread | Description   |
 | ----------------       |---------------|
-| CrawlCompanyThread   | ??? |
-| CrawlCustomerThread   | ??? |
+| CrawlCompanyThread   | Unit of task excuted when crawling a email of a company of a person (not used) |
+| CrawlCustomerThread   | Unit of task excuted when crawling a email of a person |
 
 ## Copyright and license
 Code and documentation copyright 2016-2017 the [Jianyang Zhang](https://github.com/JianyangZhang), [Wentao Wang](https://github.com/wentao-wang) and [Yihan Lu](https://github.com/xdoobx). Code released under the [MIT License](https://github.com/JianyangZhang/EmailCrawler/blob/master/licence).
