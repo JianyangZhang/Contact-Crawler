@@ -26,6 +26,9 @@ insert pending query -> query get scanned -> update query's status -> check resu
 |searchQ.php                 |    insert the query into database, fetch the exist query    |
 |result.php| show the result table fetch from database which searched from linkedin|
 |result_sg.php| show the result table fetch from database which searched from salegenie|
+|refresh.php| asynchronous refresh the query|
+|delete.php| asynchronous delete the query from database|
+
 
 | javascript        | Description   |
 | ----------------         |---------------|
