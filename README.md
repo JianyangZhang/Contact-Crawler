@@ -11,6 +11,27 @@ insert pending query -> query get scanned -> update query's status -> check resu
   - export results to .csv files and download<br/>
   - send bulk emails<br/>
 </p>
+<h4>Documentation: </h4>
+
+| html          | Description   |
+| ----------------         |---------------|
+|index.html                | the homepage to login|
+|search.html                 |    input the query into database    |
+|result.html| show the result table fetch from database|
+
+
+| php         | Description   |
+| ----------------         |---------------|
+|login.php                | verifyt the account from database |
+|searchQ.php                 |    insert the query into database, fetch the exist query    |
+|result.php| show the result table fetch from database which searched from linkedin|
+|result_sg.php| show the result table fetch from database which searched from salegenie|
+
+| javascript        | Description   |
+| ----------------         |---------------|
+|table2CSV.js                | convert the table in html to csv file that can be downloaded|
+
+
 
 <h4>Back-End:</h4>
 <p>
@@ -66,8 +87,8 @@ insert pending query -> query get scanned -> update query's status -> check resu
 
 | Package crawler.thread | Description   |
 | ----------------       |---------------|
-| CrawlCompanyThread   | Unit task for multi-thread, crawl emails for a company of a person. (Not used)  |
-| CrawlCustomerThread   | Unit task for multi-thread, crawl emails for a person |
+| CrawlCompanyThread   | ??? |
+| CrawlCustomerThread   | ??? |
 
 ## Copyright and license
 Code and documentation copyright 2016-2017 the [Jianyang Zhang](https://github.com/JianyangZhang), [Wentao Wang](https://github.com/wentao-wang) and [Yihan Lu](https://github.com/xdoobx). Code released under the [MIT License](https://github.com/JianyangZhang/EmailCrawler/blob/master/licence).
