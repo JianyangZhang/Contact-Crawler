@@ -56,7 +56,7 @@ public class CrawlEmailService {
 				String url = customer.getCustomer_linkedin_url();
 				// avoid repeated crawling
 				if (ResultDAO.getAllByUrl(url).next()) {
-					System.out.println(customer.getCustomer_name() + " is detected that he/she has been crawled before, his/her info will not be printed here but it will be in the final report");
+					//System.out.println(customer.getCustomer_name() + " is detected that he/she has been crawled before, his/her info will not be printed here but it will be in the final report");
 					ResultDAO.insert(query.getSearchID(), url);
 					flag++;
 					if (flag >= query.getCount()) {
