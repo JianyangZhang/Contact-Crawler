@@ -15,6 +15,7 @@ public class RecnctThread extends TimerTask{
 			SearchQueryDAO.reconnect();
 			ResultSgDAO.reconnect();
 			CompanyDAO.reconnect();
+			SalesgenieDAO.reconnect();
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 			System.out.println("Reconnect database at: " + sdf.format(cal.getTime()));

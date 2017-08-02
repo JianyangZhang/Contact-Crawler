@@ -1,15 +1,13 @@
 package crawler.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.io.IOException;
-import java.net.SocketTimeoutException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -23,10 +21,29 @@ import org.jsoup.select.Elements;
 
 public class DriveLinkedinService extends DriveBrowserService {
 	private String baseURL;
+	private int pagesAccess = 0;
+	private int pageLimit = 800;
 
 	DriveLinkedinService() {
 		super(Boolean.parseBoolean(EmailCrawlerConfig.getConfig().readString("show-gui")));
+		pageLimit = Integer.parseInt(EmailCrawlerConfig.getConfig().readString("page-limit"));
 		this.dr.get("http://www.linkedin.com");
+	}
+	
+	private void pageIncease() throws InterruptedException {
+		++pagesAccess;
+		if(pagesAccess >= pageLimit) {
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("k"); // hour 1-24
+			String time = formatter.format(date);
+			int hour = Integer.parseInt(time);
+			if(hour >= 17)
+				Thread.sleep((41 - hour)*3600*1000);
+			else
+				//Thread.sleep((17 - hour )*3600*1000);
+				Thread.sleep(10000);
+			pagesAccess = 0;
+		}
 	}
 
 	/**
@@ -42,6 +59,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 			scrollTo(dr, String.valueOf(cur_height));
 			cur_height += screen_height;
 		}
+		pageIncease();
 	}
 
 	/**
@@ -129,6 +147,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 	 * extract company name/college name
 	 */
 	protected HashSet<String> extractInstitution() throws InterruptedException {
+		pageIncease();
 		HashSet<String> result = new HashSet<String>();
 		int cur_height = screen_height;
 		while(cur_height <= 2000) {
@@ -151,7 +170,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 	 */
 	private void uniquifyUrl(Elements elements) {
 		String prev;
-		Iterator iter = elements.iterator();
+		Iterator<Element> iter = elements.iterator();
 		if (iter.hasNext()) {
 			prev = ((Element) iter.next()).attr("href");
 		} else {
@@ -166,6 +185,4 @@ public class DriveLinkedinService extends DriveBrowserService {
 			}
 		}
 	}
-
-	
 }

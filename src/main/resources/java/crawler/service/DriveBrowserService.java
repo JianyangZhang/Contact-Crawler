@@ -155,8 +155,14 @@ public class DriveBrowserService {
 				domain = domainFromURL(url);
 				//System.out.println("Official Site Title: " + title);
 				//System.out.println("Official Site URL: " + url);
-				if(!domain.equals("yelp.com") && !domain.equals("")) {
+				if(!domain.equals("yelp.com")) {
 					//System.out.println("Domain: " + domain);
+					result.put(domain, s);
+				}
+				else if(!domain.equals("")) {
+					url = links.get(2).absUrl("href");
+					url = URLDecoder.decode(url.substring(url.indexOf('=') + 1, url.indexOf('&')), "UTF-8");
+					domain = domainFromURL(url);
 					result.put(domain, s);
 				}
 			} catch (URISyntaxException e) {
