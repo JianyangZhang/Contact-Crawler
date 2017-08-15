@@ -1,10 +1,16 @@
 package crawler.service;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import crawler.EmailCrawlerConfig;
@@ -32,7 +38,7 @@ public class CrawlEmailService {
 
 	public static void crawl(Callback callback, CrawlerQuery query) {
 		
-		DriveLinkedinService br = new DriveLinkedinService();
+		br = new DriveLinkedinService();
 		if(query.getLkedin_email().equals("") || query.getLkedin_passoword().equals(""))
 			br.signInLinkedin(EmailCrawlerConfig.getConfig().readString("linkedin-username"), EmailCrawlerConfig.getConfig().readString("linkedin-password"));
 		else
@@ -68,7 +74,9 @@ public class CrawlEmailService {
 					}
 					continue;
 				}
+				String ru_trans = "https://translate.yandex.ru/translate?srv=yasearch&url=" + URLEncoder.encode(url, "UTF-8") + "&lang=eng-rus&ui=rus";
 				br.dr.get(url);
+				//br.dr.get(ru_trans);
 				HashSet<String> institutionSet = br.extractInstitution();
 				HashMap<String, String> domainMap = br.parseDomainFromGoogle(institutionSet);
 				if(multi_option == Option.CustomThread) {
@@ -107,6 +115,58 @@ public class CrawlEmailService {
 			exception.printStackTrace();
 			br.dr.quit();
 			return;
+		}
+	}
+	
+	public static void crawl_google(Callback callback, CrawlerQuery query) {
+		ArrayList<String> profile_url = new ArrayList<String>();
+		try {
+			int count = 0;
+			while(count < query.getCount()) {
+				String url = "https://www.google.com/search?q=" + query.getKeyword().replace(" ", "+") + "+site:www.linkedin.com/in/" + "&start=" + count;
+				Elements links = Jsoup.connect(url)
+						.timeout(10000)
+						.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0").get()
+						.select("cite");
+				if(links.isEmpty()) {
+					break;
+				}
+				for(Element link : links) {
+					String linkedin = link.text();
+					profile_url.add(linkedin);
+				}
+				count += links.size();
+			}
+			br = new DriveLinkedinService();
+			for(String url : profile_url) {
+				if (ResultDAO.getAllByUrl(url).next()) {
+					//System.out.println(customer.getCustomer_name() + " is detected that he/she has been crawled before, his/her info will not be printed here but it will be in the final report");
+					ResultDAO.insert(query.getSearchID(), url);
+					continue;
+				}
+				br.dr.get(url);
+				ArrayList<ArrayList<String>> institutionSet = br.extractInstitution_google();
+				if(institutionSet.get(0).isEmpty())
+					continue;
+				HashMap<String, String> domainMap = br.parseDomainFromGoogle(new HashSet<String>(institutionSet.get(1)));
+				CrawlCustomerThread thread = new CrawlCustomerThread("Thread", br.getPeopleInfo(institutionSet.get(0).get(0)),
+						url, domainMap, callback, query);
+				pool.add(thread);
+				thread.start();
+			}
+			for(CrawlCustomerThread thread : pool)
+				thread.join();
+			br.dr.quit();
+			if (callback != null) { callback.process(PollSearchQueryService.COMPLETED); }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

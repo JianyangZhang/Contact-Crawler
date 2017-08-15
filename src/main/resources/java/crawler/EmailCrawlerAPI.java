@@ -1,4 +1,5 @@
 package crawler;
+import java.io.IOException;
 import java.util.Timer;
 
 import org.springframework.boot.SpringApplication;
@@ -17,6 +18,15 @@ public class EmailCrawlerAPI {
 		new Timer().schedule(new RecnctThread(),  0, 1400000);
 		//CrawlSalesGenieService.crawlAll();
 		//CrawlSalesGenieService.crawlEmail();
+		/*try {
+			if(args.length == 0)
+				CrawlSalesGenieService.crawlSIC("");
+			else
+				CrawlSalesGenieService.crawlSIC(args[0]);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 
 	}
 }

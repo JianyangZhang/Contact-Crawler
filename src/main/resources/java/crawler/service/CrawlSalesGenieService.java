@@ -1,5 +1,8 @@
 package crawler.service;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,6 +58,46 @@ public class CrawlSalesGenieService {
 		}
 		callback.process(PollSearchQueryService.COMPLETED);
 		br.dr.close();
+	}
+	
+	public static void crawlSIC(String number) throws IOException {
+		br = new DriveSalesgenieService();
+		br.signInSalesgenie(EmailCrawlerConfig.readString("salesgenie-username"),
+				EmailCrawlerConfig.readString("salesgenie-password"));
+		BufferedReader file = new BufferedReader(new FileReader(EmailCrawlerConfig.getConfig().readString("SIC-path")));
+		try {
+		    StringBuilder sb = new StringBuilder();
+		    String line = file.readLine();
+
+		    while (line != null) {
+		        sb.append(line);
+		        sb.append(' ');
+		        line = file.readLine();
+		    }
+		    String everything = sb.toString();
+			br.searchSIC(everything, number);
+			while(true) {
+				ArrayList<SalesGenieResult> resultList = br.crawlAllSalesgenieResults();
+				if(!br.haveNext())
+					break;
+				for (SalesGenieResult result : resultList) {
+					SalesgenieDAO.insert(result.getPersonName().replace("'", "''"),
+							result.getPhoneNumber().replace("'", "''"),
+							result.getTitle().replace("'", "''"),
+							result.getCompanyName().replace("'", "''"),
+							result.getStreet().replace("'", "''"),
+							result.getCity().replace("'", "''"),
+							result.getState(),
+							result.getZipCode());
+					ResultSgDAO.insert("0",
+							result.getPersonName().replace("'", "''"),
+							result.getPhoneNumber().replace("'", "''"),
+							result.getCompanyName().replace("'", "''"));
+				}
+			}
+		}finally {
+			file.close();
+		}
 	}
 	public static void crawlAll() {
 		br = new DriveSalesgenieService();

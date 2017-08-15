@@ -16,6 +16,7 @@ import java.util.Set;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.net.UrlChecker;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -118,6 +119,8 @@ public class DriveBrowserService {
 	protected synchronized void scrollTo(WebDriver driver, String position) throws InterruptedException {
 		String oldpage = "";
 		String newpage = "";
+		WebElement bottom = driver.findElement(By.xpath("//li[@role=\"menuitem\"]"));
+		
 		do {
 			oldpage = driver.getPageSource();
 			((JavascriptExecutor) driver).executeScript("window.scrollTo(0, " + position + ")");

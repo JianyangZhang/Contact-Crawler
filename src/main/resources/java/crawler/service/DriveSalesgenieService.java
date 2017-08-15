@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -59,6 +60,65 @@ public class DriveSalesgenieService extends DriveBrowserService{
 	/**
 	 * search keywords
 	 */
+	protected void searchSIC(String code, String page) {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("buildListUsBusiness")).click();
+		
+		WebDriverWait wait = new WebDriverWait(dr, WAIT_LONG);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("critLineOfBusinessSic")));
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("critLineOfBusinessSic")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ui-accordion-lineOfBusiness-header-2")));
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("ui-accordion-lineOfBusiness-header-2")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("searchSic")));
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("searchSic")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("lnkPasteSicCodes")));
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("lnkPasteSicCodes")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pastedSicCodes")));
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("pastedSicCodes")).sendKeys(code);
+		
+		dr.findElement(By.id("submitCriteria")).click();
+		try {
+			waitTillTableLoad();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		dr.findElement(By.id("jump-to-record-number")).sendKeys(page);
+		dr.findElement(By.id("jump-to-record-number")).sendKeys(Keys.ENTER);
+		try {
+			waitTillTableLoad();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 	protected void searchAll() {
 		try {
 			Thread.sleep(1000);
@@ -146,9 +206,9 @@ public class DriveSalesgenieService extends DriveBrowserService{
 	}
 	
 	private void waitTillTableLoad() throws InterruptedException {
-		WebDriverWait wait = new WebDriverWait(dr, WAIT_LONG);
+		WebDriverWait wait = new WebDriverWait(dr, 60);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("grid-view-table-container")));
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 	}
 	
 	private void waitTillTableRefresh(int timeOut) throws InterruptedException {
@@ -274,5 +334,12 @@ public class DriveSalesgenieService extends DriveBrowserService{
 			}
 		}
 		return result;
+	}
+	public boolean haveNext() {
+		WebElement pageNextBtn = dr.findElement(By.xpath("//div[contains(@class, 'action-page-next')]"));
+		if (pageNextBtn.getAttribute("aria-disabled").equals("false")) {
+			return true;
+		}
+		return false;
 	}
 }

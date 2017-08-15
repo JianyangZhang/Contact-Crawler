@@ -2,6 +2,7 @@ package crawler.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import crawler.EmailCrawlerConfig;
@@ -40,8 +43,8 @@ public class DriveLinkedinService extends DriveBrowserService {
 			if(hour >= 17)
 				Thread.sleep((41 - hour)*3600*1000);
 			else
-				//Thread.sleep((17 - hour )*3600*1000);
-				Thread.sleep(10000);
+				Thread.sleep((17 - hour )*3600*1000);
+				//Thread.sleep(10000);
 			pagesAccess = 0;
 		}
 	}
@@ -86,6 +89,7 @@ public class DriveLinkedinService extends DriveBrowserService {
 	 * search keyword in Linkedin
 	 * 
 	 * @throws InterruptedException
+	 * @throws IOException 
 	 **/
 	protected void searchKeyword(String title) throws InterruptedException {
 		String url = "https://www.linkedin.com/search/results/people/?keywords=" + title
@@ -98,10 +102,29 @@ public class DriveLinkedinService extends DriveBrowserService {
 			cur_height += screen_height;
 		}
 	}
+	/*protected void searchKeyword(String title) throws InterruptedException, IOException {
+		String url = "https://www.google.com/search?q=" + title.replace(" ", "+")
+				+ "+site%3Awww.linkedin.com%2Fin%2F";
+		Elements links = Jsoup.connect(url)
+				.timeout(10000)
+				.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0").get()
+				.select(".g>.s>cite");
+		if(links.isEmpty())
+			return;
+	}*/
 
 	/**
 	 * get people's basic info
 	 */
+	protected Customer getPeopleInfo(String title){
+		Customer customer = new Customer();
+		WebElement element = dr.findElement(By.id("name"));
+		((JavascriptExecutor) dr).executeScript("arguments[0].scrollIntoView(true);", element);
+		customer.setCustomer_name(element.getText());
+		customer.setCustomer_title(title);
+		customer.setCustomer_linkedin_url(dr.getCurrentUrl());
+		return customer;
+	}
 	protected ArrayList<Customer> getPeopleInfo(int count) throws IOException, InterruptedException {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		int currentPage = 1;
@@ -163,7 +186,63 @@ public class DriveLinkedinService extends DriveBrowserService {
 		return result;
 	}
 
-	
+	protected ArrayList<ArrayList<String>> extractInstitution_google() throws InterruptedException {
+		pageIncease();
+		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>(4);
+		for(int i=0; i<4; ++i)
+			result.add(new ArrayList<String>());
+		int cur_height = screen_height;
+		while(cur_height <= 2500) {
+			scrollTo(dr, String.valueOf(cur_height));
+			cur_height += screen_height;
+		}
+		List<WebElement> webElements1 = dr.findElements(By
+				.xpath("//ul[@class='positions']/li/header/h4[@class='item-title']"));//
+		List<WebElement> webElements2 = dr.findElements(By
+				.xpath("//ul[@class='positions']/li/header/h5[@class='item-subtitle']"));
+		List<WebElement> webElements3 = dr.findElements(By
+				.xpath("//ul[@class='schools']/li/header/h4[@class='item-title']"));//
+		List<WebElement> webElements4 = dr.findElements(By
+				.xpath("//ul[@class='schools']/li/header/h5[@class='item-subtitle']/span[@class='original translation']"));
+		
+		// System.out.println(webElements.isEmpty());
+		for (int i=0; i< webElements1.size(); ++i) {
+			String title;
+			List<WebElement> link_tag = webElements1.get(i).findElements(By.tagName("a"));
+			((JavascriptExecutor) dr).executeScript("arguments[0].scrollIntoView(true);", webElements1.get(i));
+			Thread.sleep(500);
+			if(link_tag.size()>0)
+				title = link_tag.get(0).getText();
+			else
+				title = webElements1.get(i).getText();
+			String company;
+			
+			link_tag = webElements2.get(i).findElements(By.tagName("a"));
+			if(link_tag.size()>0)
+				company = link_tag.get(0).getText();
+			else{
+				company = webElements2.get(i).getText();
+			}
+			result.get(0).add(title.toLowerCase());
+			result.get(1).add(company.toLowerCase());
+		}
+		for (int i=0; i< webElements3.size(); ++i) {
+			String school;
+			List<WebElement> link_tag = webElements3.get(i).findElements(By.tagName("a"));
+			((JavascriptExecutor) dr).executeScript("arguments[0].scrollIntoView(true);", webElements3.get(i));
+			if(link_tag.size() > 0)
+				school = link_tag.get(0).getText();
+			else {
+				school = webElements3.get(i).getText();
+			}
+			String level;
+			level = webElements4.get(i).getText();
+			result.get(2).add(school.toLowerCase());
+			result.get(3).add(level.toLowerCase());
+		}
+		
+		return result;
+	}
 
 	/**
 	 * uniquify url (de-duplication)
